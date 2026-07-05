@@ -1,0 +1,17 @@
+# Node
+node_modules/
+dist/
+npm-debug.log*
+*.tgz
+
+# Environment / secrets
+.env
+*.key
+*.pem
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/

@@ -1,0 +1,50 @@
+{
+  "name": "open-compute-mcp",
+  "version": "0.1.0-alpha.1",
+  "mcpName": "io.github.ellmos-ai/open-compute-mcp",
+  "description": "npm launcher for the open-compute MCP server: model-agnostic computer-use tools (screenshot capture, canonical safety-gated actions, Windows UIA element targeting) over MCP stdio. Spawns the Python open-compute server (from GitHub).",
+  "type": "commonjs",
+  "bin": {
+    "open-compute-mcp": "bin/open-compute-mcp.js"
+  },
+  "files": [
+    "bin/",
+    "README.md",
+    "README_de.md",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "mcp-server",
+    "computer-use",
+    "gui-automation",
+    "desktop-automation",
+    "windows",
+    "uia",
+    "screenshot",
+    "automation",
+    "claude",
+    "claude-desktop",
+    "ai-tools"
+  ],
+  "dependencies": {
+    "update-notifier": "^7.3.1"
+  },
+  "author": "Lukas (ellmos-ai)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ellmos-ai/open-compute-mcp.git"
+  },
+  "homepage": "https://github.com/ellmos-ai/open-compute-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/ellmos-ai/open-compute-mcp/issues"
+  }
+}

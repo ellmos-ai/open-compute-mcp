@@ -1,0 +1,22 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.ellmos-ai/open-compute-mcp",
+  "version": "0.1.0-alpha.1",
+  "title": "open-compute (computer-use)",
+  "description": "Model-agnostic computer-use MCP: screenshot capture, canonical safety-gated actions, and Windows UIA element targeting. npm launcher for the Python open-compute server.",
+  "websiteUrl": "https://github.com/ellmos-ai/open-compute-mcp",
+  "repository": {
+    "url": "https://github.com/ellmos-ai/open-compute-mcp",
+    "source": "github",
+    "id": "ellmos-ai/open-compute-mcp"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "open-compute-mcp",
+      "version": "0.1.0-alpha.1",
+      "transport": { "type": "stdio" },
+      "runtimeHint": "npx"
+    }
+  ]
+}
