@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.lukisch/open-compute-mcp",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "title": "open-compute (computer-use)",
   "description": "Model-agnostic computer-use MCP: screenshot, safety-gated actions, Windows UIA targeting.",
   "websiteUrl": "https://github.com/ellmos-ai/open-compute-mcp",
@@ -14,7 +14,7 @@
     {
       "registryType": "npm",
       "identifier": "open-compute-mcp",
-      "version": "0.1.0-alpha.2",
+      "version": "0.1.0-alpha.3",
       "transport": { "type": "stdio" },
       "runtimeHint": "npx"
     }
