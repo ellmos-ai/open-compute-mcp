@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.svg" alt="open-compute-mcp Banner" width="760">
+</p>
+
 # open-compute-mcp
 
 **npm-Launcher für den [open-compute](https://github.com/ellmos-ai/open-compute) MCP-Server** —
