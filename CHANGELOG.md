@@ -5,6 +5,15 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.0-alpha.4] — 2026-07-06
+
+### Changed
+
+- README header: added npm version/downloads, license and Node badges plus a
+  "View on npm" link (EN + DE).
+- Banner reworked to a wider 16:3 band (edge-to-edge, less vertical padding) so it
+  fills the README column.
+
 ## [0.1.0-alpha.3] — 2026-07-05
 
 ### Changed

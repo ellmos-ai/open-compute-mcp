@@ -9,6 +9,13 @@ model-agnostic **computer-use** tools exposed over the Model Context Protocol (M
 
 **EN** | [DE](README_de.md)
 
+[![npm version](https://img.shields.io/npm/v/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp)
+[![npm downloads](https://img.shields.io/npm/dt/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
+
+📦 **[View on npm →](https://www.npmjs.com/package/open-compute-mcp)**
+
 The MCP **client is the reasoner** (no API key, model-agnostic): it calls `capture`
 to see the screen, then acts with `do` / `click_name` / `invoke`. This is the keyless
 Mode-A loop of open-compute, but as native tool-calls.

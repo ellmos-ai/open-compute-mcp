@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" width="1280" height="320">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 44 1280 232" width="1280" height="232">
   <defs>
     <!-- Background grid pattern -->
     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -23,9 +23,9 @@
   </style>
 
   <!-- Background layers -->
-  <rect width="100%" height="100%" fill="#090d16" />
-  <rect width="100%" height="100%" fill="url(#bg-glow)" />
-  <rect width="100%" height="100%" fill="url(#grid)" />
+  <rect x="0" y="0" width="1280" height="320" fill="#090d16" />
+  <rect x="0" y="0" width="1280" height="320" fill="url(#bg-glow)" />
+  <rect x="0" y="0" width="1280" height="320" fill="url(#grid)" />
 
   <!-- Left Side: Typography and Branding -->
   <g class="font-sans">

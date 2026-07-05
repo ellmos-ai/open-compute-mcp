@@ -9,6 +9,13 @@ modellagnostische **Computer-Use**-Tools über das Model Context Protocol (MCP).
 
 **EN** ([README.md](README.md)) | **DE**
 
+[![npm version](https://img.shields.io/npm/v/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp)
+[![npm downloads](https://img.shields.io/npm/dt/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
+
+📦 **[Auf npm ansehen →](https://www.npmjs.com/package/open-compute-mcp)**
+
 Der MCP-**Client ist der Reasoner** (kein API-Key, modellagnostisch): Er ruft `capture`
 auf, um den Bildschirm zu sehen, und handelt dann mit `do` / `click_name` / `invoke`.
 Das ist die schlüssellose Modus-A-Schleife von open-compute, aber als native Tool-Calls.
