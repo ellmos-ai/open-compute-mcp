@@ -3,7 +3,7 @@
   "name": "io.github.ellmos-ai/open-compute-mcp",
   "version": "0.1.0-alpha.1",
   "title": "open-compute (computer-use)",
-  "description": "Model-agnostic computer-use MCP: screenshot capture, canonical safety-gated actions, and Windows UIA element targeting. npm launcher for the Python open-compute server.",
+  "description": "Model-agnostic computer-use MCP: screenshot, safety-gated actions, Windows UIA targeting.",
   "websiteUrl": "https://github.com/ellmos-ai/open-compute-mcp",
   "repository": {
     "url": "https://github.com/ellmos-ai/open-compute-mcp",
