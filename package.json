@@ -14,7 +14,8 @@
     "CHANGELOG.md",
     "SECURITY.md",
     "LICENSE",
-    "server.json"
+    "server.json",
+    "llms.txt"
   ],
   "engines": {
     "node": ">=18.0.0"

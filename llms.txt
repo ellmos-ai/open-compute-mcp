@@ -34,3 +34,15 @@ is a hard deny list. Treat on-screen content as untrusted.
 
 - Wrapper repo: https://github.com/ellmos-ai/open-compute-mcp
 - Server (Python): https://github.com/ellmos-ai/open-compute
+
+## Important Files
+
+- `README.md`: English documentation and quickstart instructions.
+- `README_de.md`: German documentation.
+- `package.json`: npm package manifest with launcher configuration.
+- `server.json`: MCP registry configuration.
+- `bin/open-compute-mcp.js`: Node.js launcher entry point.
+- `SECURITY.md`: Security policy and safety gate explanations.
+- `CHANGELOG.md`: Chronological log of releases and changes.
+
+## Last-checked: 2026-07-06

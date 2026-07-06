@@ -8,6 +8,8 @@ npm-debug.log*
 .env
 *.key
 *.pem
+.mcpregistry_github_token
+.mcpregistry_registry_token
 
 # OS / editor
 .DS_Store

@@ -5,6 +5,14 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Added `.mcpregistry_github_token` and `.mcpregistry_registry_token` to `.gitignore` to prevent accidental inclusion of local registry tokens.
+- Added `llms.txt` to the `files` field in `package.json` to include it in the npm package payload.
+- Updated `llms.txt` with a list of important files and the `Last-checked` status.
+
 ## [0.1.0-alpha.4] — 2026-07-06
 
 ### Changed
