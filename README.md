@@ -100,6 +100,14 @@ tool-approval dialog be the human-in-the-loop. `OC_DENY` (comma-separated action
 types) is a hard deny list. Treat on-screen content as untrusted (prompt-injection
 risk).
 
+**Troubleshooting: `do`/`click_name` only ever return `needs_confirmation` and never
+act.** That is the `confirm` ceiling working as designed under stdio MCP. Fix for
+interactive use: set `"env": {"OC_SAFETY_MODE": "allow_all"}` in the server
+registration and let the client's tool-approval dialog gate each action (do **not**
+auto-allow `do`/`click_name`/`invoke` there). The env change only takes effect when
+the server process (re)starts — an already-connected client keeps the old ceiling
+until it reconnects.
+
 ## License
 
 MIT — see [LICENSE](LICENSE). Part of the open-compute project.

@@ -96,6 +96,14 @@ lockern. Da MCP-stdio keinen Server→Client-Confirm-Callback hat, **melden** `c
 des Clients als Human-in-the-Loop nutzen. `OC_DENY` ist eine harte Deny-Liste. Behandle
 Bildschirminhalte als nicht vertrauenswürdig (Prompt-Injection-Risiko).
 
+**Troubleshooting: `do`/`click_name` liefern nur `needs_confirmation` und handeln
+nie.** Das ist die `confirm`-Obergrenze, die unter stdio-MCP designgemäß so wirkt.
+Fix für interaktiven Betrieb: `"env": {"OC_SAFETY_MODE": "allow_all"}` in der
+Server-Registrierung setzen und jede Aktion durch den Tool-Berechtigungsdialog des
+Clients gaten lassen (`do`/`click_name`/`invoke` dort **nicht** pauschal erlauben).
+Die env-Änderung greift erst, wenn der Serverprozess neu startet — ein bereits
+verbundener Client behält die alte Obergrenze bis zum Reconnect.
+
 ## Lizenz
 
 MIT — siehe [LICENSE](LICENSE). Teil des open-compute-Projekts.
