@@ -7,6 +7,14 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Security
+
+- Moved local MCP registry token files out of the OneDrive-synced repository root
+  and expanded `.gitignore` / `.npmignore` coverage for local token, credential,
+  recovery-code, private-key and certificate artifacts.
+- Added a repository hygiene test for Git ignore rules, defensive npm ignore
+  patterns and the package `files` whitelist.
+
 ### Added
 
 - Added `.mcpregistry_github_token` and `.mcpregistry_registry_token` to `.gitignore` to prevent accidental inclusion of local registry tokens.

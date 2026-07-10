@@ -7,6 +7,10 @@
   "bin": {
     "open-compute-mcp": "bin/open-compute-mcp.js"
   },
+  "scripts": {
+    "test": "node --test",
+    "test:hygiene": "node --test test/repository-hygiene.test.js"
+  },
   "files": [
     "bin/",
     "README.md",
