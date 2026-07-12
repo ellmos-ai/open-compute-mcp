@@ -35,16 +35,26 @@ Das ist die schlüssellose Modus-A-Schleife von open-compute, aber als native To
 | Tool | Zweck |
 |---|---|
 | `capture` | Screenshot des Bildschirms → als Bild (optional nur ein Fenster). |
-| `do` | Eine kanonische Aktion oder einen Stapel ausführen (Klick/Tippen/Taste/Scroll/Drag). |
+| `do` | Eine kanonische Aktion oder einen Stapel ausführen (Klick/Tippen/Taste/Scroll/Drag/Halten). |
 | `tree` | UI-Elemente eines Fensters via Windows-UIA auflisten (Name/Rolle/`center_norm`). |
 | `click_name` | Element per Name auflösen und anklicken. |
 | `invoke` | Klickfreie Aktivierung eines Elements via UIA-Muster. |
+| `list_windows` | Offene Fenster mit exakten Titeln, Rechtecken und normierten Mittelpunkten (nur Lesen). |
+| `get_screen_size` | Geometrie des virtuellen Desktops + Monitor-Aufschlüsselung (nur Lesen). |
 | `watch_dir` | Verzeichnisse auf Dateisystem-Änderungen überwachen. |
 | `push_status` | Feed-Manager-Status (nur Lesen). |
 | `rec_replay` | Ein `.clirec`-Makro abspielen (benötigt das optionale `clirec`-Paket). |
 
 Alle Koordinaten sind **normiert 0..1** relativ zum virtuellen Desktop. Tool-Beschreibungen
 sind in sechs Sprachen lokalisiert (`de/en/es/ja/ru/zh`) — wählbar über `OC_LANGUAGE`.
+
+`do` akzeptiert zusätzlich die **Halte-Primitive** `mouse_down` / `mouse_up` /
+`key_down` / `key_up` für Drücken-und-Halten-Sequenzen (Auswahlrahmen aufziehen,
+modifikator-gehaltenes Klicken, Spiele-Eingaben); alles noch Gedrückte wird beim
+Beenden des Servers wieder losgelassen. `capture(window=...)` weicht auf
+Windows.Graphics.Capture aus, wenn ein normaler Grab eines hardware-komponierten
+Fensters (Roblox Studio, Blender, GPU-beschleunigter Browser) komplett schwarz
+zurückkommt — dafür das `wgc`-Extra installieren.
 
 ## Nutzung mit einem MCP-Client
 

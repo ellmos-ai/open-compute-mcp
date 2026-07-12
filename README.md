@@ -38,16 +38,25 @@ Mode-A loop of open-compute, but as native tool-calls.
 | Tool | Purpose |
 |---|---|
 | `capture` | Screenshot the screen → returned as an image (optionally a single window). |
-| `do` | Execute one canonical action or a batch (click/type/key/scroll/drag/…). |
+| `do` | Execute one canonical action or a batch (click/type/key/scroll/drag/hold/…). |
 | `tree` | List UI elements via Windows UIA (name/role/`center_norm`). |
 | `click_name` | Resolve an element by name and click it. |
 | `invoke` | Click-free activation of an element via UIA patterns. |
+| `list_windows` | List open windows with exact titles, rects and normalized centers (read-only). |
+| `get_screen_size` | Virtual-desktop geometry + per-monitor breakdown (read-only). |
 | `watch_dir` | Watch directories for file-system changes. |
 | `push_status` | Feed-manager status (read-only). |
 | `rec_replay` | Replay a `.clirec` macro (needs the optional `clirec` package). |
 
 All coordinates are **normalized 0..1** relative to the virtual desktop. Tool
 descriptions are localized in six languages (`de/en/es/ja/ru/zh`) via `OC_LANGUAGE`.
+
+`do` also accepts the **hold primitives** `mouse_down` / `mouse_up` / `key_down` /
+`key_up` for press-and-hold sequences (rubber-band selection, modifier-held
+clicking, game input); anything still held is released when the server stops.
+`capture(window=...)` falls back to Windows.Graphics.Capture when a plain grab of
+a hardware-composited window (Roblox Studio, Blender, a GPU-accelerated browser)
+comes back all-black — install the `wgc` extra for that.
 
 ## Use with an MCP client
 

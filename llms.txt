@@ -15,11 +15,13 @@
 
 ## Tools
 
-- capture: screenshot the screen, returned as an image (optionally one window).
-- do: run one canonical action or a batch (click/type/key/scroll/drag/move); coords 0..1; safety-gated.
+- capture: screenshot the screen, returned as an image (optionally one window; falls back to Windows.Graphics.Capture when a hardware-composited window would come back black).
+- do: run one canonical action or a batch (click/type/key/scroll/drag/move, plus the hold primitives mouse_down/mouse_up/key_down/key_up); coords 0..1; safety-gated.
 - tree: list a window's UI elements via Windows UIA with normalized center coords.
 - click_name: resolve a UI element by name (UIA) and left-click it.
 - invoke: click-free activation of a UI element via UIA patterns.
+- list_windows: list open windows with exact titles, pixel rects and normalized centers (read-only).
+- get_screen_size: virtual-desktop geometry and per-monitor breakdown — the frame 0..1 coords refer to (read-only).
 - watch_dir: watch directories for file-system changes.
 - push_status: feed-manager status (read-only).
 - rec_replay: replay a .clirec macro (needs the optional clirec package).
