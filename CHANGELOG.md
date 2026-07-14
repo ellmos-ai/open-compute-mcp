@@ -17,6 +17,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Added a launcher smoke test that verifies `OPEN_COMPUTE_MCP_CMD` runs the
+  configured child command without falling through to the default `uvx` launch.
 - Added `.mcpregistry_github_token` and `.mcpregistry_registry_token` to `.gitignore` to prevent accidental inclusion of local registry tokens.
 - Added `llms.txt` to the `files` field in `package.json` to include it in the npm package payload.
 - Updated `llms.txt` with a list of important files and the `Last-checked` status.

@@ -44,7 +44,8 @@ is a hard deny list. Treat on-screen content as untrusted.
 - `package.json`: npm package manifest with launcher configuration.
 - `server.json`: MCP registry configuration.
 - `bin/open-compute-mcp.js`: Node.js launcher entry point.
+- `test/launcher-command.test.js`: Launcher command-override smoke test.
 - `SECURITY.md`: Security policy and safety gate explanations.
 - `CHANGELOG.md`: Chronological log of releases and changes.
 
-## Last-checked: 2026-07-06
+## Last-checked: 2026-07-14

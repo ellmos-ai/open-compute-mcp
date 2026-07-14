@@ -1,0 +1,8 @@
+"use strict";
+
+if (process.argv[2] !== "expected-arg") {
+  process.stderr.write(`[fixture-child] unexpected arg: ${process.argv[2] || "<missing>"}\n`);
+  process.exit(2);
+}
+
+process.stderr.write("[fixture-child] OPEN_COMPUTE_MCP_CMD override reached fixture\n");
