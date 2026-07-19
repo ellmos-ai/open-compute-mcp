@@ -30,6 +30,7 @@ id_ed25519
 .mcpregistry_github_token
 .mcpregistry_registry_token
 .mcpregistry_*_token
+*-protocoll.txt
 
 node_modules/
 test/

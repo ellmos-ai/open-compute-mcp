@@ -23,6 +23,11 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - Added `llms.txt` to the `files` field in `package.json` to include it in the npm package payload.
 - Updated `llms.txt` with a list of important files and the `Last-checked` status.
 
+### Changed
+
+- Synchronized the package lockfile root version with `package.json` at `0.1.0-alpha.4`.
+- Ignored local automation protocol logs (`*-protocoll.txt`) in Git and npm packaging.
+
 ## [0.1.0-alpha.4] — 2026-07-06
 
 ### Changed

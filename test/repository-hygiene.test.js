@@ -43,6 +43,8 @@ test("gitignore protects local credential and registry-token artifacts", () => {
     ".mcpregistry_github_token",
     ".mcpregistry_registry_token",
     ".mcpregistry_local_token",
+    "push-protocoll.txt",
+    "changelog-protocoll.txt",
   ]) {
     assert.equal(isIgnored(samplePath), true, `${samplePath} should be ignored`);
   }
@@ -60,6 +62,7 @@ test("npm ignore keeps defensive secret patterns beside the files whitelist", ()
     "id_ed25519",
     "*.p12",
     ".mcpregistry_*_token",
+    "*-protocoll.txt",
   ]) {
     assert.match(npmignore, new RegExp(pattern.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   }
