@@ -1,0 +1,33 @@
+{
+  "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "name": "open-compute-mcp",
+  "version": "0.1.0-alpha.5",
+  "description": "Model-agnostic computer-use MCP server: screenshot capture, safety-gated actions, and Windows UIA targeting; npm launcher spawns the Python open-compute server.",
+  "maintainers": [
+    "lukisch"
+  ],
+  "author": "Lukas Geiger",
+  "homepage": "https://github.com/ellmos-ai/open-compute-mcp",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "computer-use",
+    "automation",
+    "screenshot",
+    "uia",
+    "windows",
+    "safety",
+    "mcp-server"
+  ],
+  "tools": {
+    "count": 10
+  },
+  "features": [
+    "Screen capture with WGC fallback",
+    "Safety-gated actions with operator ceiling",
+    "Windows UIA semantic targeting",
+    "Hold primitives with auto-release",
+    "i18n in 6 languages"
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "name": "open-compute-mcp",
-  "version": "0.1.0-alpha.4",
+  "version": "0.1.0-alpha.5",
   "mcpName": "io.github.lukisch/open-compute-mcp",
   "description": "npm launcher for the open-compute MCP server: model-agnostic computer-use tools (screenshot capture, canonical safety-gated actions, Windows UIA element targeting) over MCP stdio. Spawns the Python open-compute server (from GitHub).",
   "type": "commonjs",

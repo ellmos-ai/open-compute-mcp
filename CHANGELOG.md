@@ -5,7 +5,7 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [0.1.0-alpha.5] - 2026-07-24
 
 ### Security
 
@@ -27,6 +27,11 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 - Synchronized the package lockfile root version with `package.json` at `0.1.0-alpha.4`.
 - Ignored local automation protocol logs (`*-protocoll.txt`) in Git and npm packaging.
+
+### Changed
+- Unified the ellmos-ai ecosystem section in README.md and README_de.md: full 9-server MCP family table with refreshed tool counts, AI infrastructure, and desktop software links.
+- Added `glama.json` for the Glama MCP directory listing.
+- Synced `server.json` version metadata.
 
 ## [0.1.0-alpha.4] — 2026-07-06
 
