@@ -1,7 +1,7 @@
 {
   "$schema": "https://glama.ai/mcp/schemas/server.json",
   "name": "open-compute-mcp",
-  "version": "0.1.0-alpha.5",
+  "version": "0.1.0-alpha.6",
   "description": "Model-agnostic computer-use MCP server: screenshot capture, safety-gated actions, and Windows UIA targeting; npm launcher spawns the Python open-compute server.",
   "maintainers": [
     "lukisch"
