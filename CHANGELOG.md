@@ -5,6 +5,13 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.0-alpha.7] - 2026-07-25
+
+### Performance & Maintenance
+- Refactor `bin/open-compute-mcp.js` launcher logic (`resolveLaunch`) to pin default `uvx` git ref to `v${version}` tag instead of unpinned main branch, reducing GitHub pull latencies on startup.
+- Add unit tests in `test/launcher-command.test.js` verifying default version tag pinning and `OPEN_COMPUTE_GIT_REF` override support.
+- Synchronize version string 0.1.0-alpha.7 across `package.json`, `package-lock.json`, `server.json`, `glama.json`.
+
 ## [0.1.0-alpha.6] - 2026-07-25
 
 ### Discoverability & SEO

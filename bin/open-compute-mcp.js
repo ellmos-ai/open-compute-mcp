@@ -40,19 +40,21 @@ function tokenize(cmdline) {
   return cmdline.split(/\s+/).filter(Boolean);
 }
 
-function resolveLaunch() {
-  const override = process.env.OPEN_COMPUTE_MCP_CMD;
+function resolveLaunch(env = process.env) {
+  const override = env.OPEN_COMPUTE_MCP_CMD;
   if (override && override.trim()) {
     const parts = tokenize(override.trim());
     return { cmd: parts[0], args: parts.slice(1), how: "OPEN_COMPUTE_MCP_CMD" };
   }
-  const py = process.env.OPEN_COMPUTE_PYTHON;
+  const py = env.OPEN_COMPUTE_PYTHON;
   if (py && py.trim()) {
     return { cmd: py.trim(), args: ["-m", "open_compute.mcp_server"], how: "OPEN_COMPUTE_PYTHON" };
   }
-  const extras = (process.env.OPEN_COMPUTE_EXTRAS || "mcp,local,uia").trim();
-  const ref = (process.env.OPEN_COMPUTE_GIT_REF || "").trim();
-  const refSuffix = ref ? `@${ref}` : ""; // empty -> uv uses the repo's default branch
+  const extras = (env.OPEN_COMPUTE_EXTRAS || "mcp,local,uia").trim();
+  const pkgVersion = require("../package.json").version;
+  const rawRef = env.OPEN_COMPUTE_GIT_REF;
+  const ref = rawRef !== undefined ? rawRef.trim() : `v${pkgVersion}`;
+  const refSuffix = ref ? `@${ref}` : "";
   // Launch open-compute from GitHub (PEP 508 "name[extras] @ git+URL").
   const spec = `open-compute[${extras}] @ git+https://github.com/ellmos-ai/open-compute.git${refSuffix}`;
   return {
@@ -62,34 +64,39 @@ function resolveLaunch() {
   };
 }
 
-const { cmd, args, how } = resolveLaunch();
+if (require.main === module) {
+  const { cmd, args, how } = resolveLaunch();
 
-const child = spawn(cmd, args, { stdio: "inherit", windowsHide: true });
+  const child = spawn(cmd, args, { stdio: "inherit", windowsHide: true });
 
-child.on("error", (err) => {
-  process.stderr.write(
-    `[open-compute-mcp] failed to launch the Python server via ${how} ('${cmd}'): ${err.message}\n` +
-      "Ensure Python and open-compute[mcp] are installed, or set OPEN_COMPUTE_PYTHON " +
-      "(a python.exe) or OPEN_COMPUTE_MCP_CMD (a full command). Real capture/input is Windows-only.\n"
-  );
-  process.exit(127);
-});
-
-child.on("exit", (code, signal) => {
-  if (signal) {
-    // Re-raise the terminating signal so the parent's exit status is faithful.
-    process.kill(process.pid, signal);
-    return;
-  }
-  process.exit(code == null ? 0 : code);
-});
-
-for (const sig of ["SIGINT", "SIGTERM", "SIGHUP"]) {
-  process.on(sig, () => {
-    try {
-      child.kill(sig);
-    } catch (_) {
-      /* child already gone */
-    }
+  child.on("error", (err) => {
+    process.stderr.write(
+      `[open-compute-mcp] failed to launch the Python server via ${how} ('${cmd}'): ${err.message}\n` +
+        "Ensure Python and open-compute[mcp] are installed, or set OPEN_COMPUTE_PYTHON " +
+        "(a python.exe) or OPEN_COMPUTE_MCP_CMD (a full command). Real capture/input is Windows-only.\n"
+    );
+    process.exit(127);
   });
+
+  child.on("exit", (code, signal) => {
+    if (signal) {
+      // Re-raise the terminating signal so the parent's exit status is faithful.
+      process.kill(process.pid, signal);
+      return;
+    }
+    process.exit(code == null ? 0 : code);
+  });
+
+  for (const sig of ["SIGINT", "SIGTERM", "SIGHUP"]) {
+    process.on(sig, () => {
+      try {
+        child.kill(sig);
+      } catch (_) {
+        /* child already gone */
+      }
+    });
+  }
+} else {
+  module.exports = { resolveLaunch };
 }
+
