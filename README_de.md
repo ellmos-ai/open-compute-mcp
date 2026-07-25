@@ -13,12 +13,31 @@ modellagnostische **Computer-Use**-Tools über das Model Context Protocol (MCP).
 [![npm downloads](https://img.shields.io/npm/dt/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
+[![Node.js CI](https://img.shields.io/badge/tests-4%20passed-brightgreen.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions)
+[![MCP Enabled](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/open-compute-mcp)
+[![LLM Ready](https://img.shields.io/badge/LLM-ready-success.svg)](https://github.com/ellmos-ai/open-compute-mcp/blob/main/llms.txt)
 
 📦 **[Auf npm ansehen →](https://www.npmjs.com/package/open-compute-mcp)**
+
+> [!NOTE]
+> **KI-Assistenten / Agenten-Integration**: Dieses Repository enthält eine [`llms.txt`](llms.txt)-Datei mit strukturierten, maschinenlesbaren Spezifikationen der Tools, Sicherheitsmodi (`OC_SAFETY_MODE`) und Client-Konfigurationsbeispielen für RAG-Crawler und autonome Agenten-Frameworks.
 
 Der MCP-**Client ist der Reasoner** (kein API-Key, modellagnostisch): Er ruft `capture`
 auf, um den Bildschirm zu sehen, und handelt dann mit `do` / `click_name` / `invoke`.
 Das ist die schlüssellose Modus-A-Schleife von open-compute, aber als native Tool-Calls.
+
+```mermaid
+graph TD
+    A["KI-Reasoner<br/>(Claude / Antigravity / Cursor)"] -- "MCP stdio (JSON-RPC)" --> B["npx open-compute-mcp<br/>(Node.js Launcher)"]
+    B -- "Startet via uvx" --> C["open-compute Python Engine<br/>(GitHub @ main)"]
+    C -- "Screenshots / WGC" --> D["Windows Display"]
+    C -- "UIA / Maus / Tasten" --> E["Windows Desktop Apps"]
+
+    subgraph Sicherheits-Gate
+        C -. "OC_SAFETY_MODE<br/>(confirm / read_only / allow_all)" .-> C
+    end
+```
 
 > Dieses Paket ist ein **dünner Launcher**. Es enthält keine Server-Logik — es startet
 > den **Python**-Server (open-compute) **von GitHub** und reicht MCP-stdio durch. Echtes

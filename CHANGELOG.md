@@ -5,7 +5,13 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
-## [0.1.0-alpha.6] - 2026-07-24
+## [0.1.0-alpha.6] - 2026-07-25
+
+### Discoverability & SEO
+- Updated `llms.txt` indexing metadata, search phrases, and timestamp to `2026-07-25`.
+- Integrated Mermaid architecture & dataflow diagram into `README.md` and `README_de.md`.
+- Added GitHub Alert callouts (`> [!NOTE]`) for LLM agents and RAG indexers.
+- Added status & platform badges for test verification, MCP compatibility, and platform availability.
 
 ### Fixed
 - Correct FileCommander (46) and CodeCommander (22) tool counts in the ecosystem family table; counts now verified against the live MCP `tools/list` surface.

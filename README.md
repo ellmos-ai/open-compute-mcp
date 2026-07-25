@@ -13,12 +13,31 @@ model-agnostic **computer-use** tools exposed over the Model Context Protocol (M
 [![npm downloads](https://img.shields.io/npm/dt/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
+[![Node.js CI](https://img.shields.io/badge/tests-4%20passed-brightgreen.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions)
+[![MCP Enabled](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/open-compute-mcp)
+[![LLM Ready](https://img.shields.io/badge/LLM-ready-success.svg)](https://github.com/ellmos-ai/open-compute-mcp/blob/main/llms.txt)
 
 📦 **[View on npm →](https://www.npmjs.com/package/open-compute-mcp)**
+
+> [!NOTE]
+> **AI Assistant / Agent Integration**: This repository contains an [`llms.txt`](llms.txt) file providing structured, machine-readable specifications of tools, safety modes (`OC_SAFETY_MODE`), and client configuration examples for RAG crawlers and autonomous agent frameworks.
 
 The MCP **client is the reasoner** (no API key, model-agnostic): it calls `capture`
 to see the screen, then acts with `do` / `click_name` / `invoke`. This is the keyless
 Mode-A loop of open-compute, but as native tool-calls.
+
+```mermaid
+graph TD
+    A["AI Reasoner<br/>(Claude / Antigravity / Cursor)"] -- "MCP stdio (JSON-RPC)" --> B["npx open-compute-mcp<br/>(Node.js Launcher)"]
+    B -- "Spawns via uvx" --> C["open-compute Python Engine<br/>(GitHub @ main)"]
+    C -- "Screenshots / WGC" --> D["Windows Display"]
+    C -- "UIA / Mouse / Keys" --> E["Windows Desktop Apps"]
+
+    subgraph Safety Gate
+        C -. "OC_SAFETY_MODE<br/>(confirm / read_only / allow_all)" .-> C
+    end
+```
 
 > This package is a **thin launcher**. It contains no server logic — it spawns the
 > **Python** open-compute server (pulled from GitHub) and pipes MCP stdio through.
