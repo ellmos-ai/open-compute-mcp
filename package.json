@@ -19,6 +19,7 @@
     "SECURITY.md",
     "LICENSE",
     "server.json",
+    "smithery.yaml",
     "llms.txt"
   ],
   "engines": {
