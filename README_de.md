@@ -13,8 +13,10 @@ modellagnostische **Computer-Use**-Tools über das Model Context Protocol (MCP).
 [![npm downloads](https://img.shields.io/npm/dt/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
-[![Node.js CI](https://img.shields.io/badge/tests-4%20passed-brightgreen.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions)
+[![Node.js CI](https://img.shields.io/badge/tests-6%20passed-brightgreen.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions)
 [![MCP Enabled](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io)
+[![Smithery Badge](https://smithery.ai/badge/open-compute-mcp)](https://smithery.ai/server/open-compute-mcp)
+[![Glama](https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp/badge)](https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/open-compute-mcp)
 [![LLM Ready](https://img.shields.io/badge/LLM-ready-success.svg)](https://github.com/ellmos-ai/open-compute-mcp/blob/main/llms.txt)
 

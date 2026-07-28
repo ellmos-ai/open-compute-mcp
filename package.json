@@ -20,6 +20,7 @@
     "LICENSE",
     "server.json",
     "smithery.yaml",
+    "glama.json",
     "llms.txt"
   ],
   "engines": {
@@ -31,6 +32,7 @@
     "model-context-protocol",
     "mcp-server",
     "computer-use",
+    "computer-use-mcp",
     "gui-automation",
     "desktop-automation",
     "windows",
@@ -39,7 +41,10 @@
     "automation",
     "claude",
     "claude-desktop",
-    "ai-tools"
+    "ai-tools",
+    "mcp-stdio",
+    "smithery",
+    "glama"
   ],
   "dependencies": {
     "update-notifier": "^7.3.1"

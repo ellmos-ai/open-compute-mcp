@@ -5,6 +5,14 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased] - 2026-07-29
+
+### Discoverability & Visibility
+- Added Glama.ai and Smithery.ai badges to `README.md` and `README_de.md` for ecosystem discovery.
+- Added `glama.json` to `package.json` `files` whitelist and expanded package keywords (`computer-use-mcp`, `mcp-stdio`, `smithery`, `glama`).
+- Updated unit test verification badge count to `6 passed` in `README.md` and `README_de.md`.
+- Refreshed `llms.txt` verification timestamp to `2026-07-29`.
+
 ## [0.1.0-alpha.7] - 2026-07-25
 
 ### Performance & Maintenance
