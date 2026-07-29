@@ -12,6 +12,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - Added `glama.json` to `package.json` `files` whitelist and expanded package keywords (`computer-use-mcp`, `mcp-stdio`, `smithery`, `glama`).
 - Updated unit test verification badge count to `6 passed` in `README.md` and `README_de.md`.
 - Refreshed `llms.txt` verification timestamp to `2026-07-29`.
+- Restored `package-lock.json` version parity with the `0.1.0-alpha.7` package metadata.
 
 ## [0.1.0-alpha.7] - 2026-07-25
 
