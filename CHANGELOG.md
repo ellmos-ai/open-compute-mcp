@@ -8,11 +8,12 @@ project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased] - 2026-07-29
 
 ### Discoverability & Visibility
-- Added Glama.ai and Smithery.ai badges to `README.md` and `README_de.md` for ecosystem discovery.
-- Added `glama.json` to `package.json` `files` whitelist and expanded package keywords (`computer-use-mcp`, `mcp-stdio`, `smithery`, `glama`).
+- Added Glama.ai badges to `README.md` and `README_de.md` for ecosystem discovery.
+- Added `glama.json` to `package.json` `files` whitelist and expanded package keywords (`computer-use-mcp`, `mcp-stdio`, `glama`).
 - Updated unit test verification badge count to `6 passed` in `README.md` and `README_de.md`.
 - Refreshed `llms.txt` verification timestamp to `2026-07-29`.
 - Restored `package-lock.json` version parity with the `0.1.0-alpha.7` package metadata.
+- Removed the unverified legacy `smithery.yaml`; current Smithery publication for local stdio servers requires a validated MCPB bundle.
 
 ## [0.1.0-alpha.7] - 2026-07-25
 

@@ -19,7 +19,6 @@
     "SECURITY.md",
     "LICENSE",
     "server.json",
-    "smithery.yaml",
     "glama.json",
     "llms.txt"
   ],
@@ -43,7 +42,6 @@
     "claude-desktop",
     "ai-tools",
     "mcp-stdio",
-    "smithery",
     "glama"
   ],
   "dependencies": {
