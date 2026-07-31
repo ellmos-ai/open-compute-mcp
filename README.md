@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ellmos-ai/.github/master/profile/ellmos-logo.jpg" alt="ellmos emblem" width="300">
+  <img src="https://raw.githubusercontent.com/ellmos-ai/open-compute-mcp/main/assets/banner.png" alt="open-compute-mcp banner" width="100%">
 </p>
 
 # open-compute-mcp
