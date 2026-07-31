@@ -67,6 +67,12 @@ graph TD
 | `watch_dir` | Watch directories for file-system changes. |
 | `push_status` | Feed-manager status (read-only). |
 | `rec_replay` | Replay a `.clirec` macro (needs the optional `clirec` package). |
+| `signal_show` | Show the screen-usage signal overlay: glowing border + cursor ring colored per mode (control=red, observe=blue, …); persists in the server process. |
+| `signal_hide` | Hide the signal overlay. |
+| `signal_status` | Overlay state + collect a pending abort-hotkey message (consumed on read). |
+| `signal_abort` | Ask the human for a short abort reason; the message is returned for the model. |
+| `chat` | Human→model message about screen content, optionally with screenshot. |
+| `talk` | Push-to-talk voice note → WAV path (hold key, speak, release; STT/TTS model-side). |
 
 All coordinates are **normalized 0..1** relative to the virtual desktop. Tool
 descriptions are localized in six languages (`de/en/es/ja/ru/zh`) via `OC_LANGUAGE`.

@@ -64,6 +64,12 @@ graph TD
 | `watch_dir` | Verzeichnisse auf Dateisystem-Änderungen überwachen. |
 | `push_status` | Feed-Manager-Status (nur Lesen). |
 | `rec_replay` | Ein `.clirec`-Makro abspielen (benötigt das optionale `clirec`-Paket). |
+| `signal_show` | Bildschirm-Signal-Overlay anzeigen: leuchtender Rahmen + Cursor-Ring, Farbe je Modus (control=rot, observe=blau, …); bleibt im Server-Prozess sichtbar. |
+| `signal_hide` | Signal-Overlay ausblenden. |
+| `signal_status` | Overlay-Zustand + ausstehende Abort-Hotkey-Nachricht abholen (wird beim Lesen verbraucht). |
+| `signal_abort` | Kurzen Abbruchgrund beim Menschen erfragen; die Nachricht geht ans Modell. |
+| `chat` | Mensch→Modell-Nachricht zum Bildschirminhalt, optional mit Screenshot. |
+| `talk` | Push-to-Talk-Sprachnotiz → WAV-Pfad (Taste halten, sprechen, loslassen; STT/TTS modellseitig). |
 
 Alle Koordinaten sind **normiert 0..1** relativ zum virtuellen Desktop. Tool-Beschreibungen
 sind in sechs Sprachen lokalisiert (`de/en/es/ja/ru/zh`) — wählbar über `OC_LANGUAGE`.

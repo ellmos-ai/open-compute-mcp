@@ -5,6 +5,22 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.0-alpha.8] - 2026-07-31
+
+### Fixed
+- **Default git ref repaired:** the uvx launch defaulted to `v<npm package
+  version>` — a tag that never existed in `ellmos-ai/open-compute` — so the
+  default start could not resolve the package. The default is now the
+  open-compute `master` branch (matching the README); pinning a release tag
+  such as `v0.7.0-alpha` or any branch/sha still works via
+  `OPEN_COMPUTE_GIT_REF`.
+
+### Added
+- README (EN+DE) documents the six new open-compute v0.7.0 tools:
+  `signal_show` / `signal_hide` / `signal_status` / `signal_abort`
+  (screen-usage signal overlay with abort hotkey), `chat` and `talk`
+  (push-to-talk).
+
 ## [Unreleased] - 2026-07-29
 
 ### Discoverability & Visibility
