@@ -15,11 +15,12 @@ model-agnostic **computer-use** tools exposed over the Model Context Protocol (M
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
 [![Node.js CI](https://img.shields.io/badge/tests-6%20passed-brightgreen.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions)
 [![MCP Enabled](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io)
-[<img src="https://raw.githubusercontent.com/ellmos-ai/open-compute-mcp/main/assets/glama-badge.jpg" alt="Glama: open-compute-mcp" width="180">](https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/open-compute-mcp)
 [![LLM Ready](https://img.shields.io/badge/LLM-ready-success.svg)](https://github.com/ellmos-ai/open-compute-mcp/blob/main/llms.txt)
 
 📦 **[View on npm →](https://www.npmjs.com/package/open-compute-mcp)**
+
+<a href="https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp"><img src="https://raw.githubusercontent.com/ellmos-ai/open-compute-mcp/main/assets/glama-badge.jpg" alt="Glama: open-compute-mcp — A license, B maintenance" width="100%"></a>
 
 > [!NOTE]
 > **AI Assistant / Agent Integration**: This repository contains an [`llms.txt`](llms.txt) file providing structured, machine-readable specifications of tools, safety modes (`OC_SAFETY_MODE`), and client configuration examples for RAG crawlers and autonomous agent frameworks.
