@@ -14,7 +14,7 @@ test("OPEN_COMPUTE_MCP_CMD launches the configured child command", () => {
     cwd: root,
     env: {
       ...process.env,
-      OPEN_COMPUTE_MCP_CMD: `node ${fixture} expected-arg`,
+      OPEN_COMPUTE_MCP_CMD: "node " + fixture + " expected-arg",
       OPEN_COMPUTE_PYTHON: "",
     },
     encoding: "utf8",
@@ -24,15 +24,14 @@ test("OPEN_COMPUTE_MCP_CMD launches the configured child command", () => {
   assert.match(result.stderr, /OPEN_COMPUTE_MCP_CMD override reached fixture/);
 });
 
-test("resolveLaunch pins default git ref to version tag when OPEN_COMPUTE_GIT_REF is unset", () => {
+test("resolveLaunch uses the current upstream default branch when no ref is set", () => {
   const { resolveLaunch } = require("../bin/open-compute-mcp.js");
-  const pkgVersion = require("../package.json").version;
   const launch = resolveLaunch({});
 
   assert.equal(launch.cmd, "uvx");
   assert.equal(launch.how, "uvx (github)");
   assert.equal(launch.args[0], "--from");
-  assert.match(launch.args[1], new RegExp(`git\\+https://github\\.com/ellmos-ai/open-compute\\.git@v${pkgVersion.replace(/\./g, "\\.")}$`));
+  assert.equal(launch.args[1], "open-compute[mcp,local,uia] @ git+https://github.com/ellmos-ai/open-compute.git@master");
 });
 
 test("resolveLaunch respects custom OPEN_COMPUTE_GIT_REF override", () => {
@@ -42,5 +41,4 @@ test("resolveLaunch respects custom OPEN_COMPUTE_GIT_REF override", () => {
   assert.equal(launch.cmd, "uvx");
   assert.match(launch.args[1], /git\+https:\/\/github\.com\/ellmos-ai\/open-compute\.git@main$/);
 });
-
 

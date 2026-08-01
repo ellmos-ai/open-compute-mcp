@@ -51,9 +51,11 @@ function resolveLaunch(env = process.env) {
     return { cmd: py.trim(), args: ["-m", "open_compute.mcp_server"], how: "OPEN_COMPUTE_PYTHON" };
   }
   const extras = (env.OPEN_COMPUTE_EXTRAS || "mcp,local,uia").trim();
-  const pkgVersion = require("../package.json").version;
   const rawRef = env.OPEN_COMPUTE_GIT_REF;
-  const ref = rawRef !== undefined ? rawRef.trim() : `v${pkgVersion}`;
+  // The upstream repository currently publishes its default branch as
+  // `master` and has no matching version tag. Keep the override for callers
+  // that need a branch, tag, or SHA pin.
+  const ref = rawRef !== undefined ? rawRef.trim() : "master";
   const refSuffix = ref ? `@${ref}` : "";
   // Launch open-compute from GitHub (PEP 508 "name[extras] @ git+URL").
   const spec = `open-compute[${extras}] @ git+https://github.com/ellmos-ai/open-compute.git${refSuffix}`;

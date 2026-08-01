@@ -15,6 +15,11 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - Restored `package-lock.json` version parity with the `0.1.0-alpha.7` package metadata.
 - Removed the unverified legacy `smithery.yaml`; current Smithery publication for local stdio servers requires a validated MCPB bundle.
 
+### Fixed
+- Corrected the default Python upstream ref from the nonexistent package-version
+  tag to the currently published `master` branch. `OPEN_COMPUTE_GIT_REF` still
+  supports explicit branch, tag, and SHA pins.
+
 ## [0.1.0-alpha.7] - 2026-07-25
 
 ### Performance & Maintenance
