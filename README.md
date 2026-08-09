@@ -124,6 +124,35 @@ comes back all-black — install the `wgc` extra for that.
 | `OC_LANGUAGE` | Language of the tool descriptions: `de`/`en`/`es`/`ja`/`ru`/`zh`. |
 | `OC_SAFETY_MODE` | `confirm` (default) · `read_only` · `allow_all`. |
 | `OC_DENY` | Comma-separated action types always denied (e.g. `type,launch_app`). |
+| `OC_CAPTURE_SCALE` | Resize factor for every capture, `0.05`–`1.0`. **This launcher defaults to `0.5`** (see below); set `1.0` for full resolution. |
+| `OC_CAPTURE_MAX_DIM` | Cap the longest edge in pixels (default off). Setting it suppresses the scale default, so the two never shrink twice. |
+| `OC_CAPTURE_GRAYSCALE` | `1` drops colour. Shrinks the payload, **not** the token count — that follows pixel count alone. |
+
+### Capture size — why this launcher halves it by default
+
+A vision model is billed per pixel, and every frame **stays in the conversation**, so a
+full-HD grab is charged again on each following request. The cost of a session therefore
+grows with the *square* of the number of screenshots, not linearly.
+
+Because open-compute's coordinates are **normalized 0..1**, shrinking the image costs
+nothing in click accuracy — `do` works in fractions of the image either way. Only
+legibility drops, and at `0.5` buttons and field borders stay clearly identifiable; small
+body text is what gets hard to read.
+
+| Setting | 1920×1080 grab | Cost |
+|---|---|---|
+| `OC_CAPTURE_SCALE=1.0` | full resolution | ~1600 tokens |
+| `OC_CAPTURE_SCALE=0.5` *(this launcher's default)* | 960×540 | ~690 tokens |
+| `OC_CAPTURE_MAX_DIM=768` | 768×432 | ~440 tokens |
+
+The Python library itself defaults to full resolution — its callers are not necessarily
+paying per pixel. Only this launcher, which exists to serve agents, opts into the smaller
+frame and prints a one-line notice when it does.
+
+**What saves more than any scale factor:** batch several steps into one `do` call
+(it takes an `actions` array) instead of capturing after every click; prefer `tree` where
+the accessibility model carries the content — note that in browsers it usually exposes only
+the browser chrome, not the page; and use `capture(window=…)` rather than the full desktop.
 
 ## Safety
 

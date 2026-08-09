@@ -40,6 +40,23 @@ function tokenize(cmdline) {
   return cmdline.split(/\s+/).filter(Boolean);
 }
 
+// Half-size captures by default. This launcher only ever serves agents, which
+// load every frame into a paid context window — and the frames stay there, so a
+// full-HD grab is charged again on each following request. open-compute's
+// coordinates are normalized 0..1, so halving the image costs nothing in click
+// accuracy; only fine text gets harder to read. Set OC_CAPTURE_SCALE=1.0 for the
+// full resolution. The Python library itself stays unscaled: its callers are not
+// necessarily paying per pixel.
+const DEFAULT_CAPTURE_SCALE = "0.5";
+
+function applyCaptureDefaults(env = process.env) {
+  if (env.OC_CAPTURE_SCALE === undefined && env.OC_CAPTURE_MAX_DIM === undefined) {
+    env.OC_CAPTURE_SCALE = DEFAULT_CAPTURE_SCALE;
+    return true;
+  }
+  return false;
+}
+
 function resolveLaunch(env = process.env) {
   const override = env.OPEN_COMPUTE_MCP_CMD;
   if (override && override.trim()) {
@@ -70,6 +87,14 @@ function resolveLaunch(env = process.env) {
 
 if (require.main === module) {
   const { cmd, args, how } = resolveLaunch();
+  const scaled = applyCaptureDefaults();
+
+  if (scaled && process.stdout.isTTY) {
+    process.stderr.write(
+      `[open-compute-mcp] captures scaled to ${DEFAULT_CAPTURE_SCALE} to cut vision-token cost; ` +
+        "coordinates are normalized so clicking is unaffected. Set OC_CAPTURE_SCALE=1.0 for full resolution.\n"
+    );
+  }
 
   const child = spawn(cmd, args, { stdio: "inherit", windowsHide: true });
 
@@ -101,6 +126,6 @@ if (require.main === module) {
     });
   }
 } else {
-  module.exports = { resolveLaunch };
+  module.exports = { resolveLaunch, applyCaptureDefaults, DEFAULT_CAPTURE_SCALE };
 }
 

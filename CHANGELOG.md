@@ -5,6 +5,24 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.0-alpha.16] - 2026-08-09
+
+### Changed
+- **Captures are now half-size by default** (`OC_CAPTURE_SCALE=0.5`). A vision model
+  is billed per pixel and every frame stays in the conversation, so a full-HD grab is
+  charged again on each following request — the cost of a session grows with the
+  *square* of the screenshot count. open-compute's coordinates are normalized 0..1, so
+  the smaller frame costs **nothing in click accuracy**; only fine text gets harder to
+  read. A 1920×1080 grab drops from ~1600 to ~690 tokens.
+
+  Set `OC_CAPTURE_SCALE=1.0` for the previous behaviour. Setting `OC_CAPTURE_MAX_DIM`
+  also suppresses the default, so the two knobs never shrink twice. The launcher prints
+  a one-line notice on a TTY when the default applies.
+
+  Only this launcher opts in — the Python library still defaults to full resolution,
+  since its callers are not necessarily paying per pixel. Requires open-compute with
+  the capture-budget knobs (`ellmos-ai/open-compute` ≥ commit `5905ef7`).
+
 ## [0.1.0-alpha.8] - 2026-07-31
 
 ### Fixed

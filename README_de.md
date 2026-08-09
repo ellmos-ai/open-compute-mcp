@@ -122,6 +122,35 @@ zurückkommt — dafür das `wgc`-Extra installieren.
 | `OC_LANGUAGE` | Sprache der Tool-Beschreibungen: `de`/`en`/`es`/`ja`/`ru`/`zh`. |
 | `OC_SAFETY_MODE` | `confirm` (Default) · `read_only` · `allow_all`. |
 | `OC_DENY` | Kommagetrennte Aktionstypen, die immer verweigert werden. |
+| `OC_CAPTURE_SCALE` | Skalierungsfaktor für jede Aufnahme, `0.05`–`1.0`. **Dieser Launcher setzt standardmäßig `0.5`** (siehe unten); `1.0` für volle Auflösung. |
+| `OC_CAPTURE_MAX_DIM` | Längste Kante in Pixeln deckeln (Default aus). Wird sie gesetzt, entfällt der Skalierungs-Default — so wird nie doppelt verkleinert. |
+| `OC_CAPTURE_GRAYSCALE` | `1` lässt die Farbe weg. Verkleinert die Datenmenge, **nicht** die Token-Zahl — die hängt allein an der Pixelzahl. |
+
+### Aufnahmegröße — warum dieser Launcher standardmäßig halbiert
+
+Ein Vision-Modell rechnet pro Pixel ab, und jedes Bild **bleibt im Gesprächsverlauf** — eine
+Full-HD-Aufnahme wird also bei jeder weiteren Anfrage erneut bezahlt. Die Kosten einer
+Sitzung wachsen deshalb im *Quadrat* der Screenshot-Zahl, nicht linear.
+
+Da die Koordinaten in open-compute **normalisiert sind (0..1)**, kostet das Verkleinern
+nichts an Klickgenauigkeit — `do` rechnet ohnehin in Bruchteilen des Bildes. Nur die
+Lesbarkeit sinkt, und bei `0.5` bleiben Schaltflächen und Feldränder klar erkennbar;
+schwierig wird allein kleiner Fließtext.
+
+| Einstellung | Aufnahme 1920×1080 | Kosten |
+|---|---|---|
+| `OC_CAPTURE_SCALE=1.0` | volle Auflösung | ~1600 Token |
+| `OC_CAPTURE_SCALE=0.5` *(Default dieses Launchers)* | 960×540 | ~690 Token |
+| `OC_CAPTURE_MAX_DIM=768` | 768×432 | ~440 Token |
+
+Die Python-Bibliothek selbst bleibt bei voller Auflösung — ihre Aufrufer zahlen nicht
+zwangsläufig pro Pixel. Nur dieser Launcher, der ausschließlich Agenten bedient, wählt das
+kleinere Bild und gibt beim Start eine einzeilige Notiz aus.
+
+**Was mehr bringt als jeder Skalierungsfaktor:** mehrere Schritte in einem `do`-Aufruf
+bündeln (er nimmt ein `actions`-Array) statt nach jedem Klick aufzunehmen; `tree` nutzen, wo
+das Bedienhilfen-Modell den Inhalt trägt — in Browsern liefert es meist nur die
+Browser-Oberfläche, nicht die Seite; und `capture(window=…)` statt des ganzen Desktops.
 
 ## Sicherheit
 
