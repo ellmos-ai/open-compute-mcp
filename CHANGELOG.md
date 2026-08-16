@@ -5,9 +5,15 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
-## [0.1.0-alpha.16] - 2026-08-09
+## [0.1.0-alpha.16] - 2026-08-16
+
+### Discoverability & Metadata Parity
+- Synchronized README badges (tests: 15 passed, version: 0.1.0-alpha.16, Node >=18, MCP server, LLM-ready).
+- Implemented automated metadata, manifest and UTF-8 parity test suite in `test/metadata-parity.test.js` (4 tests).
+- Synchronized `llms.txt` Last-checked timestamp to `2026-08-16`.
 
 ### Changed
+
 - **Captures are now half-size by default** (`OC_CAPTURE_SCALE=0.5`). A vision model
   is billed per pixel and every frame stays in the conversation, so a full-HD grab is
   charged again on each following request — the cost of a session grows with the

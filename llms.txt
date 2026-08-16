@@ -58,4 +58,4 @@ mcp stdio screenshot capture tool
 safety gated GUI automation mcp
 ```
 
-## Last-checked: 2026-07-29
+## Last-checked: 2026-08-16
