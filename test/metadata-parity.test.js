@@ -85,7 +85,54 @@ test("documentation files are valid UTF-8 and contain no replacement chars", () 
 test("llms.txt metadata and timestamp consistency", () => {
   const llms = readText("llms.txt");
   assert.match(llms, /# open-compute-mcp/, "llms.txt must have correct title");
-  assert.match(llms, /## Last-checked:\s*2026-08-16/, "llms.txt must have 2026-08-16 last-checked timestamp");
-  assert.match(llms, /## Tools/, "llms.txt must document tools");
+  assert.match(llms, /## Last-checked:\s*2026-08-21/, "llms.txt must have 2026-08-21 last-checked timestamp");
+  assert.match(llms, /## Tools\s*\(16\)/, "llms.txt must document 16 tools");
   assert.match(llms, /## Safety/, "llms.txt must document safety modes");
+  assert.match(llms, /- signal_show:/, "llms.txt must document signal_show tool");
+  assert.match(llms, /- signal_abort:/, "llms.txt must document signal_abort tool");
+  assert.match(llms, /- talk:/, "llms.txt must document talk tool");
 });
+
+test("glama.json tools count and features consistency", () => {
+  const glama = readJson("glama.json");
+  assert.equal(glama.tools.count, 16, "glama.json tool count must be 16");
+  assert.ok(glama.keywords.includes("signal-overlay"), "glama.json keywords must include signal-overlay");
+  assert.ok(glama.keywords.includes("push-to-talk"), "glama.json keywords must include push-to-talk");
+  assert.ok(
+    glama.features.some((f) => f.includes("signal overlay")),
+    "glama.json features must mention signal overlay"
+  );
+});
+
+test("bilingual security policy presence and contact integrity", () => {
+  const sec = readText("SECURITY.md");
+  assert.match(sec, /# Security Policy \/ Sicherheitsrichtlinie/, "SECURITY.md must have bilingual header");
+  assert.match(sec, /## English/, "SECURITY.md must contain English section");
+  assert.match(sec, /## Deutsch/, "SECURITY.md must contain German section");
+  assert.match(sec, /security@ellmos\.ai/, "SECURITY.md must contain security@ellmos.ai");
+  assert.match(sec, /support@lukasgeiger\.com/, "SECURITY.md must contain support@lukasgeiger.com");
+  assert.match(sec, /OC_SAFETY_MODE/, "SECURITY.md must explain OC_SAFETY_MODE");
+});
+
+test("mermaid lifecycle sequence diagrams in both README files", () => {
+  const enReadme = readText("README.md");
+  const deReadme = readText("README_de.md");
+
+  assert.match(enReadme, /```mermaid[\s\S]*?sequenceDiagram/, "README.md must have sequence diagram");
+  assert.match(deReadme, /```mermaid[\s\S]*?sequenceDiagram/, "README_de.md must have sequence diagram");
+  assert.match(enReadme, /Safe Interaction & Signal Lifecycle/, "README.md must have signal lifecycle heading");
+  assert.match(deReadme, /Sichere Interaktion & Signal-Lebenszyklus/, "README_de.md must have German signal lifecycle heading");
+});
+
+test("badges and quick navigation parity across README files", () => {
+  const enReadme = readText("README.md");
+  const deReadme = readText("README_de.md");
+
+  assert.match(enReadme, /Quick Navigation/, "README.md must include Quick Navigation");
+  assert.match(deReadme, /Schnellnavigation/, "README_de.md must include Schnellnavigation");
+  assert.match(enReadme, /tests-19%20passed-brightgreen\.svg/, "README.md must link 19 passed tests badge");
+  assert.match(deReadme, /tests-19%20passed-brightgreen\.svg/, "README_de.md must link 19 passed tests badge");
+  assert.match(enReadme, /Zero--Egress/, "README.md must include Zero-Egress badge");
+  assert.match(deReadme, /Zero--Egress/, "README_de.md must include Zero-Egress badge");
+});
+

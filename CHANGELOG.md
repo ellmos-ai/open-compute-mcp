@@ -5,6 +5,17 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.0-alpha.16] - 2026-08-21
+
+### Discoverability, UX Design & Security Parity
+- **Visual Signal Overlay & Abort Sequence Diagram**: Added interactive bilingual Mermaid sequence diagram (`Safe Interaction & Signal Lifecycle` / `Sichere Interaktion & Signal-Lebenszyklus`) illustrating the 4-phase interaction flow (Visual Perception, Signal Overlay Activation, Action Request & Safety Gate, Emergency Abort / Auto-Release of Hold Primitives).
+- **Key Capabilities Overview**: Restructured documentation into 4 distinct pillars (Visual Perception & Window Targeting, Safety-Gated Action Execution, Visual Signal Overlay & Abort Control, Multimodal Collaboration & Voice Notes).
+- **Bilingual Hardened Security Policy (`SECURITY.md`)**: Expanded with German section, Local-First & Zero-Egress stdio invariants, User-Mode Non-Elevation guarantees, hold-primitive auto-release on shutdown, and direct security contact endpoints (`security@ellmos.ai` & `support@lukasgeiger.com`).
+- **Tool Parity & Schema Sync (16 Tools)**: Synchronized 16 tools across `README.md`, `README_de.md`, `glama.json` (`count: 16`), and `llms.txt` (including `signal_show`, `signal_hide`, `signal_status`, `signal_abort`, `chat`, `talk`).
+- **Ecosystem & Sibling Tooling Matrix**: Enriched sibling tools across `ellmos-ai`, `dev-bricks`, `file-bricks`, `doc-bricks`, and `open-bricks`.
+- **Automated Contract Test Suite**: Expanded `test/metadata-parity.test.js` to 9 contract tests verifying bilingual security policy, Mermaid sequence diagrams, quick navigation, badges, and metadata parity (19/19 tests passing).
+- **Index & Badges**: Updated `llms.txt` Last-checked timestamp to `2026-08-21` and synchronized badges with Privacy Zero-Egress, Security Safety-Gated, and 19 passed tests.
+
 ## [0.1.0-alpha.16] - 2026-08-16
 
 ### Discoverability & Metadata Parity

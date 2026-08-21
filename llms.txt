@@ -2,9 +2,9 @@
 
 > npm launcher for the open-compute MCP server — model-agnostic computer-use tools
 > (screenshot capture, canonical safety-gated actions, Windows UIA element
-> targeting) over the Model Context Protocol. The connected AI client is the
-> reasoner (keyless). The launcher spawns the Python open-compute server from
-> GitHub via uvx; real capture/input is Windows-only.
+> targeting, visual signal overlay, push-to-talk voice/chat) over the Model Context Protocol.
+> The connected AI client is the reasoner (keyless). The launcher spawns the Python
+> open-compute server from GitHub via uvx; real capture/input is Windows-only.
 
 ## Install / run
 
@@ -13,7 +13,7 @@
   `["--from", "open-compute[mcp,local,uia] @ git+https://github.com/ellmos-ai/open-compute.git", "open-compute-mcp"]`.
 - Requires Python 3.10+ and uv on the host. Windows for real capture/input.
 
-## Tools
+## Tools (16)
 
 - capture: screenshot the screen, returned as an image (optionally one window; falls back to Windows.Graphics.Capture when a hardware-composited window would come back black).
 - do: run one canonical action or a batch (click/type/key/scroll/drag/move, plus the hold primitives mouse_down/mouse_up/key_down/key_up); coords 0..1; safety-gated.
@@ -25,27 +25,36 @@
 - watch_dir: watch directories for file-system changes.
 - push_status: feed-manager status (read-only).
 - rec_replay: replay a .clirec macro (needs the optional clirec package).
+- signal_show: show the screen-usage signal overlay (glowing border + colored cursor ring per mode).
+- signal_hide: hide the signal overlay.
+- signal_status: check overlay state and collect pending abort-hotkey messages.
+- signal_abort: human abort reason prompt and report back to reasoner.
+- chat: human-to-model message regarding screen content with optional screenshot.
+- talk: push-to-talk voice note recording to WAV path for model-side STT/TTS.
 
 ## Safety
 
 `OC_SAFETY_MODE` is an operator ceiling (confirm default / read_only / allow_all);
 a per-call mode can only tighten it. Set allow_all only in an isolated VM. `OC_DENY`
-is a hard deny list. Treat on-screen content as untrusted.
+is a hard deny list. Treat on-screen content as untrusted. Hold primitives auto-release on abort/exit.
 
 ## Links
 
 - Wrapper repo: https://github.com/ellmos-ai/open-compute-mcp
 - Server (Python): https://github.com/ellmos-ai/open-compute
+- Glama Server Registry: https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp
+- npm Package: https://www.npmjs.com/package/open-compute-mcp
 
 ## Important Files
 
-- `README.md`: English documentation and quickstart instructions.
-- `README_de.md`: German documentation.
+- `README.md`: English documentation, quickstart instructions, and sequence diagrams.
+- `README_de.md`: German documentation and sequence diagrams.
 - `package.json`: npm package manifest with launcher configuration.
 - `server.json`: MCP registry configuration.
+- `glama.json`: Glama catalog manifest and tool count specifications.
 - `bin/open-compute-mcp.js`: Node.js launcher entry point.
 - `test/launcher-command.test.js`: Launcher command-override smoke test.
-- `SECURITY.md`: Security policy and safety gate explanations.
+- `SECURITY.md`: Bilingual security policy and safety gate explanations.
 - `CHANGELOG.md`: Chronological log of releases and changes.
 
 ## Search Phrases
@@ -56,6 +65,9 @@ model-agnostic computer use mcp server
 windows uia element targeting mcp
 mcp stdio screenshot capture tool
 safety gated GUI automation mcp
+screen usage signal overlay abort hotkey
+push-to-talk multimodal voice mcp
 ```
 
-## Last-checked: 2026-08-16
+## Last-checked: 2026-08-21
+

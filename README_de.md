@@ -13,14 +13,33 @@ modellagnostische **Computer-Use**-Tools über das Model Context Protocol (MCP).
 [![npm downloads](https://img.shields.io/npm/dt/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
-[![Node.js CI](https://img.shields.io/badge/tests-15%20passed-brightgreen.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions)
+[![Node.js CI](https://img.shields.io/badge/tests-19%20passed-brightgreen.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions)
 [![MCP Enabled](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/open-compute-mcp)
+[![Privacy: Zero-Egress](https://img.shields.io/badge/privacy-100%25%20Offline%20%7C%20Zero--Egress-blue.svg)](SECURITY.md)
+[![Security: Safety-Gated](https://img.shields.io/badge/security-Operator%20Ceiling%20%7C%20Safety--Gated-green.svg)](SECURITY.md)
+[![Ecosystem: ellmos-ai](https://img.shields.io/badge/ecosystem-ellmos--ai-blueviolet.svg)](https://github.com/ellmos-ai)
+[![Umbrella: open-bricks](https://img.shields.io/badge/umbrella-open--bricks-indigo.svg)](https://github.com/open-bricks)
 [![LLM Ready](https://img.shields.io/badge/LLM-ready-success.svg)](https://github.com/ellmos-ai/open-compute-mcp/blob/main/llms.txt)
 
-📦 **[Auf npm ansehen →](https://www.npmjs.com/package/open-compute-mcp)**
+📦 **[Auf npm ansehen →](https://www.npmjs.com/package/open-compute-mcp)** • 📋 **[Sicherheitsrichtlinie](SECURITY.md)** • 🤖 **[LLM-Kontext (llms.txt)](llms.txt)**
 
 <a href="https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp"><img src="https://raw.githubusercontent.com/ellmos-ai/open-compute-mcp/main/assets/glama-badge.jpg" alt="Glama: open-compute-mcp — A license, B maintenance" width="100%"></a>
+
+---
+
+### Schnellnavigation
+
+- [✨ Hauptfunktionen](#hauptfunktionen)
+- [🏗️ Architektur](#architektur)
+- [🛠️ Tools (16)](#tools)
+- [🚀 Nutzung mit einem MCP-Client](#nutzung-mit-einem-mcp-client)
+- [🔄 Sichere Interaktion & Signal-Lebenszyklus](#sichere-interaktion--signal-lebenszyklus)
+- [⚙️ Konfiguration](#konfiguration-umgebungsvariablen)
+- [🔒 Sicherheit & Leitplanken](#sicherheit)
+- [🌐 ellmos-ai-Ökosystem](#ellmos-ai-ökosystem)
+
+---
 
 > [!NOTE]
 > **KI-Assistenten / Agenten-Integration**: Dieses Repository enthält eine [`llms.txt`](llms.txt)-Datei mit strukturierten, maschinenlesbaren Spezifikationen der Tools, Sicherheitsmodi (`OC_SAFETY_MODE`) und Client-Konfigurationsbeispielen für RAG-Crawler und autonome Agenten-Frameworks.
@@ -29,15 +48,26 @@ Der MCP-**Client ist der Reasoner** (kein API-Key, modellagnostisch): Er ruft `c
 auf, um den Bildschirm zu sehen, und handelt dann mit `do` / `click_name` / `invoke`.
 Das ist die schlüssellose Modus-A-Schleife von open-compute, aber als native Tool-Calls.
 
+## Hauptfunktionen
+
+1. **Visuelle Wahrnehmung & Fenster-Targeting:** Vollbild- und Einzelfensteraufnahmen mit automatischem Windows.Graphics.Capture (WGC) Fallback für Hardware-komponierte GPU-Fenster (Blender, Roblox Studio, Browser).
+2. **Safety-Gated Aktionsausführung:** Normierte 0..1-Koordinaten, strikte Operator-Obergrenze (`confirm` / `read_only` / `allow_all`), klickfreie UIA-Muster-Aktivierung und Halte-Primitive mit automatischem Release bei Abbruch.
+3. **Visuelles Signal-Overlay & Abbruch-Steuerung:** Kontinuierliche visuelle Statusanzeige (leuchtender Bildschirmrahmen & farbiger Cursor-Ring) mit sofortigem Hotkey-Abbruch durch den Nutzer.
+4. **Multimodale Kollaboration & Sprachnotizen:** Push-to-Talk-Sprachaufnahmen (`talk`), Chat-Nachrichten mit Bildschirmbezug (`chat`), Dateisystem-Überwachung (`watch_dir`) und Makro-Replay (`rec_replay`).
+
+## Architektur
+
 ```mermaid
 graph TD
     A["KI-Reasoner<br/>(Claude / Antigravity / Cursor)"] -- "MCP stdio (JSON-RPC)" --> B["npx open-compute-mcp<br/>(Node.js Launcher)"]
     B -- "Startet via uvx" --> C["open-compute Python Engine<br/>(GitHub @ main)"]
     C -- "Screenshots / WGC" --> D["Windows Display"]
     C -- "UIA / Maus / Tasten" --> E["Windows Desktop Apps"]
+    C -- "Leuchtrahmen & Cursor" --> F["Signal Overlay UI"]
 
     subgraph Sicherheits-Gate
         C -. "OC_SAFETY_MODE<br/>(confirm / read_only / allow_all)" .-> C
+        C -. "OC_DENY<br/>(harte Aktions-Sperrliste)" .-> C
     end
 ```
 
@@ -82,6 +112,54 @@ Beenden des Servers wieder losgelassen. `capture(window=...)` weicht auf
 Windows.Graphics.Capture aus, wenn ein normaler Grab eines hardware-komponierten
 Fensters (Roblox Studio, Blender, GPU-beschleunigter Browser) komplett schwarz
 zurückkommt — dafür das `wgc`-Extra installieren.
+
+## Sichere Interaktion & Signal-Lebenszyklus
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Reasoner as KI-Reasoner (Claude / AGY)
+    participant Launcher as Node.js Launcher (open-compute-mcp)
+    participant Engine as Python Engine (open-compute)
+    participant UI as Windows Desktop / UIA
+    actor Operator as Menschlicher Operator
+
+    Note over Reasoner,Operator: Phase 1: Visuelle Wahrnehmung & Status-Inspektion
+    Reasoner->>Launcher: capture(window?) / tree()
+    Launcher->>Engine: MCP stdio JSON-RPC weiterleiten
+    Engine->>UI: Bildschirm aufnehmen (mss/WGC) oder UIA-Baum lesen
+    UI-->>Engine: Bilddaten / Semantischer Elementbaum
+    Engine-->>Launcher: Normierte Antwortdaten (0..1 Koordinaten)
+    Launcher-->>Reasoner: Visuelle Beobachtung
+
+    Note over Reasoner,Operator: Phase 2: Signal-Overlay aktivieren
+    Reasoner->>Launcher: signal_show(mode="control")
+    Launcher->>Engine: Signal-Overlay aufrufen
+    Engine->>UI: Leuchtenden Bildschirmrahmen & Cursor-Ring einblenden
+    Operator-->>UI: Visuelle Wahrnehmung (KI steuert Desktop)
+
+    Note over Reasoner,Operator: Phase 3: Aktionsanforderung & Sicherheits-Gate
+    Reasoner->>Launcher: do(actions) / click_name(target)
+    Launcher->>Engine: Aktions-Payload verarbeiten
+    alt OC_SAFETY_MODE == "confirm" (Standard)
+        Engine-->>Launcher: Status "needs_confirmation" (nur melden)
+        Launcher-->>Reasoner: Menschliche Bestätigung erforderlich
+    else OC_SAFETY_MODE == "allow_all" (Isolierte VM)
+        Engine->>UI: Maus-/Tastatureingaben / Halte-Primitive ausführen
+        UI-->>Engine: Aktion abgeschlossen
+        Engine-->>Launcher: Erfolgsantwort
+        Launcher-->>Reasoner: Aktion erfolgreich
+    end
+
+    Note over Reasoner,Operator: Phase 4: Notfallabbruch oder Fertigstellung
+    opt Operator löst Notfallabbruch aus
+        Operator->>Engine: Hotkey gedrückt (Abbruch-Signal)
+        Engine->>UI: Automatische Freigabe aller gehaltenen Tasten/Mausknöpfe
+        Engine-->>Reasoner: signal_abort Nachricht zurückgegeben
+    end
+    Reasoner->>Launcher: signal_hide()
+    Engine->>UI: Overlay ausblenden
+```
 
 ## Nutzung mit einem MCP-Client
 
@@ -192,12 +270,12 @@ Dieser MCP-Server ist Teil des **[ellmos-ai](https://github.com/ellmos-ai)**-Ök
 | [Homebase](https://github.com/ellmos-ai/ellmos-homebase-mcp) | 45 | Local-first LLM-Gedächtnis, Wissen, Zustand, Routing, Schwarm-Orchestrierung | [`ellmos-homebase-mcp`](https://www.npmjs.com/package/ellmos-homebase-mcp) (alpha) |
 | [ServerCommander](https://github.com/ellmos-ai/ellmos-servercommander-mcp) | 8 | Server-Operationen: Health-Checks, Log-Analyse, Deploy-Dry-Runs, Mail-Diagnose | [`ellmos-servercommander-mcp`](https://www.npmjs.com/package/ellmos-servercommander-mcp) (alpha) |
 | [Blender Use](https://github.com/ellmos-ai/ellmos-blender-use-mcp) | 3 | Headless Blender-Asset-QA und FBX-Reimport-Verifikation | [`ellmos-blender-use-mcp`](https://www.npmjs.com/package/ellmos-blender-use-mcp) (alpha) |
-| **[Open Compute](https://github.com/ellmos-ai/open-compute-mcp)** | **10** | **Modell-agnostischer Computer-Use: Capture, safety-gated Aktionen, Windows-UIA** | **[`open-compute-mcp`](https://www.npmjs.com/package/open-compute-mcp)** (alpha) |
+| **[Open Compute](https://github.com/ellmos-ai/open-compute-mcp)** | **16** | **Modell-agnostischer Computer-Use: Capture, safety-gated Aktionen, Windows-UIA, Signal-Overlay & Voice/Chat** | **[`open-compute-mcp`](https://www.npmjs.com/package/open-compute-mcp)** (alpha) |
 
-### KI-Infrastruktur
+### KI-Infrastruktur & Geschwisterwerkzeuge
 
 | Projekt | Beschreibung |
-|---------|-------------|
+|---|---|
 | [BACH](https://github.com/ellmos-ai/bach) | Local-first textbasiertes OS für LLM-Agenten — 113+ Handler, 550+ Tools, SQLite-Memory |
 | [open-compute](https://github.com/ellmos-ai/open-compute) | Modell-agnostischer Computer-Use-Kern hinter Open Compute MCP |
 | [clutch](https://github.com/ellmos-ai/clutch) | Provider-neutrale LLM-Orchestrierung mit Auto-Routing und Budget-Tracking |
@@ -206,7 +284,10 @@ Dieser MCP-Server ist Teil des **[ellmos-ai](https://github.com/ellmos-ai)**-Ök
 | [MarbleRun](https://github.com/ellmos-ai/MarbleRun) | Autonomes Agent-Chain-Framework für Claude Code |
 | [gardener](https://github.com/ellmos-ai/gardener) | Minimalistischer datenbankgetriebener LLM-OS-Prototyp (4 Funktionen, 1 Tabelle) |
 | [ellmos-tests](https://github.com/ellmos-ai/ellmos-tests) | Testframework für LLM-Betriebssysteme (7 Dimensionen) |
+| [sqlite-transit-sync](https://github.com/ellmos-ai/sqlite-transit-sync) | Sicherer, redigierter, HMAC-verifizierter SQLite-Snapshot-Synchronisierer |
+| [policy-registry](https://github.com/ellmos-ai/policy-registry) | Hierarchische Richtlinien- und Delegations-Autoritäts-Engine |
 
-### Desktop-Software
+### Open Bricks Dachorganisation
 
-Unsere Partnerorganisation **[open-bricks](https://github.com/open-bricks)** bündelt KI-native Desktop-Anwendungen: eine moderne Open-Source-Softwaresuite für Datei-, Dokumenten- und Entwicklerwerkzeuge.
+Unsere Partnerorganisation **[open-bricks](https://github.com/open-bricks)** bündelt KI-native Desktop-Anwendungen: eine moderne Open-Source-Softwaresuite für Datei-, Dokumenten- und Entwicklerwerkzeuge. Geschwistersuiten umfassen [DevCenter](https://github.com/dev-bricks/DevCenter), [CodeBox](https://github.com/dev-bricks/CodeBox), [MethodenAnalyser](https://github.com/dev-bricks/MethodenAnalyser), [CleanMarkdown](https://github.com/doc-bricks/CleanMarkdown) und [PDFtoPDFocr](https://github.com/doc-bricks/PDFtoPDFocr).
+

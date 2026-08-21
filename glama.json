@@ -2,7 +2,7 @@
   "$schema": "https://glama.ai/mcp/schemas/server.json",
   "name": "open-compute-mcp",
   "version": "0.1.0-alpha.16",
-  "description": "Model-agnostic computer-use MCP server: screenshot capture, safety-gated actions, and Windows UIA targeting; npm launcher spawns the Python open-compute server.",
+  "description": "Model-agnostic computer-use MCP server: screenshot capture, safety-gated actions, Windows UIA targeting, signal overlay & voice/chat tools; npm launcher spawns Python open-compute server.",
   "maintainers": [
     "lukisch"
   ],
@@ -18,16 +18,21 @@
     "uia",
     "windows",
     "safety",
+    "signal-overlay",
+    "push-to-talk",
     "mcp-server"
   ],
   "tools": {
-    "count": 10
+    "count": 16
   },
   "features": [
     "Screen capture with WGC fallback",
     "Safety-gated actions with operator ceiling",
-    "Windows UIA semantic targeting",
+    "Windows UIA semantic element targeting",
     "Hold primitives with auto-release",
+    "Visual screen-usage signal overlay with abort hotkey",
+    "Push-to-talk multimodal voice and chat notes",
     "i18n in 6 languages"
   ]
 }
+
