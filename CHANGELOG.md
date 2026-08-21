@@ -5,6 +5,19 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.0-alpha.18] - 2026-08-21
+
+### Pre-action Countdown Contract
+
+- Documented the open-compute v0.9 pre-action phase: configurable static grace
+  color, once-per-second `Start in N Sekunden` text, and a single transition to
+  the selected mode color at zero.
+- Documented `signal_show` / `signal_status` phase, remaining-seconds, current
+  color, and accessibility-label fields, including the `0`-second path.
+- Added `OC_SIGNAL_GRACE_SECONDS` and `OC_SIGNAL_CONFIG` to both environment
+  tables and updated both sequence diagrams and `llms.txt` without publishing
+  the npm package.
+
 ## [0.1.0-alpha.17] - 2026-08-21
 
 ### Safe Interaction Contract Parity

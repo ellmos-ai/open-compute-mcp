@@ -98,7 +98,7 @@ graph TD
 | `watch_dir` | Watch directories for file-system changes. |
 | `push_status` | Feed-manager status (read-only). |
 | `rec_replay` | Replay a `.clirec` macro (needs the optional `clirec` package). |
-| `signal_show` | Show a mode-colored overlay with owner/session lease and bounded TTL. |
+| `signal_show` | Show a configurable pre-action color/text countdown, then the mode-colored overlay, with owner/session lease and bounded TTL. |
 | `signal_hide` | Hide the signal overlay. |
 | `signal_status` | Owner/session/mode/visible/expires_at + pending abort message. |
 | `signal_abort` | Ask the human for a short abort reason; the message is returned for the model. |
@@ -126,6 +126,14 @@ before input. `type` returns requested/sent character
 counts and complete/partial status without echoing the text. Signals have a
 hard TTL and are removed at action turn end unless `keep_signal=true`.
 
+An explicit `signal_show` starts the engine's configured pre-action grace
+period. The static grace color is distinct from the mode color and the visible
+text counts down `Start in N Sekunden` once per second. At zero, both phase and
+color switch once to active. `signal_status` exposes the same phase, remaining
+seconds, current color, and screenreader label. Duration, grace color, and text
+template come from `OC_SIGNAL_GRACE_SECONDS` / `OC_SIGNAL_CONFIG`; `0` skips the
+countdown. The design uses no flashing, pulsing, or motion animation.
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -146,8 +154,9 @@ sequenceDiagram
     Note over Reasoner,Operator: Phase 2: Signal Overlay Activation
     Reasoner->>Launcher: signal_show(mode="control")
     Launcher->>Engine: Invoke Signal Overlay
-    Engine->>UI: Render Glowing Border & Colored Cursor Ring
-    Operator-->>UI: Visual Awareness (AI Driving Desktop)
+    Engine->>UI: Render static grace color + Start in N seconds
+    UI-->>Operator: Text countdown + accessible window name
+    Engine->>UI: At zero, switch once to the mode color
 
     Note over Reasoner,Operator: Phase 3: Action Request & Safety Gate
     Reasoner->>Launcher: do(one action, window token, observation_id) / click_name(target)
@@ -215,6 +224,8 @@ sequenceDiagram
 | `OC_CAPTURE_GRAYSCALE` | `1` drops colour. Shrinks the payload, **not** the token count — that follows pixel count alone. |
 | `OC_SIGNAL_TTL` | Hard overlay lease limit in seconds (default 120). |
 | `OC_SIGNAL_IDLE_HIDE` | Additional idle timeout for explicitly kept auto-signals (default 60). |
+| `OC_SIGNAL_GRACE_SECONDS` | Pre-action countdown duration (default 20; `0` starts immediately). |
+| `OC_SIGNAL_CONFIG` | Signal JSON containing `pre_action_grace_color`, `pre_action_grace_label`, and per-mode colors. |
 
 ### Capture size — why this launcher halves it by default
 

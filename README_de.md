@@ -95,7 +95,7 @@ graph TD
 | `watch_dir` | Verzeichnisse auf Dateisystem-Änderungen überwachen. |
 | `push_status` | Feed-Manager-Status (nur Lesen). |
 | `rec_replay` | Ein `.clirec`-Makro abspielen (benötigt das optionale `clirec`-Paket). |
-| `signal_show` | Modusfarbiges Overlay mit Owner-/Session-Lease und begrenzter TTL anzeigen. |
+| `signal_show` | Konfigurierbaren Vorlauf mit eigener Farbe und Text-Countdown, danach das modusfarbige Overlay mit Owner-/Session-Lease und begrenzter TTL anzeigen. |
 | `signal_hide` | Signal-Overlay ausblenden. |
 | `signal_status` | Owner/Session/Modus/Sichtbarkeit/Ablaufzeit plus ausstehende Abort-Nachricht. |
 | `signal_abort` | Kurzen Abbruchgrund beim Menschen erfragen; die Nachricht geht ans Modell. |
@@ -126,6 +126,15 @@ Zeichenzahlen und vollständig/teilweise, ohne den Text zurückzugeben. Signale
 haben eine harte TTL und verschwinden am Aktions-Turn-Ende, außer
 `keep_signal=true` wurde ausdrücklich gesetzt.
 
+Ein ausdrückliches `signal_show` startet die konfigurierte Vorlaufzeit der
+Engine. Die statische Vorlauffarbe unterscheidet sich von der Modusfarbe und der
+sichtbare Text zählt sekündlich `Start in N Sekunden` herunter. Bei null wechseln
+Phase und Farbe genau einmal auf aktiv. `signal_status` liefert dieselbe Phase,
+Restsekunden, aktuelle Farbe und Screenreader-Beschriftung. Dauer, Vorlauffarbe
+und Textvorlage stammen aus `OC_SIGNAL_GRACE_SECONDS` beziehungsweise
+`OC_SIGNAL_CONFIG`; `0` überspringt den Countdown. Das Design nutzt kein
+Blinken, Pulsieren oder Bewegungsanimationen.
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -146,8 +155,9 @@ sequenceDiagram
     Note over Reasoner,Operator: Phase 2: Signal-Overlay aktivieren
     Reasoner->>Launcher: signal_show(mode="control")
     Launcher->>Engine: Signal-Overlay aufrufen
-    Engine->>UI: Leuchtenden Bildschirmrahmen & Cursor-Ring einblenden
-    Operator-->>UI: Visuelle Wahrnehmung (KI steuert Desktop)
+    Engine->>UI: Statische Vorlauffarbe + Start in N Sekunden anzeigen
+    UI-->>Operator: Text-Countdown + zugänglicher Fenstername
+    Engine->>UI: Bei null einmalig zur Modusfarbe wechseln
 
     Note over Reasoner,Operator: Phase 3: Aktionsanforderung & Sicherheits-Gate
     Reasoner->>Launcher: do(eine Aktion, Fenster-Token, observation_id) / click_name(target)
@@ -215,6 +225,8 @@ sequenceDiagram
 | `OC_CAPTURE_GRAYSCALE` | `1` lässt die Farbe weg. Verkleinert die Datenmenge, **nicht** die Token-Zahl — die hängt allein an der Pixelzahl. |
 | `OC_SIGNAL_TTL` | Harte Overlay-Lease in Sekunden (Standard 120). |
 | `OC_SIGNAL_IDLE_HIDE` | Zusätzlicher Idle-Timeout für ausdrücklich beibehaltene Auto-Signale (Standard 60). |
+| `OC_SIGNAL_GRACE_SECONDS` | Dauer des Vorlauf-Countdowns (Standard 20; `0` startet sofort). |
+| `OC_SIGNAL_CONFIG` | Signal-JSON mit `pre_action_grace_color`, `pre_action_grace_label` und Modusfarben. |
 
 ### Aufnahmegröße — warum dieser Launcher standardmäßig halbiert
 
