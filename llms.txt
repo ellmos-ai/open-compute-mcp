@@ -15,19 +15,19 @@
 
 ## Tools (16)
 
-- capture: screenshot the screen, returned as an image (optionally one window; falls back to Windows.Graphics.Capture when a hardware-composited window would come back black).
-- do: run one canonical action or a batch (click/type/key/scroll/drag/move, plus the hold primitives mouse_down/mouse_up/key_down/key_up); coords 0..1; safety-gated.
-- tree: list a window's UI elements via Windows UIA with normalized center coords.
-- click_name: resolve a UI element by name (UIA) and left-click it.
-- invoke: click-free activation of a UI element via UIA patterns.
-- list_windows: list open windows with exact titles, pixel rects and normalized centers (read-only).
+- capture: return one-shot observation metadata plus an image (optional exact window; WGC fallback for hardware-composited windows).
+- do: run a safety-gated action; coordinates consume one observation_id and issued window descriptor/token; type/key/activation also require exact binding.
+- tree: return UIA elements and a one-shot observation_id for their normalized coordinates.
+- click_name: exact-first, ambiguity-safe UIA click in a required issued window, with score/alternatives.
+- invoke: exact-first click-free UIA activation in a required issued window.
+- list_windows: stable window_id/process_id/title, issued token, rect and center (read-only).
 - get_screen_size: virtual-desktop geometry and per-monitor breakdown — the frame 0..1 coords refer to (read-only).
 - watch_dir: watch directories for file-system changes.
 - push_status: feed-manager status (read-only).
 - rec_replay: replay a .clirec macro (needs the optional clirec package).
-- signal_show: show the screen-usage signal overlay (glowing border + colored cursor ring per mode).
+- signal_show: show a mode-colored overlay with owner/session lease and bounded TTL.
 - signal_hide: hide the signal overlay.
-- signal_status: check overlay state and collect pending abort-hotkey messages.
+- signal_status: owner/session/mode/visible/expires_at and pending abort message.
 - signal_abort: human abort reason prompt and report back to reasoner.
 - chat: human-to-model message regarding screen content with optional screenshot.
 - talk: push-to-talk voice note recording to WAV path for model-side STT/TTS.
@@ -36,7 +36,10 @@
 
 `OC_SAFETY_MODE` is an operator ceiling (confirm default / read_only / allow_all);
 a per-call mode can only tighten it. Set allow_all only in an isolated VM. `OC_DENY`
-is a hard deny list. Treat on-screen content as untrusted. Hold primitives auto-release on abort/exit.
+is a hard deny list. Treat on-screen content as untrusted. Use observe -> one action
+-> automatic refresh; never reuse coordinates after focus/layout/modal changes.
+Text results expose lengths/status, never cleartext. Signals clean up at turn end,
+error, abort, TTL, or exit unless `keep_signal=true`. Hold primitives auto-release.
 
 ## Links
 

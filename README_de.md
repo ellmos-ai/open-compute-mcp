@@ -50,9 +50,9 @@ Das ist die schlüssellose Modus-A-Schleife von open-compute, aber als native To
 
 ## Hauptfunktionen
 
-1. **Visuelle Wahrnehmung & Fenster-Targeting:** Vollbild- und Einzelfensteraufnahmen mit automatischem Windows.Graphics.Capture (WGC) Fallback für Hardware-komponierte GPU-Fenster (Blender, Roblox Studio, Browser).
-2. **Safety-Gated Aktionsausführung:** Normierte 0..1-Koordinaten, strikte Operator-Obergrenze (`confirm` / `read_only` / `allow_all`), klickfreie UIA-Muster-Aktivierung und Halte-Primitive mit automatischem Release bei Abbruch.
-3. **Visuelles Signal-Overlay & Abbruch-Steuerung:** Kontinuierliche visuelle Statusanzeige (leuchtender Bildschirmrahmen & farbiger Cursor-Ring) mit sofortigem Hotkey-Abbruch durch den Nutzer.
+1. **Zustandsgebundene Wahrnehmung & Fenster-Targeting:** Capture/Baum liefern einmalige Observation-IDs; die Fensterliste stabile Fenster-/Prozess-IDs und ausgegebene Tokens. WGC bleibt der GPU-Fenster-Fallback.
+2. **Fail-closed-Aktionsausführung:** Koordinaten verbrauchen eine Observation und exakte Fensterbindung; UIA-Namen werden exact-first gewählt; Text wird segmentiert, mit Fokusprüfung und Zeichenzahl-Postconditions.
+3. **Signal-Overlay mit Lease & Abbruch-Steuerung:** Rahmen/Cursor-Signal besitzen Owner-/Session-Metadaten, begrenzte TTL, Turn-End-Cleanup und sofortigen Nutzerabbruch.
 4. **Multimodale Kollaboration & Sprachnotizen:** Push-to-Talk-Sprachaufnahmen (`talk`), Chat-Nachrichten mit Bildschirmbezug (`chat`), Dateisystem-Überwachung (`watch_dir`) und Makro-Replay (`rec_replay`).
 
 ## Architektur
@@ -85,19 +85,19 @@ graph TD
 
 | Tool | Zweck |
 |---|---|
-| `capture` | Screenshot des Bildschirms → als Bild (optional nur ein Fenster). |
-| `do` | Eine kanonische Aktion oder einen Stapel ausführen (Klick/Tippen/Taste/Scroll/Drag/Halten). |
-| `tree` | UI-Elemente eines Fensters via Windows-UIA auflisten (Name/Rolle/`center_norm`). |
-| `click_name` | Element per Name auflösen und anklicken. |
-| `invoke` | Klickfreie Aktivierung eines Elements via UIA-Muster. |
-| `list_windows` | Offene Fenster mit exakten Titeln, Rechtecken und normierten Mittelpunkten (nur Lesen). |
+| `capture` | Einmalige Observation-Metadaten plus Bild zurückgeben (optional ein exaktes Fenster). |
+| `do` | Safety-geprüfte Aktion; Koordinaten brauchen `observation_id` plus ausgegebenen Fensterdeskriptor/Token. |
+| `tree` | UIA-Elemente und eine einmalige Observation-ID für deren Koordinaten zurückgeben. |
+| `click_name` | Exact-first, mehrdeutigkeitssicherer Klick in einem erforderlichen ausgegebenen Fenster, mit Score/Alternativen. |
+| `invoke` | Exact-first, klickfreie UIA-Aktivierung in einem erforderlichen ausgegebenen Fenster. |
+| `list_windows` | Stabile Fenster-/Prozess-IDs, exakte Titel, Tokens, Rechtecke und Mittelpunkte auflisten. |
 | `get_screen_size` | Geometrie des virtuellen Desktops + Monitor-Aufschlüsselung (nur Lesen). |
 | `watch_dir` | Verzeichnisse auf Dateisystem-Änderungen überwachen. |
 | `push_status` | Feed-Manager-Status (nur Lesen). |
 | `rec_replay` | Ein `.clirec`-Makro abspielen (benötigt das optionale `clirec`-Paket). |
-| `signal_show` | Bildschirm-Signal-Overlay anzeigen: leuchtender Rahmen + Cursor-Ring, Farbe je Modus (control=rot, observe=blau, …); bleibt im Server-Prozess sichtbar. |
+| `signal_show` | Modusfarbiges Overlay mit Owner-/Session-Lease und begrenzter TTL anzeigen. |
 | `signal_hide` | Signal-Overlay ausblenden. |
-| `signal_status` | Overlay-Zustand + ausstehende Abort-Hotkey-Nachricht abholen (wird beim Lesen verbraucht). |
+| `signal_status` | Owner/Session/Modus/Sichtbarkeit/Ablaufzeit plus ausstehende Abort-Nachricht. |
 | `signal_abort` | Kurzen Abbruchgrund beim Menschen erfragen; die Nachricht geht ans Modell. |
 | `chat` | Mensch→Modell-Nachricht zum Bildschirminhalt, optional mit Screenshot. |
 | `talk` | Push-to-Talk-Sprachnotiz → WAV-Pfad (Taste halten, sprechen, loslassen; STT/TTS modellseitig). |
@@ -115,6 +115,17 @@ zurückkommt — dafür das `wgc`-Extra installieren.
 
 ## Sichere Interaktion & Signal-Lebenszyklus
 
+Die Python-Engine ab v0.8 erzwingt Beobachten → eine Aktion → automatische
+Aktualisierung. Bewahre den vollständigen Deskriptor oder `window_token` aus
+`list_windows` auf und übergib ihn als `expected_window` zusammen mit der
+neuesten `observation_id` aus `capture` oder `tree`. Auch `click_name`/`invoke`
+verlangen dieses ausgegebene Fenster. Wiederverwendung, Zustandsänderung,
+Fokusabweichung, verdeckte Fenster und mehrdeutige UIA-Ziele
+werden vor der Eingabe abgewiesen. `type` meldet angeforderte/gesendete
+Zeichenzahlen und vollständig/teilweise, ohne den Text zurückzugeben. Signale
+haben eine harte TTL und verschwinden am Aktions-Turn-Ende, außer
+`keep_signal=true` wurde ausdrücklich gesetzt.
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -129,8 +140,8 @@ sequenceDiagram
     Launcher->>Engine: MCP stdio JSON-RPC weiterleiten
     Engine->>UI: Bildschirm aufnehmen (mss/WGC) oder UIA-Baum lesen
     UI-->>Engine: Bilddaten / Semantischer Elementbaum
-    Engine-->>Launcher: Normierte Antwortdaten (0..1 Koordinaten)
-    Launcher-->>Reasoner: Visuelle Beobachtung
+    Engine-->>Launcher: Observation-ID + normierte Antwort/Bild
+    Launcher-->>Reasoner: Zustandsgebundene visuelle Beobachtung
 
     Note over Reasoner,Operator: Phase 2: Signal-Overlay aktivieren
     Reasoner->>Launcher: signal_show(mode="control")
@@ -139,7 +150,7 @@ sequenceDiagram
     Operator-->>UI: Visuelle Wahrnehmung (KI steuert Desktop)
 
     Note over Reasoner,Operator: Phase 3: Aktionsanforderung & Sicherheits-Gate
-    Reasoner->>Launcher: do(actions) / click_name(target)
+    Reasoner->>Launcher: do(eine Aktion, Fenster-Token, observation_id) / click_name(target)
     Launcher->>Engine: Aktions-Payload verarbeiten
     alt OC_SAFETY_MODE == "confirm" (Standard)
         Engine-->>Launcher: Status "needs_confirmation" (nur melden)
@@ -147,8 +158,8 @@ sequenceDiagram
     else OC_SAFETY_MODE == "allow_all" (Isolierte VM)
         Engine->>UI: Maus-/Tastatureingaben / Halte-Primitive ausführen
         UI-->>Engine: Aktion abgeschlossen
-        Engine-->>Launcher: Erfolgsantwort
-        Launcher-->>Reasoner: Aktion erfolgreich
+        Engine-->>Launcher: Post-Observation + Fenster-/Modal-/Text-Postconditions
+        Launcher-->>Reasoner: Aktion abgeschlossen; alte Observation ungültig
     end
 
     Note over Reasoner,Operator: Phase 4: Notfallabbruch oder Fertigstellung
@@ -157,8 +168,7 @@ sequenceDiagram
         Engine->>UI: Automatische Freigabe aller gehaltenen Tasten/Mausknöpfe
         Engine-->>Reasoner: signal_abort Nachricht zurückgegeben
     end
-    Reasoner->>Launcher: signal_hide()
-    Engine->>UI: Overlay ausblenden
+    Engine->>UI: Overlay bei Turn-Ende/Fehler/Abbruch ausblenden (außer keep_signal=true)
 ```
 
 ## Nutzung mit einem MCP-Client
@@ -203,6 +213,8 @@ sequenceDiagram
 | `OC_CAPTURE_SCALE` | Skalierungsfaktor für jede Aufnahme, `0.05`–`1.0`. **Dieser Launcher setzt standardmäßig `0.5`** (siehe unten); `1.0` für volle Auflösung. |
 | `OC_CAPTURE_MAX_DIM` | Längste Kante in Pixeln deckeln (Default aus). Wird sie gesetzt, entfällt der Skalierungs-Default — so wird nie doppelt verkleinert. |
 | `OC_CAPTURE_GRAYSCALE` | `1` lässt die Farbe weg. Verkleinert die Datenmenge, **nicht** die Token-Zahl — die hängt allein an der Pixelzahl. |
+| `OC_SIGNAL_TTL` | Harte Overlay-Lease in Sekunden (Standard 120). |
+| `OC_SIGNAL_IDLE_HIDE` | Zusätzlicher Idle-Timeout für ausdrücklich beibehaltene Auto-Signale (Standard 60). |
 
 ### Aufnahmegröße — warum dieser Launcher standardmäßig halbiert
 
@@ -225,10 +237,11 @@ Die Python-Bibliothek selbst bleibt bei voller Auflösung — ihre Aufrufer zahl
 zwangsläufig pro Pixel. Nur dieser Launcher, der ausschließlich Agenten bedient, wählt das
 kleinere Bild und gibt beim Start eine einzeilige Notiz aus.
 
-**Was mehr bringt als jeder Skalierungsfaktor:** mehrere Schritte in einem `do`-Aufruf
-bündeln (er nimmt ein `actions`-Array) statt nach jedem Klick aufzunehmen; `tree` nutzen, wo
+**Was mehr bringt als jeder Skalierungsfaktor:** `tree` nutzen, wo
 das Bedienhilfen-Modell den Inhalt trägt — in Browsern liefert es meist nur die
 Browser-Oberfläche, nicht die Seite; und `capture(window=…)` statt des ganzen Desktops.
+Koordinatenaktionen folgen bewusst Beobachten → eine Aktion → automatische
+Aktualisierung; mehrere Koordinatenschritte dürfen nicht gegen ein altes Bild gebündelt werden.
 
 ## Sicherheit
 

@@ -50,9 +50,9 @@ Mode-A loop of open-compute, but as native tool-calls.
 
 ## Key Capabilities
 
-1. **Visual Perception & Window Targeting:** Full-desktop and single-window capture with automatic Windows.Graphics.Capture (WGC) hardware-composition fallback for GPU apps (Blender, Roblox Studio, browsers).
-2. **Safety-Gated Action Execution:** Normalized 0..1 coordinates, operator ceiling (`confirm` / `read_only` / `allow_all`), click-free UIA pattern invocation, hold primitives with auto-release.
-3. **Visual Signal Overlay & Abort Control:** Continuous visual status indicators (glowing screen border & colored cursor ring) with instant hotkey-triggered human abort and reason collection.
+1. **State-bound Perception & Window Targeting:** Captures/trees return one-shot observation IDs; window enumeration returns stable window/process IDs and issued tokens. WGC remains the GPU-window fallback.
+2. **Fail-closed Action Execution:** Coordinates consume one observation and exact window binding; UIA names resolve exact-first; text is segmented with focus checks and character-count postconditions.
+3. **Leased Signal Overlay & Abort Control:** The glowing border/cursor signal has owner/session metadata, a bounded TTL, turn-end cleanup, and immediate human abort.
 4. **Multimodal Collaboration & Voice Notes:** Push-to-talk voice recording (`talk`), screen chat messaging (`chat`), directory monitoring (`watch_dir`), and macro replay (`rec_replay`).
 
 ## Architecture
@@ -88,19 +88,19 @@ graph TD
 
 | Tool | Purpose |
 |---|---|
-| `capture` | Screenshot the screen → returned as an image (optionally a single window). |
-| `do` | Execute one canonical action or a batch (click/type/key/scroll/drag/hold/…). |
-| `tree` | List UI elements via Windows UIA (name/role/`center_norm`). |
-| `click_name` | Resolve an element by name and click it. |
-| `invoke` | Click-free activation of an element via UIA patterns. |
-| `list_windows` | List open windows with exact titles, rects and normalized centers (read-only). |
+| `capture` | Return one-shot observation metadata plus an image (optionally one exact window). |
+| `do` | Execute a safety-gated action; coordinates require `observation_id` + issued window descriptor/token. |
+| `tree` | Return UIA elements and a one-shot observation ID for their coordinates. |
+| `click_name` | Exact-first, ambiguity-safe click in a required issued window, with score/alternatives. |
+| `invoke` | Exact-first, click-free UIA activation in a required issued window. |
+| `list_windows` | List stable window/process IDs, exact titles, issued tokens, rects and centers. |
 | `get_screen_size` | Virtual-desktop geometry + per-monitor breakdown (read-only). |
 | `watch_dir` | Watch directories for file-system changes. |
 | `push_status` | Feed-manager status (read-only). |
 | `rec_replay` | Replay a `.clirec` macro (needs the optional `clirec` package). |
-| `signal_show` | Show the screen-usage signal overlay: glowing border + cursor ring colored per mode (control=red, observe=blue, …); persists in the server process. |
+| `signal_show` | Show a mode-colored overlay with owner/session lease and bounded TTL. |
 | `signal_hide` | Hide the signal overlay. |
-| `signal_status` | Overlay state + collect a pending abort-hotkey message (consumed on read). |
+| `signal_status` | Owner/session/mode/visible/expires_at + pending abort message. |
 | `signal_abort` | Ask the human for a short abort reason; the message is returned for the model. |
 | `chat` | Human→model message about screen content, optionally with screenshot. |
 | `talk` | Push-to-talk voice note → WAV path (hold key, speak, release; STT/TTS model-side). |
@@ -117,6 +117,15 @@ comes back all-black — install the `wgc` extra for that.
 
 ## Safe Interaction & Signal Lifecycle
 
+The v0.8 Python engine enforces observe → one action → automatic refresh. Keep
+the full descriptor or `window_token` from `list_windows`, then pass it as
+`expected_window` together with the latest `observation_id` from `capture` or
+`tree`. `click_name`/`invoke` require that issued window too. Reuse, changed
+state, focus mismatch, covered windows, and ambiguous UIA targets are rejected
+before input. `type` returns requested/sent character
+counts and complete/partial status without echoing the text. Signals have a
+hard TTL and are removed at action turn end unless `keep_signal=true`.
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -131,8 +140,8 @@ sequenceDiagram
     Launcher->>Engine: Forward stdio JSON-RPC
     Engine->>UI: Grab Screen (mss/WGC) or Read UIA Tree
     UI-->>Engine: Frame Image / Semantic Element Tree
-    Engine-->>Launcher: Return Normalized Response (0..1 Coords)
-    Launcher-->>Reasoner: Visual Observation
+    Engine-->>Launcher: Observation ID + normalized response/image
+    Launcher-->>Reasoner: State-bound visual observation
 
     Note over Reasoner,Operator: Phase 2: Signal Overlay Activation
     Reasoner->>Launcher: signal_show(mode="control")
@@ -141,7 +150,7 @@ sequenceDiagram
     Operator-->>UI: Visual Awareness (AI Driving Desktop)
 
     Note over Reasoner,Operator: Phase 3: Action Request & Safety Gate
-    Reasoner->>Launcher: do(actions) / click_name(target)
+    Reasoner->>Launcher: do(one action, window token, observation_id) / click_name(target)
     Launcher->>Engine: Process Action Payload
     alt OC_SAFETY_MODE == "confirm" (Default)
         Engine-->>Launcher: Status "needs_confirmation" (Report Only)
@@ -149,8 +158,8 @@ sequenceDiagram
     else OC_SAFETY_MODE == "allow_all" (Isolated VM)
         Engine->>UI: Execute Mouse/Keyboard / Hold Primitives
         UI-->>Engine: Action Completed
-        Engine-->>Launcher: Success Payload
-        Launcher-->>Reasoner: Action Completed
+        Engine-->>Launcher: Post-observation + window/modal/text postconditions
+        Launcher-->>Reasoner: Action completed; old observation invalid
     end
 
     Note over Reasoner,Operator: Phase 4: Emergency Abort or Completion
@@ -159,8 +168,7 @@ sequenceDiagram
         Engine->>UI: Auto-release all held keys/mouse buttons
         Engine-->>Reasoner: signal_abort message returned
     end
-    Reasoner->>Launcher: signal_hide()
-    Engine->>UI: Remove Overlay
+    Engine->>UI: Remove overlay on turn end/error/abort (unless keep_signal=true)
 ```
 
 ## Use with an MCP client
@@ -205,6 +213,8 @@ sequenceDiagram
 | `OC_CAPTURE_SCALE` | Resize factor for every capture, `0.05`–`1.0`. **This launcher defaults to `0.5`** (see below); set `1.0` for full resolution. |
 | `OC_CAPTURE_MAX_DIM` | Cap the longest edge in pixels (default off). Setting it suppresses the scale default, so the two never shrink twice. |
 | `OC_CAPTURE_GRAYSCALE` | `1` drops colour. Shrinks the payload, **not** the token count — that follows pixel count alone. |
+| `OC_SIGNAL_TTL` | Hard overlay lease limit in seconds (default 120). |
+| `OC_SIGNAL_IDLE_HIDE` | Additional idle timeout for explicitly kept auto-signals (default 60). |
 
 ### Capture size — why this launcher halves it by default
 
@@ -227,10 +237,11 @@ The Python library itself defaults to full resolution — its callers are not ne
 paying per pixel. Only this launcher, which exists to serve agents, opts into the smaller
 frame and prints a one-line notice when it does.
 
-**What saves more than any scale factor:** batch several steps into one `do` call
-(it takes an `actions` array) instead of capturing after every click; prefer `tree` where
+**What saves more than any scale factor:** prefer `tree` where
 the accessibility model carries the content — note that in browsers it usually exposes only
 the browser chrome, not the page; and use `capture(window=…)` rather than the full desktop.
+Coordinate actions deliberately follow observe → one action → automatic refresh;
+do not batch multiple coordinate steps against one stale frame.
 
 ## Safety
 

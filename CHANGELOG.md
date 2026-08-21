@@ -5,6 +5,20 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.0-alpha.17] - 2026-08-21
+
+### Safe Interaction Contract Parity
+
+- Documented open-compute v0.8 stable window/process IDs and issued window
+  tokens, one-shot capture/tree observation IDs, observe-one-action-refresh,
+  and automatic post-action observations.
+- Documented exact-first UIA targeting with ambiguity/score reporting and
+  verified segmented text input with focus and character-count postconditions.
+- Documented owner/session signal leases, bounded TTL, automatic turn-end/error/
+  abort cleanup, and the explicit `keep_signal=true` extension.
+- Updated EN/DE tool tables, sequence diagrams, environment variables, and
+  `llms.txt`. No npm publication was performed by this change.
+
 ## [0.1.0-alpha.16] - 2026-08-21
 
 ### Discoverability, UX Design & Security Parity
