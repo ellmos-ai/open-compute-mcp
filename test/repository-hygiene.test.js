@@ -13,15 +13,34 @@ function readRoot(file) {
 }
 
 function isIgnored(samplePath) {
-  try {
-    execFileSync("git", ["check-ignore", "--quiet", "--no-index", samplePath], {
-      cwd: root,
-      stdio: "ignore",
-    });
-    return true;
-  } catch {
+  if (fs.existsSync(path.join(root, ".git"))) {
+    try {
+      execFileSync("git", ["check-ignore", "--quiet", "--no-index", samplePath], {
+        cwd: root,
+        stdio: "ignore",
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  // Fallback when running outside a git clone (e.g. file-backed sync mirror)
+  const gitignore = readRoot(".gitignore");
+  if (samplePath === ".env.example" || samplePath === ".env.sample" || samplePath === "THIRD_PARTY_LICENSES.md") {
     return false;
   }
+  for (const rawLine of gitignore.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith("#") || line.startsWith("!")) continue;
+    if (line === samplePath) return true;
+    if (line.startsWith("*") && line.endsWith("*") && samplePath.includes(line.slice(1, -1))) return true;
+    if (line.startsWith("*") && samplePath.endsWith(line.slice(1))) return true;
+    if (line.endsWith("*") && samplePath.startsWith(line.slice(0, -1))) return true;
+    if (line.startsWith(".") && samplePath.startsWith(line)) return true;
+    if (line.endsWith("/") && (samplePath.startsWith(line) || samplePath + "/" === line)) return true;
+  }
+  return false;
 }
 
 test("gitignore protects local credential and registry-token artifacts", () => {
