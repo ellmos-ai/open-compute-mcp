@@ -12,6 +12,15 @@ function readRoot(file) {
   return fs.readFileSync(path.join(root, file), "utf8");
 }
 
+function globToRegex(pattern) {
+  const clean = pattern.endsWith("/") ? pattern.slice(0, -1) : pattern;
+  const escaped = clean
+    .replace(/[.+^${}()|[\]\\]/g, "\\$&")
+    .replace(/\*/g, ".*")
+    .replace(/\?/g, ".");
+  return new RegExp("^" + escaped + "$");
+}
+
 function isIgnored(samplePath) {
   if (fs.existsSync(path.join(root, ".git"))) {
     try {
@@ -30,15 +39,14 @@ function isIgnored(samplePath) {
   if (samplePath === ".env.example" || samplePath === ".env.sample" || samplePath === "THIRD_PARTY_LICENSES.md") {
     return false;
   }
+  const basename = path.basename(samplePath);
   for (const rawLine of gitignore.split(/\r?\n/)) {
     const line = rawLine.trim();
     if (!line || line.startsWith("#") || line.startsWith("!")) continue;
-    if (line === samplePath) return true;
-    if (line.startsWith("*") && line.endsWith("*") && samplePath.includes(line.slice(1, -1))) return true;
-    if (line.startsWith("*") && samplePath.endsWith(line.slice(1))) return true;
-    if (line.endsWith("*") && samplePath.startsWith(line.slice(0, -1))) return true;
-    if (line.startsWith(".") && samplePath.startsWith(line)) return true;
-    if (line.endsWith("/") && (samplePath.startsWith(line) || samplePath + "/" === line)) return true;
+    const regex = globToRegex(line);
+    if (regex.test(samplePath) || regex.test(basename)) {
+      return true;
+    }
   }
   return false;
 }
