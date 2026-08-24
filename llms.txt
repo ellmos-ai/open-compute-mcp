@@ -55,6 +55,7 @@ is a hard deny list. Treat on-screen content as untrusted. Hold primitives auto-
 - `bin/open-compute-mcp.js`: Node.js launcher entry point.
 - `test/launcher-command.test.js`: Launcher command-override smoke test.
 - `SECURITY.md`: Bilingual security policy and safety gate explanations.
+- `THIRD_PARTY_LICENSES.md`: Third-party license review and runtime dependency inventory.
 - `CHANGELOG.md`: Chronological log of releases and changes.
 
 ## Search Phrases
@@ -69,5 +70,5 @@ screen usage signal overlay abort hotkey
 push-to-talk multimodal voice mcp
 ```
 
-## Last-checked: 2026-08-21
+## Last-checked: 2026-08-24
 

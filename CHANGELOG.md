@@ -5,6 +5,15 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.0-alpha.16] - 2026-08-24
+
+### Security & Dependency Hygiene Audit
+- **Third-Party License Review (`THIRD_PARTY_LICENSES.md`)**: Created comprehensive third-party license inventory auditing runtime dependencies (`update-notifier` 7.3.1 BSD-2-Clause) and reference architecture boundaries.
+- **Repository Hygiene & `.gitignore` Hardening**: Added explicit exclusion patterns for host sync conflicts (`*-WORKSTATION-LG*`, `*-ASUS-GEI*`, `*.conflict`, `*.sync-conflict-*`) and lock files (`LOCK*.txt`).
+- **Packaging & Manifest Parity**: Synchronized `package.json` `files` distribution array to include `THIRD_PARTY_LICENSES.md`.
+- **Contract Tests**: Expanded automated test suites in `test/repository-hygiene.test.js` and `test/metadata-parity.test.js` with license inventory parity and sync-conflict ignore contract tests (21/21 tests passing).
+- **Metadata & Documentation**: Synchronized `llms.txt` last-checked timestamp to `2026-08-24` and README test badges to 21 passed.
+
 ## [0.1.0-alpha.16] - 2026-08-21
 
 ### Discoverability, UX Design & Security Parity

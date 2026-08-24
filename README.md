@@ -13,7 +13,7 @@ model-agnostic **computer-use** tools exposed over the Model Context Protocol (M
 [![npm downloads](https://img.shields.io/npm/dt/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
-[![Node.js CI](https://img.shields.io/badge/tests-19%20passed-brightgreen.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions)
+[![Node.js CI](https://img.shields.io/badge/tests-21%20passed-brightgreen.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions)
 [![MCP Enabled](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/open-compute-mcp)
 [![Privacy: Zero-Egress](https://img.shields.io/badge/privacy-100%25%20Offline%20%7C%20Zero--Egress-blue.svg)](SECURITY.md)
@@ -22,7 +22,7 @@ model-agnostic **computer-use** tools exposed over the Model Context Protocol (M
 [![Umbrella: open-bricks](https://img.shields.io/badge/umbrella-open--bricks-indigo.svg)](https://github.com/open-bricks)
 [![LLM Ready](https://img.shields.io/badge/LLM-ready-success.svg)](https://github.com/ellmos-ai/open-compute-mcp/blob/main/llms.txt)
 
-📦 **[View on npm →](https://www.npmjs.com/package/open-compute-mcp)** • 📋 **[Security Policy](SECURITY.md)** • 🤖 **[LLM Context (llms.txt)](llms.txt)**
+📦 **[View on npm →](https://www.npmjs.com/package/open-compute-mcp)** • 📋 **[Security Policy](SECURITY.md)** • ⚖️ **[Licenses](THIRD_PARTY_LICENSES.md)** • 🤖 **[LLM Context (llms.txt)](llms.txt)**
 
 <a href="https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp"><img src="https://raw.githubusercontent.com/ellmos-ai/open-compute-mcp/main/assets/glama-badge.jpg" alt="Glama: open-compute-mcp — A license, B maintenance" width="100%"></a>
 

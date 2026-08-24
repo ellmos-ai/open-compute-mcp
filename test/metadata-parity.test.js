@@ -42,6 +42,7 @@ test("package.json files list includes all canonical distribution files", () => 
     "README_de.md",
     "CHANGELOG.md",
     "SECURITY.md",
+    "THIRD_PARTY_LICENSES.md",
     "LICENSE",
     "server.json",
     "glama.json",
@@ -68,6 +69,7 @@ test("documentation files are valid UTF-8 and contain no replacement chars", () 
     "README_de.md",
     "CHANGELOG.md",
     "SECURITY.md",
+    "THIRD_PARTY_LICENSES.md",
     "llms.txt",
   ];
 
@@ -85,7 +87,7 @@ test("documentation files are valid UTF-8 and contain no replacement chars", () 
 test("llms.txt metadata and timestamp consistency", () => {
   const llms = readText("llms.txt");
   assert.match(llms, /# open-compute-mcp/, "llms.txt must have correct title");
-  assert.match(llms, /## Last-checked:\s*2026-08-21/, "llms.txt must have 2026-08-21 last-checked timestamp");
+  assert.match(llms, /## Last-checked:\s*2026-08-24/, "llms.txt must have 2026-08-24 last-checked timestamp");
   assert.match(llms, /## Tools\s*\(16\)/, "llms.txt must document 16 tools");
   assert.match(llms, /## Safety/, "llms.txt must document safety modes");
   assert.match(llms, /- signal_show:/, "llms.txt must document signal_show tool");
@@ -130,9 +132,18 @@ test("badges and quick navigation parity across README files", () => {
 
   assert.match(enReadme, /Quick Navigation/, "README.md must include Quick Navigation");
   assert.match(deReadme, /Schnellnavigation/, "README_de.md must include Schnellnavigation");
-  assert.match(enReadme, /tests-19%20passed-brightgreen\.svg/, "README.md must link 19 passed tests badge");
-  assert.match(deReadme, /tests-19%20passed-brightgreen\.svg/, "README_de.md must link 19 passed tests badge");
+  assert.match(enReadme, /tests-21%20passed-brightgreen\.svg/, "README.md must link 21 passed tests badge");
+  assert.match(deReadme, /tests-21%20passed-brightgreen\.svg/, "README_de.md must link 21 passed tests badge");
   assert.match(enReadme, /Zero--Egress/, "README.md must include Zero-Egress badge");
   assert.match(deReadme, /Zero--Egress/, "README_de.md must include Zero-Egress badge");
 });
+
+test("third party licenses inventory documentation integrity", () => {
+  const licenses = readText("THIRD_PARTY_LICENSES.md");
+  assert.match(licenses, /# Third-Party License Review/, "THIRD_PARTY_LICENSES.md must have title");
+  assert.match(licenses, /Stand:\s*2026-08-24/, "THIRD_PARTY_LICENSES.md must have current review date");
+  assert.match(licenses, /update-notifier/, "THIRD_PARTY_LICENSES.md must list update-notifier");
+  assert.match(licenses, /BSD-2-Clause/, "THIRD_PARTY_LICENSES.md must list BSD-2-Clause license");
+});
+
 
