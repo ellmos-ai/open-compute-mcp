@@ -12,16 +12,43 @@ function readRoot(file) {
   return fs.readFileSync(path.join(root, file), "utf8");
 }
 
+function globToRegex(pattern) {
+  const clean = pattern.endsWith("/") ? pattern.slice(0, -1) : pattern;
+  const escaped = clean
+    .replace(/[.+^${}()|[\]\\]/g, "\\$&")
+    .replace(/\*/g, ".*")
+    .replace(/\?/g, ".");
+  return new RegExp("^" + escaped + "$");
+}
+
 function isIgnored(samplePath) {
-  try {
-    execFileSync("git", ["check-ignore", "--quiet", "--no-index", samplePath], {
-      cwd: root,
-      stdio: "ignore",
-    });
-    return true;
-  } catch {
+  if (fs.existsSync(path.join(root, ".git"))) {
+    try {
+      execFileSync("git", ["check-ignore", "--quiet", "--no-index", samplePath], {
+        cwd: root,
+        stdio: "ignore",
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  // Fallback when running outside a git clone (e.g. file-backed sync mirror)
+  const gitignore = readRoot(".gitignore");
+  if (samplePath === ".env.example" || samplePath === ".env.sample" || samplePath === "THIRD_PARTY_LICENSES.md") {
     return false;
   }
+  const basename = path.basename(samplePath);
+  for (const rawLine of gitignore.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith("#") || line.startsWith("!")) continue;
+    const regex = globToRegex(line);
+    if (regex.test(samplePath) || regex.test(basename)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 test("gitignore protects local credential and registry-token artifacts", () => {
@@ -45,12 +72,19 @@ test("gitignore protects local credential and registry-token artifacts", () => {
     ".mcpregistry_local_token",
     "push-protocoll.txt",
     "changelog-protocoll.txt",
+    "LOCK.txt",
+    "LOCK.user.buildweek.txt",
+    "foo.conflict",
+    "foo.sync-conflict-20260824.js",
+    "sample-WORKSTATION-LG.js",
+    "sample-ASUS-GEI.js",
   ]) {
     assert.equal(isIgnored(samplePath), true, `${samplePath} should be ignored`);
   }
 
   assert.equal(isIgnored(".env.example"), false, ".env.example should stay trackable");
   assert.equal(isIgnored(".env.sample"), false, ".env.sample should stay trackable");
+  assert.equal(isIgnored("THIRD_PARTY_LICENSES.md"), false, "THIRD_PARTY_LICENSES.md should stay trackable");
 });
 
 test("npm ignore keeps defensive secret patterns beside the files whitelist", () => {
@@ -89,3 +123,19 @@ test("package files whitelist contains no credential-like entries", () => {
     }
   }
 });
+
+test("third party licenses inventory parity with runtime dependencies", () => {
+  const pkg = JSON.parse(readRoot("package.json"));
+  const licenses = readRoot("THIRD_PARTY_LICENSES.md");
+  const deps = Object.keys(pkg.dependencies || {});
+
+  assert.ok(licenses.includes("Stand:"), "THIRD_PARTY_LICENSES.md must contain review date");
+  assert.ok(licenses.includes("Runtime dependencies"), "THIRD_PARTY_LICENSES.md must list runtime dependencies");
+  for (const dep of deps) {
+    assert.ok(
+      licenses.includes(`\`${dep}\``),
+      `THIRD_PARTY_LICENSES.md must document runtime dependency ${dep}`
+    );
+  }
+});
+

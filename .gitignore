@@ -44,3 +44,10 @@ Thumbs.db
 desktop.ini
 .idea/
 .vscode/
+
+# Temporary locks & sync conflicts
+LOCK*.txt
+*.conflict
+*.sync-conflict-*
+*-WORKSTATION-LG*
+*-ASUS-GEI*
