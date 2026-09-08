@@ -20,11 +20,12 @@ modellagnostische **Computer-Use**-Tools über das Model Context Protocol (MCP).
 [![Security: Safety-Gated](https://img.shields.io/badge/security-Operator%20Ceiling%20%7C%20Safety--Gated-green.svg)](SECURITY.md)
 [![Ecosystem: ellmos-ai](https://img.shields.io/badge/ecosystem-ellmos--ai-blueviolet.svg)](https://github.com/ellmos-ai)
 [![Umbrella: open-bricks](https://img.shields.io/badge/umbrella-open--bricks-indigo.svg)](https://github.com/open-bricks)
+[![Glama](https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp/badges/score.svg)](https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp)
 [![LLM Ready](https://img.shields.io/badge/LLM-ready-success.svg)](https://github.com/ellmos-ai/open-compute-mcp/blob/main/llms.txt)
 
 📦 **[Auf npm ansehen →](https://www.npmjs.com/package/open-compute-mcp)** • 📋 **[Sicherheitsrichtlinie](SECURITY.md)** • ⚖️ **[Lizenzen](THIRD_PARTY_LICENSES.md)** • 🤖 **[LLM-Kontext (llms.txt)](llms.txt)**
 
-<a href="https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp"><img src="https://raw.githubusercontent.com/ellmos-ai/open-compute-mcp/main/assets/glama-badge.jpg" alt="Glama: open-compute-mcp — A license, B maintenance" width="100%"></a>
+<a href="https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp"><img src="https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp/badge" alt="open-compute-mcp MCP server auf Glama" width="100%"></a>
 
 ---
 
