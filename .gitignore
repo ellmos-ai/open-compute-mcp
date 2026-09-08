@@ -47,7 +47,23 @@ desktop.ini
 
 # Temporary locks & sync conflicts
 LOCK*.txt
+LOCK.*
+*.lock
+!package-lock.json
 *.conflict
 *.sync-conflict-*
+*-CONFLIT-*
+*-conflict-*
 *-WORKSTATION-LG*
 *-ASUS-GEI*
+
+# Temporary files, caches, and test artifacts
+*.tmp
+*.bak
+*.swp
+*~
+.pytest_cache/
+.ruff_cache/
+.coverage/
+htmlcov/
+.wheel-smoke/

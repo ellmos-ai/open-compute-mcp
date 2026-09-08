@@ -36,7 +36,12 @@ function isIgnored(samplePath) {
 
   // Fallback when running outside a git clone (e.g. file-backed sync mirror)
   const gitignore = readRoot(".gitignore");
-  if (samplePath === ".env.example" || samplePath === ".env.sample" || samplePath === "THIRD_PARTY_LICENSES.md") {
+  if (
+    samplePath === ".env.example" ||
+    samplePath === ".env.sample" ||
+    samplePath === "THIRD_PARTY_LICENSES.md" ||
+    samplePath === "package-lock.json"
+  ) {
     return false;
   }
   const basename = path.basename(samplePath);
@@ -85,6 +90,24 @@ test("gitignore protects local credential and registry-token artifacts", () => {
   assert.equal(isIgnored(".env.example"), false, ".env.example should stay trackable");
   assert.equal(isIgnored(".env.sample"), false, ".env.sample should stay trackable");
   assert.equal(isIgnored("THIRD_PARTY_LICENSES.md"), false, "THIRD_PARTY_LICENSES.md should stay trackable");
+});
+
+test("gitignore protects conflict copies and multi-agent locks while tracking package-lock.json", () => {
+  for (const samplePath of [
+    "LOCK.until.test.txt",
+    "LOCK.condition.2026.txt",
+    "sample.lock",
+    "cache.lock",
+    "backup-CONFLIT-2026.txt",
+    "temp-conflict-merge.js",
+    "workspace.tmp",
+    "report.bak",
+    "buffer.swp",
+  ]) {
+    assert.equal(isIgnored(samplePath), true, `${samplePath} should be ignored`);
+  }
+
+  assert.equal(isIgnored("package-lock.json"), false, "package-lock.json must stay trackable");
 });
 
 test("npm ignore keeps defensive secret patterns beside the files whitelist", () => {

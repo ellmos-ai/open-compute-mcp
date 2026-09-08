@@ -13,7 +13,7 @@ modellagnostische **Computer-Use**-Tools über das Model Context Protocol (MCP).
 [![npm downloads](https://img.shields.io/npm/dt/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
-[![Node.js CI](https://img.shields.io/badge/tests-21%20passed-brightgreen.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions)
+[![Node.js CI](https://img.shields.io/badge/tests-25%20passed-brightgreen.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions)
 [![MCP Enabled](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/open-compute-mcp)
 [![Privacy: Zero-Egress](https://img.shields.io/badge/privacy-100%25%20Offline%20%7C%20Zero--Egress-blue.svg)](SECURITY.md)

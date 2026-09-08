@@ -5,6 +5,15 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.0-alpha.18] - 2026-09-08
+
+### Technical Hygiene, CI Matrix & Repository Hardening
+- **GitHub Actions CI Workflow (`.github/workflows/ci.yml`)**: Added modern multi-OS matrix CI workflow running across `ubuntu-latest`, `windows-latest`, and `macos-latest` on Node.js `18.x`, `20.x`, `22.x`, and `24.x` with npm dependency caching (`cache: 'npm'`), concurrency control (`cancel-in-progress: true`), automated test suite execution (`npm test`), and packaging verification (`npm pack --dry-run`).
+- **Repository Hygiene & `.gitignore` Hardening**: Added defense-in-depth ignore patterns for cloud synchronization conflict copies (`*-CONFLIT-*`, `*-conflict-*`), multi-agent lock tokens (`LOCK.*`, `*.lock` with positive whitelist `!package-lock.json`), and temporary artifacts (`*.tmp`, `*.bak`, `*.swp`, `*~`).
+- **Security Policy (`SECURITY.md`)**: Enriched bilingual security policy with umbrella organization security contacts (`security@open-bricks.org`, `lukas@ellmos.ai` alongside `security@ellmos.ai` and `support@lukasgeiger.com`), structured supported versions matrix table (0.1.x), explicit 48-hour response SLA, and 5-business-day triage commitment.
+- **Contract Test Suite Expansion**: Expanded automated contract tests across `test/metadata-parity.test.js` and `test/repository-hygiene.test.js` covering CI workflow schema integrity, umbrella ecosystem contact parity, defense-in-depth lock and conflict ignore rules, and package-lock.json trackability (25/25 tests passing).
+- **Metadata & LLM Context Synchronisation**: Updated `llms.txt` and README badges to 25 passed tests and current verification timestamp (`2026-09-08`).
+
 ## [0.1.0-alpha.18] - 2026-08-21
 
 ### Pre-action Countdown Contract

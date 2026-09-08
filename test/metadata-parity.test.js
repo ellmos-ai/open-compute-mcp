@@ -87,7 +87,7 @@ test("documentation files are valid UTF-8 and contain no replacement chars", () 
 test("llms.txt metadata and timestamp consistency", () => {
   const llms = readText("llms.txt");
   assert.match(llms, /# open-compute-mcp/, "llms.txt must have correct title");
-  assert.match(llms, /## Last-checked:\s*2026-08-24/, "llms.txt must have 2026-08-24 last-checked timestamp");
+  assert.match(llms, /## Last-checked:\s*2026-09-08/, "llms.txt must have 2026-09-08 last-checked timestamp");
   assert.match(llms, /## Tools\s*\(16\)/, "llms.txt must document 16 tools");
   assert.match(llms, /## Safety/, "llms.txt must document safety modes");
   assert.match(llms, /- signal_show:/, "llms.txt must document signal_show tool");
@@ -111,8 +111,12 @@ test("bilingual security policy presence and contact integrity", () => {
   assert.match(sec, /# Security Policy \/ Sicherheitsrichtlinie/, "SECURITY.md must have bilingual header");
   assert.match(sec, /## English/, "SECURITY.md must contain English section");
   assert.match(sec, /## Deutsch/, "SECURITY.md must contain German section");
+  assert.match(sec, /security@open-bricks\.org/, "SECURITY.md must contain security@open-bricks.org");
   assert.match(sec, /security@ellmos\.ai/, "SECURITY.md must contain security@ellmos.ai");
   assert.match(sec, /support@lukasgeiger\.com/, "SECURITY.md must contain support@lukasgeiger.com");
+  assert.match(sec, /48 hours|48 Stunden/, "SECURITY.md must specify 48h response SLA");
+  assert.match(sec, /5 business days|5 Werktagen/, "SECURITY.md must specify 5-day triage commitment");
+  assert.match(sec, /Supported Versions|Unterstützte Versionen/, "SECURITY.md must contain supported versions matrix");
   assert.match(sec, /OC_SAFETY_MODE/, "SECURITY.md must explain OC_SAFETY_MODE");
 });
 
@@ -132,10 +136,42 @@ test("badges and quick navigation parity across README files", () => {
 
   assert.match(enReadme, /Quick Navigation/, "README.md must include Quick Navigation");
   assert.match(deReadme, /Schnellnavigation/, "README_de.md must include Schnellnavigation");
-  assert.match(enReadme, /tests-21%20passed-brightgreen\.svg/, "README.md must link 21 passed tests badge");
-  assert.match(deReadme, /tests-21%20passed-brightgreen\.svg/, "README_de.md must link 21 passed tests badge");
+  assert.match(enReadme, /tests-25%20passed-brightgreen\.svg/, "README.md must link 25 passed tests badge");
+  assert.match(deReadme, /tests-25%20passed-brightgreen\.svg/, "README_de.md must link 25 passed tests badge");
   assert.match(enReadme, /Zero--Egress/, "README.md must include Zero-Egress badge");
   assert.match(deReadme, /Zero--Egress/, "README_de.md must include Zero-Egress badge");
+});
+
+test("umbrella ecosystem badge parity in README files", () => {
+  const enReadme = readText("README.md");
+  const deReadme = readText("README_de.md");
+  assert.match(enReadme, /umbrella-open--bricks-indigo\.svg/, "README.md must link open-bricks umbrella badge");
+  assert.match(deReadme, /umbrella-open--bricks-indigo\.svg/, "README_de.md must link open-bricks umbrella badge");
+  assert.match(enReadme, /ecosystem-ellmos--ai-blueviolet\.svg/, "README.md must link ellmos-ai ecosystem badge");
+  assert.match(deReadme, /ecosystem-ellmos--ai-blueviolet\.svg/, "README_de.md must link ellmos-ai ecosystem badge");
+});
+
+test("GitHub Actions CI workflow schema, concurrency, and matrix integrity", () => {
+  const ciPath = path.join(root, ".github", "workflows", "ci.yml");
+  assert.ok(fs.existsSync(ciPath), ".github/workflows/ci.yml must exist");
+  const ciContent = fs.readFileSync(ciPath, "utf8");
+  assert.match(ciContent, /name:\s*CI/, "CI workflow must be named CI");
+  assert.match(ciContent, /cancel-in-progress:\s*true/, "CI workflow must configure cancel-in-progress concurrency");
+  assert.match(ciContent, /ubuntu-latest/, "CI matrix must include ubuntu-latest");
+  assert.match(ciContent, /windows-latest/, "CI matrix must include windows-latest");
+  assert.match(ciContent, /macos-latest/, "CI matrix must include macos-latest");
+  assert.match(ciContent, /18\.x/, "CI matrix must include Node 18.x");
+  assert.match(ciContent, /24\.x/, "CI matrix must include Node 24.x");
+  assert.match(ciContent, /npm test/, "CI steps must run npm test");
+  assert.match(ciContent, /npm pack --dry-run/, "CI steps must verify packaging with npm pack --dry-run");
+});
+
+test("package.json repository and ecosystem urls integrity", () => {
+  const pkg = readJson("package.json");
+  assert.equal(pkg.repository.url, "git+https://github.com/ellmos-ai/open-compute-mcp.git");
+  assert.equal(pkg.homepage, "https://github.com/ellmos-ai/open-compute-mcp#readme");
+  assert.equal(pkg.bugs.url, "https://github.com/ellmos-ai/open-compute-mcp/issues");
+  assert.ok(pkg.engines && pkg.engines.node, "package.json must define engines.node");
 });
 
 test("third party licenses inventory documentation integrity", () => {

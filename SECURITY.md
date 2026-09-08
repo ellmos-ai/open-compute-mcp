@@ -10,10 +10,19 @@
 ### Reporting a Vulnerability
 
 Please report security issues privately via GitHub **[Private Vulnerability Reporting](https://github.com/ellmos-ai/open-compute-mcp/security/advisories)** or directly via email:
+- **Umbrella Security Contact:** [security@open-bricks.org](mailto:security@open-bricks.org)
 - **Security Contact:** [security@ellmos.ai](mailto:security@ellmos.ai)
+- **Maintainer:** [lukas@ellmos.ai](mailto:lukas@ellmos.ai)
 - **Maintainer:** [support@lukasgeiger.com](mailto:support@lukasgeiger.com)
 
-We acknowledge receipt of vulnerability reports within 48 hours and coordinate remediation steps prior to public disclosure.
+We acknowledge receipt of vulnerability reports within 48 hours, provide a preliminary triage assessment within 5 business days, and coordinate remediation steps prior to public disclosure.
+
+### Supported Versions
+
+| Version | Supported | Notes |
+|---|---|---|
+| 0.1.x | :white_check_mark: Supported | Active preview releases (0.1.0-alpha.x) |
+| < 0.1.0 | :x: Unsupported | Deprecated or unmaintained prototypes |
 
 ### Scope & Operational Safety
 
@@ -36,10 +45,19 @@ We acknowledge receipt of vulnerability reports within 48 hours and coordinate r
 ### Sicherheitslücke melden
 
 Bitte melden Sie Sicherheitslücken vertraulich über die GitHub-Funktion **[Private Vulnerability Reporting](https://github.com/ellmos-ai/open-compute-mcp/security/advisories)** oder direkt per E-Mail:
+- **Sicherheitskontakt (Dachorganisation):** [security@open-bricks.org](mailto:security@open-bricks.org)
 - **Sicherheitskontakt:** [security@ellmos.ai](mailto:security@ellmos.ai)
+- **Maintainer:** [lukas@ellmos.ai](mailto:lukas@ellmos.ai)
 - **Maintainer:** [support@lukasgeiger.com](mailto:support@lukasgeiger.com)
 
-Wir bestätigen den Eingang von Meldungen innerhalb von 48 Stunden und stimmen Behebungsmaßnahmen vor einer Veröffentlichung ab.
+Wir bestätigen den Eingang von Meldungen innerhalb von 48 Stunden, liefern innerhalb von 5 Werktagen eine vorläufige Triage-Einschätzung und stimmen Behebungsmaßnahmen vor einer Veröffentlichung ab.
+
+### Unterstützte Versionen
+
+| Version | Unterstützt | Hinweise |
+|---|---|---|
+| 0.1.x | :white_check_mark: Ja | Aktive Vorabversionen (0.1.0-alpha.x) |
+| < 0.1.0 | :x: Nein | Veraltete oder unbetreute Prototypen |
 
 ### Geltungsbereich & Betriebssicherheit
 
