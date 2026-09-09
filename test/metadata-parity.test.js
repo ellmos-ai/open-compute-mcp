@@ -138,6 +138,14 @@ test("badges and quick navigation parity across README files", () => {
   assert.match(deReadme, /Schnellnavigation/, "README_de.md must include Schnellnavigation");
   assert.match(enReadme, /tests-25%20passed-brightgreen\.svg/, "README.md must link 25 passed tests badge");
   assert.match(deReadme, /tests-25%20passed-brightgreen\.svg/, "README_de.md must link 25 passed tests badge");
+  assert.match(enReadme, /actions\/workflows\/ci\.yml\/badge\.svg/, "README.md must link dynamic CI workflow badge");
+  assert.match(deReadme, /actions\/workflows\/ci\.yml\/badge\.svg/, "README_de.md must link dynamic CI workflow badge");
+  assert.match(enReadme, /glama\.ai\/mcp\/servers\/ellmos-ai\/open-compute-mcp\/badges\/score\.svg/, "README.md must link dynamic Glama score badge");
+  assert.match(deReadme, /glama\.ai\/mcp\/servers\/ellmos-ai\/open-compute-mcp\/badges\/score\.svg/, "README_de.md must link dynamic Glama score badge");
+  assert.doesNotMatch(enReadme, /open-compute-mcp\/badge["']/, "README.md must not include static Glama banner card");
+  assert.doesNotMatch(deReadme, /open-compute-mcp\/badge["']/, "README_de.md must not include static Glama banner card");
+  assert.doesNotMatch(enReadme, /glama-badge\.jpg/, "README.md must not reference static glama-badge.jpg");
+  assert.doesNotMatch(deReadme, /glama-badge\.jpg/, "README_de.md must not reference static glama-badge.jpg");
   assert.match(enReadme, /Zero--Egress/, "README.md must include Zero-Egress badge");
   assert.match(deReadme, /Zero--Egress/, "README_de.md must include Zero-Egress badge");
 });

@@ -5,9 +5,18 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
-## [0.1.0-alpha.18] - 2026-09-08
+## [0.1.0-alpha.18] - 2026-09-09
 
-### Technical Hygiene, CI Matrix & Repository Hardening
+### Dynamic Badges & Static Photo Label Removal (2026-09-09)
+- **Static Glama Photo Label Removal**: Removed the static Glama card banner (`glama-badge.jpg` / `/badge` raster image) from both `README.md` and `README_de.md` to eliminate stale, conflicting statistics (100 installs vs 3k+ actual npm downloads).
+- **Dynamic Banderole Alignment**: Migrated all badges in the header banderole to canonical live vector endpoints:
+  - Glama Live Score Badge: `https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp/badges/score.svg`
+  - GitHub Actions CI Workflow: `https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml/badge.svg`
+  - GitHub Live Stars: `https://img.shields.io/github/stars/ellmos-ai/open-compute-mcp.svg`
+  - GitHub Dynamic License: `https://img.shields.io/github/license/ellmos-ai/open-compute-mcp.svg`
+- **Metadata Parity Tests**: Added automated assertions in `test/metadata-parity.test.js` enforcing exclusion of static Glama photo labels and verifying live CI & Glama SVG badges (25/25 tests passing).
+
+### Technical Hygiene, CI Matrix & Repository Hardening (2026-09-08)
 - **GitHub Actions CI Workflow (`.github/workflows/ci.yml`)**: Added modern multi-OS matrix CI workflow running across `ubuntu-latest`, `windows-latest`, and `macos-latest` on Node.js `18.x`, `20.x`, `22.x`, and `24.x` with npm dependency caching (`cache: 'npm'`), concurrency control (`cancel-in-progress: true`), automated test suite execution (`npm test`), and packaging verification (`npm pack --dry-run`).
 - **Repository Hygiene & `.gitignore` Hardening**: Added defense-in-depth ignore patterns for cloud synchronization conflict copies (`*-CONFLIT-*`, `*-conflict-*`), multi-agent lock tokens (`LOCK.*`, `*.lock` with positive whitelist `!package-lock.json`), and temporary artifacts (`*.tmp`, `*.bak`, `*.swp`, `*~`).
 - **Security Policy (`SECURITY.md`)**: Enriched bilingual security policy with umbrella organization security contacts (`security@open-bricks.org`, `lukas@ellmos.ai` alongside `security@ellmos.ai` and `support@lukasgeiger.com`), structured supported versions matrix table (0.1.x), explicit 48-hour response SLA, and 5-business-day triage commitment.
