@@ -15,7 +15,9 @@ modellagnostische **Computer-Use**-Tools über das Model Context Protocol (MCP).
 [![GitHub Stars](https://img.shields.io/github/stars/ellmos-ai/open-compute-mcp.svg)](https://github.com/ellmos-ai/open-compute-mcp)
 [![License: MIT](https://img.shields.io/github/license/ellmos-ai/open-compute-mcp.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
-[![Tests](https://img.shields.io/badge/tests-25%20passed-brightgreen.svg)](test)
+[![Tests](https://img.shields.io/badge/tests-28%20passed-brightgreen.svg)](test)
+[![Code Style: Prettier](https://img.shields.io/badge/code_style-prettier-brightgreen.svg)](https://prettier.io)
+[![Security SLA](https://img.shields.io/badge/security--sla-48h%20Response%20%7C%205d%20Triage-blue.svg)](SECURITY.md)
 [![MCP Enabled](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/open-compute-mcp)
 [![Privacy: Zero-Egress](https://img.shields.io/badge/privacy-100%25%20Offline%20%7C%20Zero--Egress-blue.svg)](SECURITY.md)
@@ -38,7 +40,13 @@ modellagnostische **Computer-Use**-Tools über das Model Context Protocol (MCP).
 - [🔄 Sichere Interaktion & Signal-Lebenszyklus](#sichere-interaktion--signal-lebenszyklus)
 - [⚙️ Konfiguration](#konfiguration-umgebungsvariablen)
 - [🔒 Sicherheit & Leitplanken](#sicherheit)
-- [🌐 ellmos-ai-Ökosystem](#ellmos-ai-ökosystem)
+- [🏛️ Governance & Laufzeit-Invarianten](#governance--laufzeit-invarianten)
+- [🧪 Tests & Verifikation](#tests--verifikation)
+- [🛡️ Sicherheitsrichtlinie & SLAs](SECURITY.md)
+- [⚖️ Drittanbieter-Lizenzen](THIRD_PARTY_LICENSES.md)
+- [📜 Marketing- & Wartungsprotokoll](MARKETING-LOG.txt)
+- [🤖 LLM-Kontext](llms.txt)
+- [🌐 ellmos-ai-Ökosystem & Partnermatrix](#ellmos-ai-ökosystem)
 
 ---
 
@@ -273,6 +281,38 @@ Server-Registrierung setzen und jede Aktion durch den Tool-Berechtigungsdialog d
 Clients gaten lassen (`do`/`click_name`/`invoke` dort **nicht** pauschal erlauben).
 Die env-Änderung greift erst, wenn der Serverprozess neu startet — ein bereits
 verbundener Client behält die alte Obergrenze bis zum Reconnect.
+
+## Governance & Laufzeit-Invarianten
+
+| Invariant-ID | Regel & Grundsatz | Durchsetzung & Architekturgarantie |
+|---|---|---|
+| `INV-LOCAL-01` | **Zero-Egress & Lokales Stdio** | Bildschirm-Erfassung, Maus-/Tastatureingaben und Signal-Overlays laufen strikt lokal über stdio JSON-RPC; 0 Telemetrie, 0 externe Analysedienste, 0 Netzwerkabflüsse. |
+| `INV-GATE-02` | **Fail-Closed Sicherheits-Obergrenze** | `OC_SAFETY_MODE` (Standard: `confirm`) fungiert als harte Operator-Obergrenze; aufrufbezogene Parameter können die Policy nur verschärfen (`confirm`/`read_only`), nie ohne Umgebungsneustart in einer isolierten VM lockern (`allow_all`). |
+| `INV-OBS-03` | **Einmalige Observation-Gültigkeit** | Jeder `capture`- und `tree`-Aufruf erzeugt eine flüchtige `observation_id`; Koordinaten verbrauchen genau eine Observation und verfallen sofort, um Fehlklicks auf veralteten Zuständen auszuschließen. |
+| `INV-WIN-04` | **Strikte Fenster-Bindung** | Koordinatenaktionen erfordern verifizierte `window_token` / Fensterdeskriptoren aus `list_windows`; Fokusabweichungen, verdeckte Fenster oder uneindeutige Ziele schlagen vor der Eingabe fehlgeschlossen fehl. |
+| `INV-SIG-05` | **Signal-Overlay mit Lease & Sofortabbruch** | Visuelles Signal-Overlay (`signal_show`) arbeitet mit Owner-/Session-Lease, begrenzter TTL (Standard 120s), Bereinigung bei Turn-Ende und manuellem Notabbruch per Hotkey. |
+| `INV-UIA-06` | **Exact-First Semantische Auflösung** | `click_name` und `invoke` lösen exakte semantische UIA-Treffer vor Fuzzy-Kandidaten auf und melden Konfidenzwerte sowie Alternativen zur Transparenz. |
+| `INV-PROC-07` | **Unprivilegierter RunAsInvoker-Modus** | Läuft vollständig mit standardmäßigen Benutzerrechten (`RunAsInvoker`); erfordert und fordert zu keinem Zeitpunkt Administrator-Rechte an. |
+| `INV-CROSS-08` | **Plattformübergreifende Stdio-Protokollparität** | Strikte Einhaltung des Model Context Protocol (MCP) JSON-RPC über Ubuntu, Windows und macOS auf Node.js 18.x, 20.x, 22.x und 24.x getestet. |
+| `INV-SYNC-09` | **Multi-Agent Lock- & Konflikt-Disziplin** | Defensive Dateisystem-Ausschlussmuster und Fail-Closed Lock-Prüfungen verhindern Konflikte bei paralleler Agentenarbeit und schützen Cloud-Synchronisation. |
+| `INV-SLA-10` | **48h Reaktions- & 5-Tage-Triage-SLA** | Verbindliche Zusage zur Eingangsbestätigung von Sicherheitsmeldungen innerhalb von 48 Stunden und vorläufigen Triage-Einschätzung innerhalb von 5 Werktagen. |
+
+## Tests & Verifikation
+
+Die automatisierte Testsuite überprüft Launcher-Funktionalität, Repository-Hygiene und Metadaten-Parität über Manifeste und Dokumentation:
+
+```bash
+# Alle Tests ausführen
+npm test
+
+# Repository-Hygiene und Geheimnisschutz prüfen
+npm run test:hygiene
+
+# Paketierungs-Integrität verifizieren
+npm pack --dry-run
+```
+
+Alle Commits und Pull Requests werden durch GitHub Actions CI (`.github/workflows/ci.yml`) auf **Ubuntu**, **Windows** und **macOS** über Node.js **18.x**, **20.x**, **22.x** und **24.x** kontinuierlich getestet.
 
 ## Lizenz
 

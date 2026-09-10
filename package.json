@@ -22,7 +22,8 @@
     "server.json",
     "glama.json",
     "smithery.yaml",
-    "llms.txt"
+    "llms.txt",
+    "MARKETING-LOG.txt"
   ],
   "engines": {
     "node": ">=18.0.0"

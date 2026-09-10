@@ -1,0 +1,99 @@
+================================================================================
+ELLMOS-AI / OPEN-COMPUTE-MCP — DISCOVERABILITY & MARKETING LOG
+================================================================================
+Repository: https://github.com/ellmos-ai/open-compute-mcp
+Project Name: open-compute-mcp (Distribution: open-compute-mcp on npm)
+Umbrella Ecosystem: open-bricks (https://github.com/open-bricks)
+Architecture Domain: Model-Agnostic Computer-Use MCP Server (Desktop Automation & Perception)
+Audit Date: 2026-09-10
+Status: ACTIVE / PFAD B DISCOVERABILITY HARDENED
+================================================================================
+
+1. PRODUCT IDENTITY & MISSION
+--------------------------------------------------------------------------------
+open-compute-mcp is a lightweight, zero-egress Node.js launcher for the
+open-compute MCP server. It exposes model-agnostic computer-use tools over the
+Model Context Protocol (MCP) using local stdio JSON-RPC.
+
+Key architectural highlights:
+  1. Keyless & Model-Agnostic: Connected LLM/agent client is the reasoner.
+     Works natively with Claude Code, Claude Desktop, Antigravity, Cursor, and
+     custom MCP agents without hardcoded API keys.
+  2. State-bound Perception: Ephemeral observation IDs enforce strict
+     observe -> act -> refresh cycles, eliminating stale-frame hallucination.
+  3. Safety-Gated Action Dispatch: Enforces operator safety ceilings
+     (OC_SAFETY_MODE=confirm/read_only/allow_all) and hard action deny lists.
+  4. Leased Signal Overlay: Visible, non-intrusive glowing screen border with
+     countdown, mode colors, bounded TTL, and emergency human abort hotkey.
+  5. Semantic Targeting & Voice: Precise Windows UI Automation (UIA) element
+     resolution, push-to-talk voice note recording, and screen chat messages.
+
+2. TARGET PERSONAS & AUDIENCE MAPPING
+--------------------------------------------------------------------------------
+Persona 1: Autonomous Coding & Desktop Agent Frameworks
+  - Need: Dependable desktop control, screenshot intake, and window targeting
+    without remote cloud dependencies or API lock-in.
+  - Value: Direct stdio MCP transport with normalized coordinates (0..1),
+    ephemeral observation tokens, and automatic hold-primitive release.
+
+Persona 2: Enterprise AI Safety & Governance Officers
+  - Need: Verifiable safety controls preventing runaway agent actions on
+    production desktops.
+  - Value: Fail-closed confirm mode, hard action blacklists (OC_DENY), visible
+    countdown grace overlays, and immediate hotkey abort.
+
+Persona 3: Accessibility & UI Quality Assurance Engineers
+  - Need: Semantic, accessibility-tree inspection (UIA) for testing native
+    Windows applications without relying solely on raw vision.
+  - Value: tree, click_name, and invoke tools provide exact-first semantic
+    targeting with ambiguity scores and accessible label reporting.
+
+Persona 4: Multimodal Human-in-the-Loop Collaborators
+  - Need: Seamless interaction with desktop agents via voice and screen chat.
+  - Value: Built-in talk (push-to-talk WAV recording) and chat tools enabling
+    fluid multimodal feedback loops.
+
+3. ARCHITECTURAL INVARIANTS & GOVERNANCE
+--------------------------------------------------------------------------------
+The project adheres to 10 strict runtime invariants (INV-LOCAL-01 to INV-SLA-10):
+  - INV-LOCAL-01: Zero-Egress & Local Stdio (100% offline, 0 network telemetry)
+  - INV-GATE-02: Fail-Closed Safety Ceiling (OC_SAFETY_MODE operator ceiling)
+  - INV-OBS-03: One-Shot Observation Lifespan (ephemeral observation_id tokens)
+  - INV-WIN-04: Strict Window Binding (required window descriptor / tokens)
+  - INV-SIG-05: Leased Signal Overlay & Immediate Abort (bounded TTL, hotkey)
+  - INV-UIA-06: Exact-First Semantic Resolution (deterministic UIA matching)
+  - INV-PROC-07: Unprivileged RunAsInvoker Mode (0 admin elevation required)
+  - INV-CROSS-08: Multi-OS Stdio Protocol Parity (Node.js 18-24 matrix CI)
+  - INV-SYNC-09: Multi-Agent Lock & Conflict Discipline (fail-closed hygiene)
+  - INV-SLA-10: 48h Security Response & 5-Day Triage SLA (open-bricks SLA)
+
+4. SIBLING ECOSYSTEM & PARTNER MATRIX
+--------------------------------------------------------------------------------
+open-compute-mcp integrates seamlessly with sibling projects in the ellmos-ai
+and open-bricks ecosystems:
+  - ellmos-ai/open-compute: Core Python computer-use engine backend
+  - ellmos-ai/bach: Local-first text-based OS with 113+ handlers and 550+ tools
+  - ellmos-ai/clutch: Provider-neutral LLM orchestration and budget management
+  - ellmos-ai/ellmos-filecommander-mcp: Safe file and process operations
+  - ellmos-ai/ellmos-codecommander-mcp: AST-aware code editing and diffing
+  - ellmos-ai/ellmos-controlcenter-mcp: Control plane and stack discovery
+  - ellmos-ai/ellmos-homebase-mcp: Persistent memory and swarm coordination
+  - ellmos-ai/n8n-manager-mcp: Automated workflow execution and management
+  - ellmos-ai/swarm-ai: Multi-agent consensus, stigmergy, and team coordination
+  - ellmos-ai/system-explorer: Evidence-based system discovery engine
+  - dev-bricks/DevCenter: Desktop developer hub and environment management
+  - dev-bricks/MethodenAnalyser: Static code analysis, metrics & refactoring
+  - dev-bricks/CodeBox: Code snippet repository and workspace tools
+  - file-bricks/ProFiler: Advanced file management and organization
+  - doc-bricks/FormularErstellen: Automated form and document generation
+  - open-bricks/open-bricks: Umbrella organization for AI-native desktop software
+
+5. VERIFICATION & METADATA CONTRACTS
+--------------------------------------------------------------------------------
+  - Automated Node.js test suite with node:test
+  - Strict metadata and bilingual parity validation (test/metadata-parity.test.js)
+  - Defensive repository hygiene and credential protection (test/repository-hygiene.test.js)
+  - Multi-OS GitHub Actions CI workflow (Ubuntu, Windows, macOS across Node 18, 20, 22, 24)
+  - Bilingual documentation parity between README.md and README_de.md
+  - Structured machine-readable LLM context specification (llms.txt)
+================================================================================

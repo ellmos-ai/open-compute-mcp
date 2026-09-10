@@ -44,6 +44,19 @@ configured text-first pre-action countdown (`OC_SIGNAL_GRACE_SECONDS` and
 motion animation is required. Signals clean up at turn end, error, abort, TTL,
 or exit unless `keep_signal=true`. Hold primitives auto-release.
 
+## Governance & Runtime Invariants
+
+- INV-LOCAL-01: Zero-Egress & Local Stdio (100% offline, 0 network telemetry)
+- INV-GATE-02: Fail-Closed Safety Ceiling (OC_SAFETY_MODE operator ceiling)
+- INV-OBS-03: One-Shot Observation Lifespan (ephemeral observation_id tokens)
+- INV-WIN-04: Strict Window Binding (required window descriptor / tokens)
+- INV-SIG-05: Leased Signal Overlay & Immediate Abort (bounded TTL, hotkey)
+- INV-UIA-06: Exact-First Semantic Resolution (deterministic UIA matching)
+- INV-PROC-07: Unprivileged RunAsInvoker Mode (0 admin elevation required)
+- INV-CROSS-08: Multi-OS Stdio Protocol Parity (Node.js 18-24 matrix CI)
+- INV-SYNC-09: Multi-Agent Lock & Conflict Discipline (fail-closed hygiene)
+- INV-SLA-10: 48h Security Response & 5-Day Triage SLA (open-bricks SLA)
+
 ## Links
 
 - Wrapper repo: https://github.com/ellmos-ai/open-compute-mcp
@@ -62,6 +75,7 @@ or exit unless `keep_signal=true`. Hold primitives auto-release.
 - `test/launcher-command.test.js`: Launcher command-override smoke test.
 - `SECURITY.md`: Bilingual security policy and safety gate explanations.
 - `THIRD_PARTY_LICENSES.md`: Third-party license review and runtime dependency inventory.
+- `MARKETING-LOG.txt`: Discoverability, persona mapping, and architectural invariants log.
 - `CHANGELOG.md`: Chronological log of releases and changes.
 
 ## Search Phrases
@@ -76,5 +90,4 @@ screen usage signal overlay abort hotkey
 push-to-talk multimodal voice mcp
 ```
 
-## Last-checked: 2026-09-08
-
+## Last-checked: 2026-09-10

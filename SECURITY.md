@@ -12,6 +12,7 @@
 Please report security issues privately via GitHub **[Private Vulnerability Reporting](https://github.com/ellmos-ai/open-compute-mcp/security/advisories)** or directly via email:
 - **Umbrella Security Contact:** [security@open-bricks.org](mailto:security@open-bricks.org)
 - **Security Contact:** [security@ellmos.ai](mailto:security@ellmos.ai)
+- **Maintainer:** [lukas@open-bricks.org](mailto:lukas@open-bricks.org)
 - **Maintainer:** [lukas@ellmos.ai](mailto:lukas@ellmos.ai)
 - **Maintainer:** [support@lukasgeiger.com](mailto:support@lukasgeiger.com)
 
@@ -47,6 +48,7 @@ We acknowledge receipt of vulnerability reports within 48 hours, provide a preli
 Bitte melden Sie Sicherheitslücken vertraulich über die GitHub-Funktion **[Private Vulnerability Reporting](https://github.com/ellmos-ai/open-compute-mcp/security/advisories)** oder direkt per E-Mail:
 - **Sicherheitskontakt (Dachorganisation):** [security@open-bricks.org](mailto:security@open-bricks.org)
 - **Sicherheitskontakt:** [security@ellmos.ai](mailto:security@ellmos.ai)
+- **Maintainer:** [lukas@open-bricks.org](mailto:lukas@open-bricks.org)
 - **Maintainer:** [lukas@ellmos.ai](mailto:lukas@ellmos.ai)
 - **Maintainer:** [support@lukasgeiger.com](mailto:support@lukasgeiger.com)
 

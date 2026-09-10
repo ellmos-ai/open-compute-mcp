@@ -94,12 +94,15 @@ test("gitignore protects local credential and registry-token artifacts", () => {
 
 test("gitignore protects conflict copies and multi-agent locks while tracking package-lock.json", () => {
   for (const samplePath of [
+    "LOCK",
+    "LOCK.permissions.json",
     "LOCK.until.test.txt",
     "LOCK.condition.2026.txt",
     "sample.lock",
     "cache.lock",
     "backup-CONFLIT-2026.txt",
     "temp-conflict-merge.js",
+    "sample.sync-temp-01.tmp",
     "workspace.tmp",
     "report.bak",
     "buffer.swp",

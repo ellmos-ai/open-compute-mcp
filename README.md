@@ -15,7 +15,9 @@ model-agnostic **computer-use** tools exposed over the Model Context Protocol (M
 [![GitHub Stars](https://img.shields.io/github/stars/ellmos-ai/open-compute-mcp.svg)](https://github.com/ellmos-ai/open-compute-mcp)
 [![License: MIT](https://img.shields.io/github/license/ellmos-ai/open-compute-mcp.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
-[![Tests](https://img.shields.io/badge/tests-25%20passed-brightgreen.svg)](test)
+[![Tests](https://img.shields.io/badge/tests-28%20passed-brightgreen.svg)](test)
+[![Code Style: Prettier](https://img.shields.io/badge/code_style-prettier-brightgreen.svg)](https://prettier.io)
+[![Security SLA](https://img.shields.io/badge/security--sla-48h%20Response%20%7C%205d%20Triage-blue.svg)](SECURITY.md)
 [![MCP Enabled](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/open-compute-mcp)
 [![Privacy: Zero-Egress](https://img.shields.io/badge/privacy-100%25%20Offline%20%7C%20Zero--Egress-blue.svg)](SECURITY.md)
@@ -38,7 +40,13 @@ model-agnostic **computer-use** tools exposed over the Model Context Protocol (M
 - [🔄 Safe Interaction & Signal Lifecycle](#safe-interaction--signal-lifecycle)
 - [⚙️ Configuration](#configuration-environment-variables)
 - [🔒 Safety & Security](#safety)
-- [🌐 ellmos-ai Ecosystem](#ellmos-ai-ecosystem)
+- [🏛️ Governance & Runtime Invariants](#governance--runtime-invariants)
+- [🧪 Testing & Verification](#testing--verification)
+- [🛡️ Security Policy & SLAs](SECURITY.md)
+- [⚖️ Third-Party Licenses](THIRD_PARTY_LICENSES.md)
+- [📜 Marketing & Maintenance Log](MARKETING-LOG.txt)
+- [🤖 LLM Context](llms.txt)
+- [🌐 ellmos-ai Ecosystem & Sibling Matrix](#ellmos-ai-ecosystem)
 
 ---
 
@@ -273,6 +281,38 @@ registration and let the client's tool-approval dialog gate each action (do **no
 auto-allow `do`/`click_name`/`invoke` there). The env change only takes effect when
 the server process (re)starts — an already-connected client keeps the old ceiling
 until it reconnects.
+
+## Governance & Runtime Invariants
+
+| Invariant ID | Rule & Principle | Enforcement & Architectural Guarantee |
+|---|---|---|
+| `INV-LOCAL-01` | **Zero-Egress & Local Stdio** | All screen capture, mouse/keyboard automation, and signal overlays execute strictly locally over stdio JSON-RPC; 0 telemetry, 0 external analytics, 0 network transmissions. |
+| `INV-GATE-02` | **Fail-Closed Safety Ceiling** | `OC_SAFETY_MODE` (default: `confirm`) acts as a hard operator ceiling; per-call parameters can only tighten the policy (`confirm`/`read_only`), never loosen it without environment restart in an isolated VM (`allow_all`). |
+| `INV-OBS-03` | **One-Shot Observation Lifespan** | Every `capture` and `tree` call generates an ephemeral `observation_id`; coordinates consume exactly one observation and are invalidated immediately, preventing stale click execution. |
+| `INV-WIN-04` | **Strict Window Binding** | Coordinate actions require verified `window_token` / window descriptor from `list_windows`; focus mismatch, covered/occluded windows, or ambiguous targets fail closed before input. |
+| `INV-SIG-05` | **Leased Signal Overlay & Immediate Abort** | Visual signal overlay (`signal_show`) operates with owner/session lease, bounded TTL (default 120s), turn-end cleanup, and immediate emergency human abort via hotkey. |
+| `INV-UIA-06` | **Exact-First Semantic Resolution** | `click_name` and `invoke` resolve exact semantic UIA matches first before fuzzy matching, returning scores and alternatives for transparency. |
+| `INV-PROC-07` | **Unprivileged RunAsInvoker Mode** | Operates strictly with standard user privileges (`RunAsInvoker`); never requires or requests administrative elevation. |
+| `INV-CROSS-08` | **Multi-OS Stdio Protocol Parity** | Strict Model Context Protocol (MCP) JSON-RPC adherence tested across Ubuntu, Windows, and macOS on Node.js 18.x, 20.x, 22.x, and 24.x. |
+| `INV-SYNC-09` | **Multi-Agent Lock & Conflict Discipline** | Defensive file system ignore patterns and fail-closed lock checks prevent concurrent workspace pollution and protect cloud synchronization integrity. |
+| `INV-SLA-10` | **48h Security Response & 5-Day Triage SLA** | Documented commitment to acknowledge vulnerability disclosures within 48 hours and deliver preliminary triage within 5 business days. |
+
+## Testing & Verification
+
+The test suite validates launcher functionality, repository hygiene, and metadata parity across manifests and documentation:
+
+```bash
+# Run all automated tests
+npm test
+
+# Run repository hygiene and secret leakage checks
+npm run test:hygiene
+
+# Verify packaging integrity
+npm pack --dry-run
+```
+
+All pull requests and commits are verified through GitHub Actions CI (`.github/workflows/ci.yml`) with automated matrix builds on **Ubuntu**, **Windows**, and **macOS** across Node.js **18.x**, **20.x**, **22.x**, and **24.x**.
 
 ## License
 

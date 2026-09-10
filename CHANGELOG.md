@@ -5,6 +5,16 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.0-alpha.18] - 2026-09-10
+
+### Discoverability, Governance Invariants & Architecture Parity (2026-09-10)
+- **14-Point Quick Navigation Parity**: Upgraded quick navigation across both `README.md` and `README_de.md` to 14 standardized sections with 100% anchor parity.
+- **Table of 10 Governance & Runtime Invariants**: Introduced comprehensive runtime invariants table (`INV-LOCAL-01` through `INV-SLA-10`) documenting zero-egress guarantees, fail-closed safety ceilings (`OC_SAFETY_MODE`), ephemeral observation lifespan, strict window binding, leased signal overlay with abort hotkey, and 48h/5d security SLAs.
+- **Header Badge Alignment**: Added live shields for Prettier code style and Security Response/Triage SLA (`48h Response | 5d Triage`), while updating the automated test badge count to 28 passing tests.
+- **Marketing & Discoverability Log**: Created canonical `MARKETING-LOG.txt` mapping user personas, product value proposition, architectural invariants, and partner ecosystem synergies.
+- **Security Policy & License Audit**: Updated `SECURITY.md` contact matrix to include umbrella maintainer addresses, and synchronized `THIRD_PARTY_LICENSES.md` and `llms.txt` to `2026-09-10`.
+- **Contract Test Suite Expansion**: Extended `test/metadata-parity.test.js` and `test/repository-hygiene.test.js` to assert the 10 runtime invariants, 14 navigation targets, badge presence, and defense-in-depth lock/conflict rules (28/28 tests passing).
+
 ## [0.1.0-alpha.18] - 2026-09-09
 
 ### Dynamic Badges & Static Photo Label Removal (2026-09-09)

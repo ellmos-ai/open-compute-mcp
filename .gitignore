@@ -46,12 +46,15 @@ desktop.ini
 .vscode/
 
 # Temporary locks & sync conflicts
+LOCK
 LOCK*.txt
 LOCK.*
+LOCK.permissions.json
 *.lock
 !package-lock.json
 *.conflict
 *.sync-conflict-*
+*.sync-temp-*
 *-CONFLIT-*
 *-conflict-*
 *-WORKSTATION-LG*

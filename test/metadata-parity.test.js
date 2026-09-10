@@ -48,6 +48,7 @@ test("package.json files list includes all canonical distribution files", () => 
     "glama.json",
     "smithery.yaml",
     "llms.txt",
+    "MARKETING-LOG.txt",
   ];
 
   for (const req of requiredFiles) {
@@ -87,7 +88,7 @@ test("documentation files are valid UTF-8 and contain no replacement chars", () 
 test("llms.txt metadata and timestamp consistency", () => {
   const llms = readText("llms.txt");
   assert.match(llms, /# open-compute-mcp/, "llms.txt must have correct title");
-  assert.match(llms, /## Last-checked:\s*2026-09-08/, "llms.txt must have 2026-09-08 last-checked timestamp");
+  assert.match(llms, /## Last-checked:\s*2026-09-10/, "llms.txt must have 2026-09-10 last-checked timestamp");
   assert.match(llms, /## Tools\s*\(16\)/, "llms.txt must document 16 tools");
   assert.match(llms, /## Safety/, "llms.txt must document safety modes");
   assert.match(llms, /- signal_show:/, "llms.txt must document signal_show tool");
@@ -136,8 +137,8 @@ test("badges and quick navigation parity across README files", () => {
 
   assert.match(enReadme, /Quick Navigation/, "README.md must include Quick Navigation");
   assert.match(deReadme, /Schnellnavigation/, "README_de.md must include Schnellnavigation");
-  assert.match(enReadme, /tests-25%20passed-brightgreen\.svg/, "README.md must link 25 passed tests badge");
-  assert.match(deReadme, /tests-25%20passed-brightgreen\.svg/, "README_de.md must link 25 passed tests badge");
+  assert.match(enReadme, /tests-28%20passed-brightgreen\.svg/, "README.md must link 28 passed tests badge");
+  assert.match(deReadme, /tests-28%20passed-brightgreen\.svg/, "README_de.md must link 28 passed tests badge");
   assert.match(enReadme, /actions\/workflows\/ci\.yml\/badge\.svg/, "README.md must link dynamic CI workflow badge");
   assert.match(deReadme, /actions\/workflows\/ci\.yml\/badge\.svg/, "README_de.md must link dynamic CI workflow badge");
   assert.match(enReadme, /glama\.ai\/mcp\/servers\/ellmos-ai\/open-compute-mcp\/badges\/score\.svg/, "README.md must link dynamic Glama score badge");
@@ -185,9 +186,88 @@ test("package.json repository and ecosystem urls integrity", () => {
 test("third party licenses inventory documentation integrity", () => {
   const licenses = readText("THIRD_PARTY_LICENSES.md");
   assert.match(licenses, /# Third-Party License Review/, "THIRD_PARTY_LICENSES.md must have title");
-  assert.match(licenses, /Stand:\s*2026-08-24/, "THIRD_PARTY_LICENSES.md must have current review date");
+  assert.match(licenses, /Stand:\s*2026-09-10/, "THIRD_PARTY_LICENSES.md must have current review date");
   assert.match(licenses, /update-notifier/, "THIRD_PARTY_LICENSES.md must list update-notifier");
   assert.match(licenses, /BSD-2-Clause/, "THIRD_PARTY_LICENSES.md must list BSD-2-Clause license");
 });
 
+test("governance and runtime invariants presence across documentation", () => {
+  const enReadme = readText("README.md");
+  const deReadme = readText("README_de.md");
+  const llms = readText("llms.txt");
 
+  const invariants = [
+    "INV-LOCAL-01",
+    "INV-GATE-02",
+    "INV-OBS-03",
+    "INV-WIN-04",
+    "INV-SIG-05",
+    "INV-UIA-06",
+    "INV-PROC-07",
+    "INV-CROSS-08",
+    "INV-SYNC-09",
+    "INV-SLA-10",
+  ];
+
+  for (const inv of invariants) {
+    assert.ok(enReadme.includes(inv), `README.md must document ${inv}`);
+    assert.ok(deReadme.includes(inv), `README_de.md must document ${inv}`);
+    assert.ok(llms.includes(inv), `llms.txt must document ${inv}`);
+  }
+});
+
+test("14-point quick navigation anchor parity across README files", () => {
+  const enReadme = readText("README.md");
+  const deReadme = readText("README_de.md");
+
+  const expectedEnNav = [
+    "#key-capabilities",
+    "#architecture",
+    "#tools",
+    "#use-with-an-mcp-client",
+    "#safe-interaction--signal-lifecycle",
+    "#configuration-environment-variables",
+    "#safety",
+    "#governance--runtime-invariants",
+    "#testing--verification",
+    "SECURITY.md",
+    "THIRD_PARTY_LICENSES.md",
+    "MARKETING-LOG.txt",
+    "llms.txt",
+    "#ellmos-ai-ecosystem",
+  ];
+
+  const expectedDeNav = [
+    "#hauptfunktionen",
+    "#architektur",
+    "#tools",
+    "#nutzung-mit-einem-mcp-client",
+    "#sichere-interaktion--signal-lebenszyklus",
+    "#konfiguration-umgebungsvariablen",
+    "#sicherheit",
+    "#governance--laufzeit-invarianten",
+    "#tests--verifikation",
+    "SECURITY.md",
+    "THIRD_PARTY_LICENSES.md",
+    "MARKETING-LOG.txt",
+    "llms.txt",
+    "#ellmos-ai-ökosystem",
+  ];
+
+  for (const target of expectedEnNav) {
+    assert.ok(enReadme.includes(target), `README.md Quick Navigation must link ${target}`);
+  }
+  for (const target of expectedDeNav) {
+    assert.ok(deReadme.includes(target), `README_de.md Schnellnavigation must link ${target}`);
+  }
+});
+
+test("security sla and code style badges in README files", () => {
+  const enReadme = readText("README.md");
+  const deReadme = readText("README_de.md");
+
+  assert.match(enReadme, /code_style-prettier-brightgreen\.svg/, "README.md must link Prettier code style badge");
+  assert.match(deReadme, /code_style-prettier-brightgreen\.svg/, "README_de.md must link Prettier code style badge");
+  assert.match(enReadme, /security--sla-48h%20Response%20%7C%205d%20Triage-blue\.svg/, "README.md must link Security SLA badge");
+  assert.match(deReadme, /security--sla-48h%20Response%20%7C%205d%20Triage-blue\.svg/, "README_de.md must link Security SLA badge");
+});
