@@ -121,6 +121,55 @@ test("bilingual security policy presence and contact integrity", () => {
   assert.match(sec, /OC_SAFETY_MODE/, "SECURITY.md must explain OC_SAFETY_MODE");
 });
 
+function validateMermaidBlocks(content, filename) {
+  const blocks = [...content.matchAll(/```mermaid\s*\n([\s\S]*?)\n```/g)];
+  assert.ok(blocks.length > 0, `${filename} must contain at least one mermaid block`);
+
+  for (let bIndex = 0; bIndex < blocks.length; bIndex++) {
+    const block = blocks[bIndex][1];
+    const lines = block.split("\n");
+    const isSequence = block.includes("sequenceDiagram");
+    let blockDepth = 0;
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (!line || line.startsWith("%%")) continue;
+
+      if (isSequence) {
+        if (/^(alt|opt|loop|par|critical|rect)\b/.test(line)) blockDepth++;
+        if (/^end\b/.test(line)) blockDepth--;
+
+        const msgMatch = line.match(/->>?[^:]*:\s*(.*)/);
+        if (msgMatch) {
+          const msg = msgMatch[1].replace(/&[a-zA-Z0-9#]+;/g, "");
+          assert.ok(
+            !msg.includes(";"),
+            `${filename} block ${bIndex + 1} line ${i + 1}: unescaped semicolon in sequence diagram message will terminate statement and break GitHub rendering: "${line}"`
+          );
+        }
+      } else {
+        if (/^subgraph\b/.test(line)) blockDepth++;
+        if (/^end\b/.test(line)) blockDepth--;
+
+        const nodeMatch = line.match(/\b\w+\s*\[([^"\[\]\r\n]+)\]/);
+        if (nodeMatch) {
+          const inner = nodeMatch[1].trim();
+          if (!inner.startsWith("(") && (inner.includes("(") || inner.includes(")"))) {
+            assert.fail(
+              `${filename} block ${bIndex + 1} line ${i + 1}: unquoted parenthesis in node label breaks GitHub rendering: "${line}"`
+            );
+          }
+        }
+      }
+    }
+    assert.equal(
+      blockDepth,
+      0,
+      `${filename} block ${bIndex + 1}: unbalanced block statements (depth: ${blockDepth})`
+    );
+  }
+}
+
 test("mermaid lifecycle sequence diagrams in both README files", () => {
   const enReadme = readText("README.md");
   const deReadme = readText("README_de.md");
@@ -129,6 +178,9 @@ test("mermaid lifecycle sequence diagrams in both README files", () => {
   assert.match(deReadme, /```mermaid[\s\S]*?sequenceDiagram/, "README_de.md must have sequence diagram");
   assert.match(enReadme, /Safe Interaction & Signal Lifecycle/, "README.md must have signal lifecycle heading");
   assert.match(deReadme, /Sichere Interaktion & Signal-Lebenszyklus/, "README_de.md must have German signal lifecycle heading");
+
+  validateMermaidBlocks(enReadme, "README.md");
+  validateMermaidBlocks(deReadme, "README_de.md");
 });
 
 test("badges and quick navigation parity across README files", () => {

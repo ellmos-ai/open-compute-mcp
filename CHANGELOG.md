@@ -10,6 +10,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 ### Repository Hygiene, CI Timeout Hardening & Contract Testsuite (2026-09-11)
 - **CI Workflow Timeout Hardening**: Added `timeout-minutes: 15` to the multi-OS Node.js test job in `.github/workflows/ci.yml` preventing hung runner processes across Ubuntu, Windows, and macOS matrices.
 - **Repository Hygiene & `.gitignore` Hardening**: Hardened `.gitignore` with coverage and cache protection patterns (`.nyc_output/`, `.turbo/`, `build/`, `*.orig`).
+- **Mermaid Diagram Hardening & Contract Validation**: Fixed statement-terminating semicolon in sequence diagram message (`Action completed - old observation invalid` / `Aktion abgeschlossen - alte Observation ungültig`) restoring GitHub rich rendering; added automated `validateMermaidBlocks` syntax testing to `test/metadata-parity.test.js` preventing regressions in CI.
 - **Context & License Review Synchronization**: Synchronized `THIRD_PARTY_LICENSES.md` review date and `llms.txt` verification timestamp to `2026-09-11`.
 - **Contract Test Suite Expansion**: Added automated contract tests in `test/repository-hygiene.test.js` asserting CI job timeouts and cache artifact coverage rules; updated metadata parity assertions in `test/metadata-parity.test.js` to 30 passed tests (30/30 tests passing).
 - **Maintenance Logging**: Documented Pfad A hygiene run in `MARKETING-LOG.txt`.

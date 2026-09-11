@@ -178,7 +178,7 @@ sequenceDiagram
         Engine->>UI: Maus-/Tastatureingaben / Halte-Primitive ausführen
         UI-->>Engine: Aktion abgeschlossen
         Engine-->>Launcher: Post-Observation + Fenster-/Modal-/Text-Postconditions
-        Launcher-->>Reasoner: Aktion abgeschlossen; alte Observation ungültig
+        Launcher-->>Reasoner: Aktion abgeschlossen - alte Observation ungültig
     end
 
     Note over Reasoner,Operator: Phase 4: Notfallabbruch oder Fertigstellung

@@ -177,7 +177,7 @@ sequenceDiagram
         Engine->>UI: Execute Mouse/Keyboard / Hold Primitives
         UI-->>Engine: Action Completed
         Engine-->>Launcher: Post-observation + window/modal/text postconditions
-        Launcher-->>Reasoner: Action completed; old observation invalid
+        Launcher-->>Reasoner: Action completed - old observation invalid
     end
 
     Note over Reasoner,Operator: Phase 4: Emergency Abort or Completion
