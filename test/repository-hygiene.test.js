@@ -44,12 +44,13 @@ function isIgnored(samplePath) {
   ) {
     return false;
   }
-  const basename = path.basename(samplePath);
+  const cleanSample = samplePath.endsWith("/") ? samplePath.slice(0, -1) : samplePath;
+  const basename = path.basename(cleanSample);
   for (const rawLine of gitignore.split(/\r?\n/)) {
     const line = rawLine.trim();
     if (!line || line.startsWith("#") || line.startsWith("!")) continue;
     const regex = globToRegex(line);
-    if (regex.test(samplePath) || regex.test(basename)) {
+    if (regex.test(samplePath) || regex.test(cleanSample) || regex.test(basename)) {
       return true;
     }
   }
@@ -163,5 +164,24 @@ test("third party licenses inventory parity with runtime dependencies", () => {
       `THIRD_PARTY_LICENSES.md must document runtime dependency ${dep}`
     );
   }
+});
+
+test("gitignore protects build caches, coverage artifacts, and merge leftovers", () => {
+  for (const samplePath of [
+    ".nyc_output/",
+    ".turbo/",
+    "build/",
+    "sample.orig",
+    ".pytest_cache/",
+    ".ruff_cache/",
+    "htmlcov/",
+  ]) {
+    assert.equal(isIgnored(samplePath), true, `${samplePath} should be ignored`);
+  }
+});
+
+test("GitHub Actions CI workflow defines job timeout", () => {
+  const ciYaml = readRoot(".github/workflows/ci.yml");
+  assert.match(ciYaml, /timeout-minutes:\s*15/, "CI workflow must enforce 15-minute job timeout");
 });
 

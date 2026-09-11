@@ -88,7 +88,7 @@ test("documentation files are valid UTF-8 and contain no replacement chars", () 
 test("llms.txt metadata and timestamp consistency", () => {
   const llms = readText("llms.txt");
   assert.match(llms, /# open-compute-mcp/, "llms.txt must have correct title");
-  assert.match(llms, /## Last-checked:\s*2026-09-10/, "llms.txt must have 2026-09-10 last-checked timestamp");
+  assert.match(llms, /## Last-checked:\s*2026-09-11/, "llms.txt must have 2026-09-11 last-checked timestamp");
   assert.match(llms, /## Tools\s*\(16\)/, "llms.txt must document 16 tools");
   assert.match(llms, /## Safety/, "llms.txt must document safety modes");
   assert.match(llms, /- signal_show:/, "llms.txt must document signal_show tool");
@@ -137,8 +137,8 @@ test("badges and quick navigation parity across README files", () => {
 
   assert.match(enReadme, /Quick Navigation/, "README.md must include Quick Navigation");
   assert.match(deReadme, /Schnellnavigation/, "README_de.md must include Schnellnavigation");
-  assert.match(enReadme, /tests-28%20passed-brightgreen\.svg/, "README.md must link 28 passed tests badge");
-  assert.match(deReadme, /tests-28%20passed-brightgreen\.svg/, "README_de.md must link 28 passed tests badge");
+  assert.match(enReadme, /tests-30%20passed-brightgreen\.svg/, "README.md must link 30 passed tests badge");
+  assert.match(deReadme, /tests-30%20passed-brightgreen\.svg/, "README_de.md must link 30 passed tests badge");
   assert.match(enReadme, /actions\/workflows\/ci\.yml\/badge\.svg/, "README.md must link dynamic CI workflow badge");
   assert.match(deReadme, /actions\/workflows\/ci\.yml\/badge\.svg/, "README_de.md must link dynamic CI workflow badge");
   assert.match(enReadme, /glama\.ai\/mcp\/servers\/ellmos-ai\/open-compute-mcp\/badges\/score\.svg/, "README.md must link dynamic Glama score badge");
@@ -166,6 +166,7 @@ test("GitHub Actions CI workflow schema, concurrency, and matrix integrity", () 
   const ciContent = fs.readFileSync(ciPath, "utf8");
   assert.match(ciContent, /name:\s*CI/, "CI workflow must be named CI");
   assert.match(ciContent, /cancel-in-progress:\s*true/, "CI workflow must configure cancel-in-progress concurrency");
+  assert.match(ciContent, /timeout-minutes:\s*15/, "CI workflow must configure 15-minute job timeout");
   assert.match(ciContent, /ubuntu-latest/, "CI matrix must include ubuntu-latest");
   assert.match(ciContent, /windows-latest/, "CI matrix must include windows-latest");
   assert.match(ciContent, /macos-latest/, "CI matrix must include macos-latest");
@@ -186,7 +187,7 @@ test("package.json repository and ecosystem urls integrity", () => {
 test("third party licenses inventory documentation integrity", () => {
   const licenses = readText("THIRD_PARTY_LICENSES.md");
   assert.match(licenses, /# Third-Party License Review/, "THIRD_PARTY_LICENSES.md must have title");
-  assert.match(licenses, /Stand:\s*2026-09-10/, "THIRD_PARTY_LICENSES.md must have current review date");
+  assert.match(licenses, /Stand:\s*2026-09-11/, "THIRD_PARTY_LICENSES.md must have current review date");
   assert.match(licenses, /update-notifier/, "THIRD_PARTY_LICENSES.md must list update-notifier");
   assert.match(licenses, /BSD-2-Clause/, "THIRD_PARTY_LICENSES.md must list BSD-2-Clause license");
 });

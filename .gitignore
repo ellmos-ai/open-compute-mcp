@@ -70,3 +70,7 @@ LOCK.permissions.json
 .coverage/
 htmlcov/
 .wheel-smoke/
+.nyc_output/
+.turbo/
+build/
+*.orig

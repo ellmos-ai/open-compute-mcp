@@ -96,4 +96,15 @@ and open-bricks ecosystems:
   - Multi-OS GitHub Actions CI workflow (Ubuntu, Windows, macOS across Node 18, 20, 22, 24)
   - Bilingual documentation parity between README.md and README_de.md
   - Structured machine-readable LLM context specification (llms.txt)
+
+6. MAINTENANCE & HYGIENE RUNS (PFAD A)
+--------------------------------------------------------------------------------
+2026-09-11 (Pfad A):
+  - GitHub Actions CI workflow hardened with job timeout (timeout-minutes: 15).
+  - .gitignore hardened with .nyc_output/, .turbo/, build/, and *.orig patterns.
+  - Synchronized THIRD_PARTY_LICENSES.md and llms.txt to 2026-09-11.
+  - Extended contract testsuite in test/repository-hygiene.test.js and
+    test/metadata-parity.test.js (30 passed tests | 100% green).
+  - Badges in README.md and README_de.md updated to 30 passed tests.
+  - Git working tree clean, all contract tests passing.
 ================================================================================

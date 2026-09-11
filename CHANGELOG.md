@@ -5,6 +5,15 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.0-alpha.18] - 2026-09-11
+
+### Repository Hygiene, CI Timeout Hardening & Contract Testsuite (2026-09-11)
+- **CI Workflow Timeout Hardening**: Added `timeout-minutes: 15` to the multi-OS Node.js test job in `.github/workflows/ci.yml` preventing hung runner processes across Ubuntu, Windows, and macOS matrices.
+- **Repository Hygiene & `.gitignore` Hardening**: Hardened `.gitignore` with coverage and cache protection patterns (`.nyc_output/`, `.turbo/`, `build/`, `*.orig`).
+- **Context & License Review Synchronization**: Synchronized `THIRD_PARTY_LICENSES.md` review date and `llms.txt` verification timestamp to `2026-09-11`.
+- **Contract Test Suite Expansion**: Added automated contract tests in `test/repository-hygiene.test.js` asserting CI job timeouts and cache artifact coverage rules; updated metadata parity assertions in `test/metadata-parity.test.js` to 30 passed tests (30/30 tests passing).
+- **Maintenance Logging**: Documented Pfad A hygiene run in `MARKETING-LOG.txt`.
+
 ## [0.1.0-alpha.18] - 2026-09-10
 
 ### Discoverability, Governance Invariants & Architecture Parity (2026-09-10)

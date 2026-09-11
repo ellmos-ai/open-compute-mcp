@@ -1,6 +1,6 @@
 # Third-Party License Review
 
-Stand: 2026-09-10.
+Stand: 2026-09-11.
 
 ## Runtime dependencies
 
