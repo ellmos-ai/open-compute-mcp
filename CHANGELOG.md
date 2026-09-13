@@ -5,6 +5,18 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.0-alpha.19] - 2026-09-13
+
+### Discoverability, 16-Point Navigation, Target Personas & Comparative Matrix (Pfad B 2026-09-13)
+- **16-Point Quick Navigation Parity**: Harmonized `README.md` and `README_de.md` to 16 standardized sections with 100% reciprocal anchor parity (`#target-personas--discoverability` / `#zielgruppen--auffindbarkeit`, `#comparative-matrix-vs-alternatives` / `#vergleichsmatrix-gegenueber-alternativen`).
+- **Target Personas & Discoverability Table**: Integrated bilingual audience mapping across 4 primary technical personas (Autonomous AI Agents & Swarms, Enterprise AI Safety & SecOps Teams, Windows GUI QA & Accessibility Engineers, Multimodal Human-in-the-Loop Operators) paired with high-intent SEO search terms.
+- **10-Dimension Comparative Matrix**: Embedded comprehensive comparative analysis evaluating `open-compute-mcp` against Direct OS Shell Scripting, Proprietary Cloud Computer-Use, Heavyweight Vision Frameworks, and Ungated Generic MCP Tools across 10 operational dimensions.
+- **Manifest & Version Harmonization**: Bumped version to `0.1.0-alpha.19` across `package.json`, `server.json`, and `glama.json`.
+- **Third-Party License Review & Governance Invariants**: Re-audited runtime and architectural dependencies in `THIRD_PARTY_LICENSES.md` as of `2026-09-13`, reaffirming zero-copyleft and RunAsInvoker unprivileged execution.
+- **LLM Context & Metadata Parity**: Synchronized `llms.txt` to `2026-09-13` and updated test badges to 35 passed tests.
+- **Contract Test Suite Expansion**: Expanded automated contract tests in `test/metadata-parity.test.js` to cover 16-point navigation anchors, target personas table, 10-dimension comparative matrix, and manifest version synchronization (35/35 tests passing).
+- **Maintenance & Marketing Logging**: Appended Pfad B discoverability audit entry to `MARKETING-LOG.txt`.
+
 ## [0.1.0-alpha.18] - 2026-09-11
 
 ### Repository Hygiene, CI Timeout Hardening & Contract Testsuite (2026-09-11)

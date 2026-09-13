@@ -15,13 +15,16 @@ modellagnostische **Computer-Use**-Tools über das Model Context Protocol (MCP).
 [![GitHub Stars](https://img.shields.io/github/stars/ellmos-ai/open-compute-mcp.svg)](https://github.com/ellmos-ai/open-compute-mcp)
 [![License: MIT](https://img.shields.io/github/license/ellmos-ai/open-compute-mcp.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
-[![Tests](https://img.shields.io/badge/tests-30%20passed-brightgreen.svg)](test)
+[![Tests](https://img.shields.io/badge/tests-35%20passed-brightgreen.svg)](test)
 [![Code Style: Prettier](https://img.shields.io/badge/code_style-prettier-brightgreen.svg)](https://prettier.io)
 [![Security SLA](https://img.shields.io/badge/security--sla-48h%20Response%20%7C%205d%20Triage-blue.svg)](SECURITY.md)
 [![MCP Enabled](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/open-compute-mcp)
 [![Privacy: Zero-Egress](https://img.shields.io/badge/privacy-100%25%20Offline%20%7C%20Zero--Egress-blue.svg)](SECURITY.md)
 [![Security: Safety-Gated](https://img.shields.io/badge/security-Operator%20Ceiling%20%7C%20Safety--Gated-green.svg)](SECURITY.md)
+[![Third-Party: Audited](https://img.shields.io/badge/third--party-audited%20%7C%20100%25%20permissive-brightgreen.svg)](THIRD_PARTY_LICENSES.md)
+[![Marketing Log](https://img.shields.io/badge/marketing--log-active-blue.svg)](MARKETING-LOG.txt)
+[![Verified](https://img.shields.io/badge/verified-2026--09--13-blue.svg)](llms.txt)
 [![Ecosystem: ellmos-ai](https://img.shields.io/badge/ecosystem-ellmos--ai-blueviolet.svg)](https://github.com/ellmos-ai)
 [![Umbrella: open-bricks](https://img.shields.io/badge/umbrella-open--bricks-indigo.svg)](https://github.com/open-bricks)
 [![Glama](https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp/badges/score.svg)](https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp)
@@ -37,6 +40,8 @@ modellagnostische **Computer-Use**-Tools über das Model Context Protocol (MCP).
 - [🏗️ Architektur](#architektur)
 - [🛠️ Tools (16)](#tools)
 - [🚀 Nutzung mit einem MCP-Client](#nutzung-mit-einem-mcp-client)
+- [🎯 Zielgruppen & Auffindbarkeit](#zielgruppen--auffindbarkeit)
+- [📊 Vergleichsmatrix gegenüber Alternativen](#vergleichsmatrix-gegenueber-alternativen)
 - [🔄 Sichere Interaktion & Signal-Lebenszyklus](#sichere-interaktion--signal-lebenszyklus)
 - [⚙️ Konfiguration](#konfiguration-umgebungsvariablen)
 - [🔒 Sicherheit & Leitplanken](#sicherheit)
@@ -217,6 +222,45 @@ sequenceDiagram
   }
 }
 ```
+
+<a id="zielgruppen--auffindbarkeit"></a>
+## Zielgruppen & Auffindbarkeit
+
+`open-compute-mcp` bedient vier zentrale technische Zielgruppen im Bereich autonomer Agenten-Workflows, IT-Sicherheit, Barrierefreiheit und multimodaler Zusammenarbeit:
+
+| Zielgruppe / Persona | Kernanforderungen | Gelöste Probleme | Ziel-Suchbegriffe |
+| :--- | :--- | :--- | :--- |
+| **Autonome KI-Agenten & Schwärme** *(Claude Code, Antigravity, Cursor, Windsurf)* | Zuverlässige Desktop-Wahrnehmung, normalisierte Koordinaten (0..1), zustandsgebundene Observation-IDs | Halluzination auf veralteten Screenshots; unkoordinierte Mehrfachaktionen; Kontext-Drift über Interaktionsschritte hinweg | `open-compute-mcp`, `computer-use mcp server`, `claude desktop computer use`, `agent desktop automation mcp` |
+| **Enterprise AI Safety & SecOps-Teams** | Fail-closed Sicherheits-Ceilings (`OC_SAFETY_MODE`), Aktions-Blacklists, vollständiges Zero-Egress | Unkontrollierte Agenten-Aktionen; Abfluss von Bildschirminhalten in die Cloud; unerwünschte administrative Rechteerweiterung | `safe computer-use mcp`, `zero-egress gui automation`, `operator ceiling ai agent`, `runasinvoker desktop mcp` |
+| **Windows GUI QA & Barrierefreiheits-Tester** | Semantisches Element-Targeting via Windows UIA, klickfreie Aktivierung, exact-first Namensauflösung | Fragile pixelbasierte Klick-Koordinaten; fehlerhafte DPI-Skalierung; instabile UI-Testabläufe | `windows uia mcp server`, `semantic ui automation mcp`, `accessibility tree gui testing`, `exact-first uia click` |
+| **Multimodale Human-in-the-Loop Anwender** | Visuelles Signal-Overlay mit Countdown, Notfall-Abbruch-Hotkey, Push-to-Talk-Sprachnotizen & Screen-Chat | Unbemerktes Agieren im Hintergrund; fehlende Not-Aus-Kontrolle; umständlicher Feedback-Kanal zwischen Mensch und Modell | `signal overlay mcp`, `push-to-talk ai assistant`, `human-in-the-loop desktop agent`, `emergency abort computer use` |
+
+### Hochrelevante Suchbegriffs-Matrix (SEO & Discovery)
+
+| Kategorie | Primäre Suchbegriffe (Deutsch) | Primary Search Terms (English) |
+|---|---|---|
+| **MCP & Agent Tooling** | `Model Context Protocol Computer Use`, `Open Compute MCP Server`, `Claude Desktop GUI Steuerung` | `model context protocol computer use`, `open compute mcp launcher`, `claude desktop gui automation` |
+| **UI Automation & Targeting** | `Windows UI Automation MCP`, `Semantische Desktop Steuerung`, `Barrierefreiheitsbaum Element Targeting` | `windows uia accessibility tree mcp`, `exact-first ui element targeting`, `semantic desktop automation` |
+| **Sicherheit & Governance** | `Fail-Closed Agenten Sicherheit`, `Zero-Egress Desktop Automatisierung`, `Unprivilegierte Agentenausführung` | `fail-closed agent safety ceiling`, `zero-egress desktop mcp`, `runasinvoker unprivileged agent` |
+| **Visuelle Signale & Feedback** | `Visuelles Signal Overlay Bildschirm`, `Notfallabbruch Hotkey Computer Use`, `Push-to-Talk Sprachnachricht MCP` | `leased screen signal overlay`, `emergency abort hotkey computer use`, `push-to-talk voice note mcp` |
+
+<a id="vergleichsmatrix-gegenueber-alternativen"></a>
+## Vergleichsmatrix gegenüber Alternativen
+
+`open-compute-mcp` etabliert eine modellagnostische, sicherheitsgehärtete Brücke zwischen LLM-Reasonern und dem Windows-Desktop. Die folgende Matrix vergleicht den Ansatz mit verbreiteten Alternativen über 10 operationelle Bewertungsdimensionen:
+
+| Bewertungsdimension | `open-compute-mcp` | Direkte OS-Shell (PowerShell/Win32) | Proprietärer Cloud-Computer-Use | Schwergewichtige GUI-Frameworks (PyAutoGUI/Selenium) | Ungeschützte Standard-MCP-Tools |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **1. Primäres Interface & Transport** | **PASS** (Model Context Protocol JSON-RPC über Stdio) | ❌ Rohe CLI / PowerShell Stdio | ❌ Proprietäres SaaS REST / WebSockets | ❌ Python-Skripte / Ad-hoc-Bindings | ⚠️ Generisches unstandardisiertes Stdio |
+| **2. Sicherheitsleitplanken & Ceiling** | **PASS** (Erzwungenes `OC_SAFETY_MODE`-Ceiling: confirm/read_only) | ❌ 0 Leitplanken (beliebige Skriptausführung) | ⚠️ Undurchsichtige Cloud-Moderation | ❌ 0 Leitplanken (direkte OS-API-Hooks) | ❌ Ungeprüfte direkte Toolausführung |
+| **3. Zustandsbindung & Observation-Lebensdauer** | **PASS** (Einmalige `observation_id`, nach 1 Aktion ungültig) | ❌ Zustandslos; erfordert manuelles Polling | ⚠️ Ephemerer Cloud-Sitzungszustand | ❌ Veraltete Koordinaten-Drifts ohne Ungültigkeitserklärung | ❌ Keine Koordinaten- oder Frame-Bindung |
+| **4. Duale Targeting-Präzision** | **PASS** (Exact-First Windows UIA + Normalisierte 0..1 Vision-Koordinaten) | ⚠️ Nur HWND- und Prozess-ID-Lookups | ⚠️ Reine pixelbasierte Vision-Heuristiken | ❌ Rohe Pixel-Koordinaten / nur Web-DOM | ❌ Parameter-Übergabe ohne Barrierefreiheitsbaum |
+| **5. Visuelles Signal-Overlay & Countdown** | **PASS** (Geleaster Leuchtrahmen, Grace-Timer & Screenreader-Label) | ❌ Unsichtbare Hintergrundaktivität | ⚠️ Nur Browser-/Dashboard-Vorschau | ❌ Lautlose Mauszeiger-Bewegungen | ❌ Keine visuelle Nutzerbenachrichtigung |
+| **6. Notfall-Abbruch & Auto-Release** | **PASS** (Globaler Hotkey-Abbruch + automatisches Lösen aller Tasten/Maus) | ❌ Ctrl+C beendet Prozess, Tasten können hängenbleiben | ⚠️ Trennen-Button im Web-Interface | ⚠️ Manuelles Cursor-Flippen (hängende Tasten häufig) | ❌ Nur Client-Verbindungsabbruch |
+| **7. Multimodales Feedback** | **PASS** (Integriertes Push-to-Talk WAV-Audio & Screen-Chat) | ❌ Nur reines Text-Stdout/Stderr | ⚠️ Text-Chat im Webportal | ❌ Keine | ❌ Nur JSON-Schema-Text |
+| **8. Token- & Vision-Optimierung** | **PASS** (0.5x Standard-Skalierung: ~690 Tokens vs ~1600 Tokens Full-HD) | Nicht anwendbar (keine native Bildwahrnehmung) | ❌ Abrechnung nach proprietären Cloud-Tarifen | ❌ Volle, unkomprimierte Screenshot-Dumps | ⚠️ Unkomprimierte Frame-Übertragungen |
+| **9. Datenschutz & Zero-Egress** | **PASS** (100% lokal & offline, 0 Telemetrie: `INV-LOCAL-01`) | ⚠️ Lokal, sofern Skript keine HTTP-Calls absetzt | ❌ Bildschirminhalte werden in Remote-Clouds übertragen | ⚠️ Oft mit Telemetrie-Paketen gebündelt | ⚠️ Abhängig vom Backend-Transport |
+| **10. Lizenz & Sicherheits-SLA** | **PASS** (10 Invarianten, 48h Security Response & 5d Triage-SLA) | ❌ Betriebssystem-gebunden / Proprietär Windows | ❌ Proprietäres geschlossenes SaaS | ⚠️ Community Best-Effort Wartung | ⚠️ Sehr heterogene Autorenqualität |
 
 ## Konfiguration (Umgebungsvariablen)
 

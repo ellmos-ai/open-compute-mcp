@@ -5,7 +5,7 @@ Repository: https://github.com/ellmos-ai/open-compute-mcp
 Project Name: open-compute-mcp (Distribution: open-compute-mcp on npm)
 Umbrella Ecosystem: open-bricks (https://github.com/open-bricks)
 Architecture Domain: Model-Agnostic Computer-Use MCP Server (Desktop Automation & Perception)
-Audit Date: 2026-09-10
+Audit Date: 2026-09-13
 Status: ACTIVE / PFAD B DISCOVERABILITY HARDENED
 ================================================================================
 
@@ -97,8 +97,17 @@ and open-bricks ecosystems:
   - Bilingual documentation parity between README.md and README_de.md
   - Structured machine-readable LLM context specification (llms.txt)
 
-6. MAINTENANCE & HYGIENE RUNS (PFAD A)
+6. MAINTENANCE & HYGIENE RUNS (PFAD A / PFAD B)
 --------------------------------------------------------------------------------
+2026-09-13 (Pfad B):
+  - Version bump to 0.1.0-alpha.19 across package.json, server.json, and glama.json.
+  - Upgraded navigation across README.md and README_de.md to 16-point quick navigation with 100% reciprocal anchor parity.
+  - Added bilingual Target Personas & Discoverability section mapping 4 user personas and high-intent SEO keywords.
+  - Embedded comprehensive 10-dimension Comparative Matrix vs 4 Alternatives.
+  - Re-audited THIRD_PARTY_LICENSES.md and synchronized llms.txt to 2026-09-13.
+  - Expanded automated contract test suite in test/metadata-parity.test.js to 35 passed tests (100% green).
+  - Verified package dry-run (npm pack --dry-run) and git working tree integrity.
+
 2026-09-11 (Pfad A):
   - GitHub Actions CI workflow hardened with job timeout (timeout-minutes: 15).
   - .gitignore hardened with .nyc_output/, .turbo/, build/, and *.orig patterns.

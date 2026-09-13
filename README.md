@@ -15,13 +15,16 @@ model-agnostic **computer-use** tools exposed over the Model Context Protocol (M
 [![GitHub Stars](https://img.shields.io/github/stars/ellmos-ai/open-compute-mcp.svg)](https://github.com/ellmos-ai/open-compute-mcp)
 [![License: MIT](https://img.shields.io/github/license/ellmos-ai/open-compute-mcp.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
-[![Tests](https://img.shields.io/badge/tests-30%20passed-brightgreen.svg)](test)
+[![Tests](https://img.shields.io/badge/tests-35%20passed-brightgreen.svg)](test)
 [![Code Style: Prettier](https://img.shields.io/badge/code_style-prettier-brightgreen.svg)](https://prettier.io)
 [![Security SLA](https://img.shields.io/badge/security--sla-48h%20Response%20%7C%205d%20Triage-blue.svg)](SECURITY.md)
 [![MCP Enabled](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/open-compute-mcp)
 [![Privacy: Zero-Egress](https://img.shields.io/badge/privacy-100%25%20Offline%20%7C%20Zero--Egress-blue.svg)](SECURITY.md)
 [![Security: Safety-Gated](https://img.shields.io/badge/security-Operator%20Ceiling%20%7C%20Safety--Gated-green.svg)](SECURITY.md)
+[![Third-Party: Audited](https://img.shields.io/badge/third--party-audited%20%7C%20100%25%20permissive-brightgreen.svg)](THIRD_PARTY_LICENSES.md)
+[![Marketing Log](https://img.shields.io/badge/marketing--log-active-blue.svg)](MARKETING-LOG.txt)
+[![Verified](https://img.shields.io/badge/verified-2026--09--13-blue.svg)](llms.txt)
 [![Ecosystem: ellmos-ai](https://img.shields.io/badge/ecosystem-ellmos--ai-blueviolet.svg)](https://github.com/ellmos-ai)
 [![Umbrella: open-bricks](https://img.shields.io/badge/umbrella-open--bricks-indigo.svg)](https://github.com/open-bricks)
 [![Glama](https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp/badges/score.svg)](https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp)
@@ -37,6 +40,8 @@ model-agnostic **computer-use** tools exposed over the Model Context Protocol (M
 - [🏗️ Architecture](#architecture)
 - [🛠️ Tools (16)](#tools)
 - [🚀 Use with an MCP Client](#use-with-an-mcp-client)
+- [🎯 Target Personas & Discoverability](#target-personas--discoverability)
+- [📊 Comparative Matrix vs. Alternatives](#comparative-matrix-vs-alternatives)
 - [🔄 Safe Interaction & Signal Lifecycle](#safe-interaction--signal-lifecycle)
 - [⚙️ Configuration](#configuration-environment-variables)
 - [🔒 Safety & Security](#safety)
@@ -216,6 +221,45 @@ sequenceDiagram
   }
 }
 ```
+
+<a id="target-personas--discoverability"></a>
+## Target Personas & Discoverability
+
+`open-compute-mcp` is architected for four technical personas across autonomous AI operations, system engineering, accessibility assurance, and multimodal human-in-the-loop workflows:
+
+| Target Persona | Core Operational Needs | Pain Points Solved | Target Discovery Terms |
+| :--- | :--- | :--- | :--- |
+| **Autonomous AI Agents & Swarms** *(Claude Code, Antigravity, Cursor, Windsurf)* | Reliable desktop perception, normalized coordinates (0..1), state-bound observation tokens | Stale-frame hallucination; blind multi-action execution; coordination drift across agent turns | `open-compute-mcp`, `computer-use mcp server`, `claude desktop computer use`, `agent desktop automation mcp` |
+| **Enterprise AI Safety & SecOps Teams** | Fail-closed operator safety ceiling (`OC_SAFETY_MODE`), action denylists, zero network egress | Runaway autonomous agents; remote cloud telemetry leakage; unverified privilege escalation | `safe computer-use mcp`, `zero-egress gui automation`, `operator ceiling ai agent`, `runasinvoker desktop mcp` |
+| **Windows GUI QA & Accessibility Engineers** | Semantic element targeting via UI Automation (UIA), click-free activation, exact-first matching | Fragile optical/OCR coordinate clicking; broken resolution scaling; brittle UI test automation | `windows uia mcp server`, `semantic ui automation mcp`, `accessibility tree gui testing`, `exact-first uia click` |
+| **Multimodal Human-in-the-Loop Operators** | Leased visual signal overlay with countdown, emergency human abort hotkey, push-to-talk voice/chat | Silent background tampering; inability to stop runaway models; disjointed human-agent feedback loops | `signal overlay mcp`, `push-to-talk ai assistant`, `human-in-the-loop desktop agent`, `emergency abort computer use` |
+
+### High-Intent Search Term Matrix (SEO & Discoverability)
+
+| Category | Primary Search Terms (English) | Primäre Suchbegriffe (Deutsch) |
+|---|---|---|
+| **MCP & Agent Tooling** | `model context protocol computer use`, `open compute mcp launcher`, `claude desktop gui automation` | `Model Context Protocol Computer Use`, `Open Compute MCP Server`, `Claude Desktop GUI Steuerung` |
+| **UI Automation & Targeting** | `windows uia accessibility tree mcp`, `exact-first ui element targeting`, `semantic desktop automation` | `Windows UI Automation MCP`, `Semantische Desktop Steuerung`, `Barrierefreiheitsbaum Element Targeting` |
+| **Safety & Governance** | `fail-closed agent safety ceiling`, `zero-egress desktop mcp`, `runasinvoker unprivileged agent` | `Fail-Closed Agenten Sicherheit`, `Zero-Egress Desktop Automatisierung`, `Unprivilegierte Agentenausführung` |
+| **Visual Signals & Feedback** | `leased screen signal overlay`, `emergency abort hotkey computer use`, `push-to-talk voice note mcp` | `Visuelles Signal Overlay Bildschirm`, `Notfallabbruch Hotkey Computer Use`, `Push-to-Talk Sprachnachricht MCP` |
+
+<a id="comparative-matrix-vs-alternatives"></a>
+## Comparative Matrix vs. Alternatives
+
+`open-compute-mcp` delivers a model-agnostic, safety-bounded bridge between LLM reasoners and the Windows desktop environment. The following matrix illustrates how `open-compute-mcp` compares with alternative desktop interaction patterns across 10 operational dimensions:
+
+| Evaluation Dimension | `open-compute-mcp` | Direct OS Shell (PowerShell/Win32) | Proprietary Cloud Computer-Use | Heavyweight Vision Frameworks (PyAutoGUI/Selenium) | Standard Ungated MCP Tools |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **1. Primary Interface & Transport** | **PASS** (Model Context Protocol JSON-RPC over stdio) | ❌ Raw CLI / PowerShell stdio | ❌ Proprietary SaaS REST / WebSockets | ❌ Python scripts / ad-hoc bindings | ⚠️ Generic unstandardized stdio |
+| **2. Safety Ceiling & Guardrails** | **PASS** (Enforced `OC_SAFETY_MODE` ceiling: confirm/read_only) | ❌ 0 guardrails (arbitrary code execution) | ⚠️ Opaque vendor-side moderation | ❌ 0 guardrails (direct OS API hooks) | ❌ Unchecked direct tool invocation |
+| **3. State Binding & Observation Lifespan** | **PASS** (One-shot `observation_id` invalidated after 1 action) | ❌ Stateless; requires manual polling | ⚠️ Ephemeral cloud session state | ❌ Stale coordinate drift; no invalidation | ❌ No coordinate or frame binding |
+| **4. Dual Targeting Precision** | **PASS** (Exact-first UIA + Normalized 0..1 vision coordinates) | ⚠️ HWND and Process ID lookups only | ⚠️ Pure vision pixel heuristics | ❌ Raw pixel coordinates / web DOM only | ❌ Parameter passing without UI tree |
+| **5. Visual Signal & Countdown** | **PASS** (Leased glowing border, grace timer & screenreader label) | ❌ Invisible background activity | ⚠️ Browser/Dashboard canvas preview only | ❌ Silent cursor movements | ❌ No visual user notification |
+| **6. Emergency Abort & Auto-Release** | **PASS** (Global hotkey abort + auto-release of all held keys/mouse) | ❌ Ctrl+C terminates but may leave keys stuck | ⚠️ Web UI disconnect button | ⚠️ Manual corner flick (keys often get stuck) | ❌ Client disconnect only |
+| **7. Multimodal Feedback** | **PASS** (Built-in push-to-talk WAV recording & screen chat) | ❌ Text stdout/stderr only | ⚠️ Web chat textbox | ❌ None | ❌ JSON schema text only |
+| **8. Token Economy Optimization** | **PASS** (0.5x default scale: ~690 tokens vs ~1600 tokens full HD) | N/A (no native vision capabilities) | ❌ Metered cloud token surcharges | ❌ Full-resolution uncompressed dumps | ⚠️ Variable uncompressed frame transfers |
+| **9. Privacy & Zero-Egress** | **PASS** (100% offline, zero network telemetry: `INV-LOCAL-01`) | ⚠️ Local unless script calls external endpoints | ❌ Screen frames streamed to remote cloud | ⚠️ Telemetry packages often bundled | ⚠️ Dependent on backend transport |
+| **10. Governance & Security SLA** | **PASS** (10 Invariants, 48h Security Response & 5d Triage SLA) | ❌ OS vendor lifecycle | ❌ Proprietary closed-source Terms of Service | ⚠️ Community best-effort maintenance | ⚠️ Heterogeneous author quality |
 
 ## Configuration (environment variables)
 
