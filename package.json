@@ -2,7 +2,7 @@
   "name": "open-compute-mcp",
   "version": "0.1.0-alpha.19",
   "mcpName": "io.github.lukisch/open-compute-mcp",
-  "description": "npm launcher for the open-compute MCP server: model-agnostic computer-use tools (screenshot capture, canonical safety-gated actions, Windows UIA element targeting) over MCP stdio. Spawns the Python open-compute server (from GitHub).",
+  "description": "Local stdio npm launcher for Python open-compute; real capture and input require an interactive Windows desktop session on the MCP client's host. Not remotely hostable.",
   "type": "commonjs",
   "bin": {
     "open-compute-mcp": "bin/open-compute-mcp.js"
@@ -20,7 +20,6 @@
     "THIRD_PARTY_LICENSES.md",
     "LICENSE",
     "server.json",
-    "glama.json",
     "smithery.yaml",
     "llms.txt",
     "MARKETING-LOG.txt"
@@ -44,8 +43,7 @@
     "claude",
     "claude-desktop",
     "ai-tools",
-    "mcp-stdio",
-    "glama"
+    "mcp-stdio"
   ],
   "dependencies": {
     "update-notifier": "^7.3.1"
