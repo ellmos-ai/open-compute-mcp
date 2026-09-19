@@ -5,6 +5,8 @@
 > targeting, visual signal overlay, push-to-talk voice/chat) over the Model Context Protocol.
 > The connected AI client is the reasoner (keyless). The launcher spawns the Python
 > open-compute server from GitHub via uvx; real capture/input is Windows-only.
+> Local stdio only: real capture/input require an interactive Windows desktop
+> session on the MCP client's host. This launcher is not Glama-hostable.
 
 ## Install / run
 
@@ -61,7 +63,6 @@ or exit unless `keep_signal=true`. Hold primitives auto-release.
 
 - Wrapper repo: https://github.com/ellmos-ai/open-compute-mcp
 - Server (Python): https://github.com/ellmos-ai/open-compute
-- Glama Server Registry: https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp
 - npm Package: https://www.npmjs.com/package/open-compute-mcp
 
 ## Important Files
@@ -70,7 +71,7 @@ or exit unless `keep_signal=true`. Hold primitives auto-release.
 - `README_de.md`: German documentation and sequence diagrams.
 - `package.json`: npm package manifest with launcher configuration.
 - `server.json`: MCP registry configuration.
-- `glama.json`: Glama catalog manifest and tool count specifications.
+- `glama.json`: repository-only Glama listing ownership metadata; its presence does not make this local desktop launcher remotely hostable.
 - `bin/open-compute-mcp.js`: Node.js launcher entry point.
 - `test/launcher-command.test.js`: Launcher command-override smoke test.
 - `SECURITY.md`: Bilingual security policy and safety gate explanations.

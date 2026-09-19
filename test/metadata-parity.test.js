@@ -45,7 +45,6 @@ test("package.json files list includes all canonical distribution files", () => 
     "THIRD_PARTY_LICENSES.md",
     "LICENSE",
     "server.json",
-    "glama.json",
     "smithery.yaml",
     "llms.txt",
     "MARKETING-LOG.txt",
@@ -99,6 +98,8 @@ test("llms.txt metadata and timestamp consistency", () => {
 test("glama.json tools count and features consistency", () => {
   const glama = readJson("glama.json");
   assert.equal(glama.tools.count, 16, "glama.json tool count must be 16");
+  assert.match(glama.description, /interactive Windows desktop session/i);
+  assert.match(glama.description, /not Glama-hostable/i);
   assert.ok(glama.keywords.includes("signal-overlay"), "glama.json keywords must include signal-overlay");
   assert.ok(glama.keywords.includes("push-to-talk"), "glama.json keywords must include push-to-talk");
   assert.ok(
@@ -193,8 +194,10 @@ test("badges and quick navigation parity across README files", () => {
   assert.match(deReadme, /tests-35%20passed-brightgreen\.svg/, "README_de.md must link 35 passed tests badge");
   assert.match(enReadme, /actions\/workflows\/ci\.yml\/badge\.svg/, "README.md must link dynamic CI workflow badge");
   assert.match(deReadme, /actions\/workflows\/ci\.yml\/badge\.svg/, "README_de.md must link dynamic CI workflow badge");
-  assert.match(enReadme, /glama\.ai\/mcp\/servers\/ellmos-ai\/open-compute-mcp\/badges\/score\.svg/, "README.md must link dynamic Glama score badge");
-  assert.match(deReadme, /glama\.ai\/mcp\/servers\/ellmos-ai\/open-compute-mcp\/badges\/score\.svg/, "README_de.md must link dynamic Glama score badge");
+  assert.doesNotMatch(enReadme, /glama\.ai\/mcp\/servers\/ellmos-ai\/open-compute-mcp\/badges\/score\.svg/, "README.md must not promote an incompatible hosted listing");
+  assert.doesNotMatch(deReadme, /glama\.ai\/mcp\/servers\/ellmos-ai\/open-compute-mcp\/badges\/score\.svg/, "README_de.md must not promote an incompatible hosted listing");
+  assert.match(enReadme, /not Glama-hostable/);
+  assert.match(deReadme, /nicht bei Glama hostbar/);
   assert.doesNotMatch(enReadme, /open-compute-mcp\/badge["']/, "README.md must not include static Glama banner card");
   assert.doesNotMatch(deReadme, /open-compute-mcp\/badge["']/, "README_de.md must not include static Glama banner card");
   assert.doesNotMatch(enReadme, /glama-badge\.jpg/, "README.md must not reference static glama-badge.jpg");
@@ -412,6 +415,10 @@ test("package version and manifest parity across package.json, server.json, and 
   assert.equal(glama.version, "0.1.0-alpha.19", "glama.json version must be 0.1.0-alpha.19");
   assert.ok(server.packages && server.packages[0], "server.json packages array must exist");
   assert.equal(server.packages[0].version, "0.1.0-alpha.19", "server.json package entry must be 0.1.0-alpha.19");
+  assert.match(pkg.description, /interactive Windows desktop session/i);
+  assert.match(server.description, /interactive Windows desktop session/i);
+  assert.equal(pkg.keywords.includes("glama"), false, "package search tags must not promote incompatible hosted integration");
+  assert.match(readText("llms.txt"), /not Glama-hostable/);
 });
 
 test("marketing log recency and Pfad B entry presence", () => {

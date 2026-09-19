@@ -7,6 +7,12 @@
 **npm-Launcher für den [open-compute](https://github.com/ellmos-ai/open-compute) MCP-Server** —
 modellagnostische **Computer-Use**-Tools über das Model Context Protocol (MCP).
 
+> [!IMPORTANT]
+> **Nur lokales Stdio.** Echtes Erfassen und Steuern benötigt eine interaktive
+> Windows-Desktop-Sitzung auf dem Host des MCP-Clients. Dieser Launcher ist
+> **nicht bei Glama hostbar**; ein gehosteter „Deploy Server“-Ablauf kann nicht
+> auf deinen Desktop zugreifen. Richte ihn stattdessen in einem lokalen MCP-Client ein.
+
 **EN** ([README.md](README.md)) | **DE**
 
 [![CI](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml)
@@ -27,7 +33,6 @@ modellagnostische **Computer-Use**-Tools über das Model Context Protocol (MCP).
 [![Verified](https://img.shields.io/badge/verified-2026--09--13-blue.svg)](llms.txt)
 [![Ecosystem: ellmos-ai](https://img.shields.io/badge/ecosystem-ellmos--ai-blueviolet.svg)](https://github.com/ellmos-ai)
 [![Umbrella: open-bricks](https://img.shields.io/badge/umbrella-open--bricks-indigo.svg)](https://github.com/open-bricks)
-[![Glama](https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp/badges/score.svg)](https://glama.ai/mcp/servers/ellmos-ai/open-compute-mcp)
 [![LLM Ready](https://img.shields.io/badge/LLM-ready-success.svg)](https://github.com/ellmos-ai/open-compute-mcp/blob/main/llms.txt)
 
 📦 **[Auf npm ansehen →](https://www.npmjs.com/package/open-compute-mcp)** • 📋 **[Sicherheitsrichtlinie](SECURITY.md)** • ⚖️ **[Lizenzen](THIRD_PARTY_LICENSES.md)** • 🤖 **[LLM-Kontext (llms.txt)](llms.txt)**
