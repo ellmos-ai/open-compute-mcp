@@ -5,8 +5,8 @@ Repository: https://github.com/ellmos-ai/open-compute-mcp
 Project Name: open-compute-mcp (Distribution: open-compute-mcp on npm)
 Umbrella Ecosystem: open-bricks (https://github.com/open-bricks)
 Architecture Domain: Model-Agnostic Computer-Use MCP Server (Desktop Automation & Perception)
-Audit Date: 2026-09-13
-Status: ACTIVE / PFAD B DISCOVERABILITY HARDENED
+Audit Date: 2026-09-20
+Status: ACTIVE / PFAD A HYGIENE HARDENED
 ================================================================================
 
 1. PRODUCT IDENTITY & MISSION
@@ -99,6 +99,16 @@ and open-bricks ecosystems:
 
 6. MAINTENANCE & HYGIENE RUNS (PFAD A / PFAD B)
 --------------------------------------------------------------------------------
+2026-09-20 (Pfad A):
+  - Version bump to 0.1.0-alpha.20 across package.json, package-lock.json, server.json, and glama.json.
+  - CI workflow least-privilege permissions hardening (permissions: contents: read) in ci.yml.
+  - Added standard lifecycle workflows: stale.yml (timeout: 10m) and welcome.yml (timeout: 5m, concurrency cancel-in-progress).
+  - Hardened .gitignore against multi-host conflict copies (*conflicted copy*, *(Kopie)*, *-WORKSTATION*, etc.) and canonical locks (LOCK.user.*, LOCK.until.*, etc.).
+  - Created canonical NOTICE attribution file and anchored in package.json files array.
+  - Re-audited THIRD_PARTY_LICENSES.md and synchronized llms.txt to 2026-09-20.
+  - Expanded automated contract test suite across test/metadata-parity.test.js and test/repository-hygiene.test.js.
+  - Verified 100% green tests, npm pack --dry-run clean, and git working tree integrity.
+
 2026-09-13 (Pfad B):
   - Version bump to 0.1.0-alpha.19 across package.json, server.json, and glama.json.
   - Upgraded navigation across README.md and README_de.md to 16-point quick navigation with 100% reciprocal anchor parity.

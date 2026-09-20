@@ -1,7 +1,7 @@
 {
   "$schema": "https://glama.ai/mcp/schemas/server.json",
   "name": "open-compute-mcp",
-  "version": "0.1.0-alpha.19",
+  "version": "0.1.0-alpha.20",
   "description": "Local stdio npm launcher for Python open-compute. Real capture and input require an interactive Windows desktop session on the MCP client's host; not Glama-hostable or remotely deployable.",
   "maintainers": [
     "lukisch"

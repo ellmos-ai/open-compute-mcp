@@ -43,6 +43,7 @@ test("package.json files list includes all canonical distribution files", () => 
     "CHANGELOG.md",
     "SECURITY.md",
     "THIRD_PARTY_LICENSES.md",
+    "NOTICE",
     "LICENSE",
     "server.json",
     "smithery.yaml",
@@ -87,7 +88,7 @@ test("documentation files are valid UTF-8 and contain no replacement chars", () 
 test("llms.txt metadata and timestamp consistency", () => {
   const llms = readText("llms.txt");
   assert.match(llms, /# open-compute-mcp/, "llms.txt must have correct title");
-  assert.match(llms, /## Last-checked:\s*2026-09-13/, "llms.txt must have 2026-09-13 last-checked timestamp");
+  assert.match(llms, /## Last-checked:\s*2026-09-20/, "llms.txt must have 2026-09-20 last-checked timestamp");
   assert.match(llms, /## Tools\s*\(16\)/, "llms.txt must document 16 tools");
   assert.match(llms, /## Safety/, "llms.txt must document safety modes");
   assert.match(llms, /- signal_show:/, "llms.txt must document signal_show tool");
@@ -190,8 +191,8 @@ test("badges and quick navigation parity across README files", () => {
 
   assert.match(enReadme, /Quick Navigation/, "README.md must include Quick Navigation");
   assert.match(deReadme, /Schnellnavigation/, "README_de.md must include Schnellnavigation");
-  assert.match(enReadme, /tests-35%20passed-brightgreen\.svg/, "README.md must link 35 passed tests badge");
-  assert.match(deReadme, /tests-35%20passed-brightgreen\.svg/, "README_de.md must link 35 passed tests badge");
+  assert.match(enReadme, /tests-37%20passed-brightgreen\.svg/, "README.md must link 37 passed tests badge");
+  assert.match(deReadme, /tests-37%20passed-brightgreen\.svg/, "README_de.md must link 37 passed tests badge");
   assert.match(enReadme, /actions\/workflows\/ci\.yml\/badge\.svg/, "README.md must link dynamic CI workflow badge");
   assert.match(deReadme, /actions\/workflows\/ci\.yml\/badge\.svg/, "README_de.md must link dynamic CI workflow badge");
   assert.doesNotMatch(enReadme, /glama\.ai\/mcp\/servers\/ellmos-ai\/open-compute-mcp\/badges\/score\.svg/, "README.md must not promote an incompatible hosted listing");
@@ -208,8 +209,8 @@ test("badges and quick navigation parity across README files", () => {
   assert.match(deReadme, /third--party-audited%20%7C%20100%25%20permissive-brightgreen\.svg/, "README_de.md must link third-party audit badge");
   assert.match(enReadme, /marketing--log-active-blue\.svg/, "README.md must link marketing log badge");
   assert.match(deReadme, /marketing--log-active-blue\.svg/, "README_de.md must link marketing log badge");
-  assert.match(enReadme, /verified-2026--09--13-blue\.svg/, "README.md must link verified timestamp badge");
-  assert.match(deReadme, /verified-2026--09--13-blue\.svg/, "README_de.md must link verified timestamp badge");
+  assert.match(enReadme, /verified-2026--09--20-blue\.svg/, "README.md must link verified timestamp badge");
+  assert.match(deReadme, /verified-2026--09--20-blue\.svg/, "README_de.md must link verified timestamp badge");
 });
 
 test("umbrella ecosystem badge parity in README files", () => {
@@ -227,6 +228,7 @@ test("GitHub Actions CI workflow schema, concurrency, and matrix integrity", () 
   const ciContent = fs.readFileSync(ciPath, "utf8");
   assert.match(ciContent, /name:\s*CI/, "CI workflow must be named CI");
   assert.match(ciContent, /cancel-in-progress:\s*true/, "CI workflow must configure cancel-in-progress concurrency");
+  assert.match(ciContent, /permissions:\s*\n\s*contents:\s*read/, "CI workflow must define least-privilege contents: read permission");
   assert.match(ciContent, /timeout-minutes:\s*15/, "CI workflow must configure 15-minute job timeout");
   assert.match(ciContent, /ubuntu-latest/, "CI matrix must include ubuntu-latest");
   assert.match(ciContent, /windows-latest/, "CI matrix must include windows-latest");
@@ -248,7 +250,7 @@ test("package.json repository and ecosystem urls integrity", () => {
 test("third party licenses inventory documentation integrity", () => {
   const licenses = readText("THIRD_PARTY_LICENSES.md");
   assert.match(licenses, /# Third-Party License Review/, "THIRD_PARTY_LICENSES.md must have title");
-  assert.match(licenses, /Stand:\s*2026-09-13/, "THIRD_PARTY_LICENSES.md must have current review date");
+  assert.match(licenses, /Stand:\s*2026-09-20/, "THIRD_PARTY_LICENSES.md must have current review date");
   assert.match(licenses, /update-notifier/, "THIRD_PARTY_LICENSES.md must list update-notifier");
   assert.match(licenses, /BSD-2-Clause/, "THIRD_PARTY_LICENSES.md must list BSD-2-Clause license");
 });
@@ -410,20 +412,21 @@ test("package version and manifest parity across package.json, server.json, and 
   const server = readJson("server.json");
   const glama = readJson("glama.json");
 
-  assert.equal(pkg.version, "0.1.0-alpha.19", "package.json version must be 0.1.0-alpha.19");
-  assert.equal(server.version, "0.1.0-alpha.19", "server.json version must be 0.1.0-alpha.19");
-  assert.equal(glama.version, "0.1.0-alpha.19", "glama.json version must be 0.1.0-alpha.19");
+  assert.equal(pkg.version, "0.1.0-alpha.20", "package.json version must be 0.1.0-alpha.20");
+  assert.equal(server.version, "0.1.0-alpha.20", "server.json version must be 0.1.0-alpha.20");
+  assert.equal(glama.version, "0.1.0-alpha.20", "glama.json version must be 0.1.0-alpha.20");
   assert.ok(server.packages && server.packages[0], "server.json packages array must exist");
-  assert.equal(server.packages[0].version, "0.1.0-alpha.19", "server.json package entry must be 0.1.0-alpha.19");
+  assert.equal(server.packages[0].version, "0.1.0-alpha.20", "server.json package entry must be 0.1.0-alpha.20");
   assert.match(pkg.description, /interactive Windows desktop session/i);
   assert.match(server.description, /interactive Windows desktop session/i);
   assert.equal(pkg.keywords.includes("glama"), false, "package search tags must not promote incompatible hosted integration");
   assert.match(readText("llms.txt"), /not Glama-hostable/);
 });
 
-test("marketing log recency and Pfad B entry presence", () => {
+test("marketing log recency and Pfad A/B entry presence", () => {
   const log = readText("MARKETING-LOG.txt");
-  assert.match(log, /Audit Date:\s*2026-09-13/, "MARKETING-LOG.txt must have 2026-09-13 audit date");
+  assert.match(log, /Audit Date:\s*2026-09-20/, "MARKETING-LOG.txt must have 2026-09-20 audit date");
+  assert.match(log, /2026-09-20 \(Pfad A\):/, "MARKETING-LOG.txt must contain 2026-09-20 Pfad A entry");
   assert.match(log, /2026-09-13 \(Pfad B\):/, "MARKETING-LOG.txt must contain 2026-09-13 Pfad B entry");
   assert.match(log, /16-point quick navigation/, "MARKETING-LOG.txt must document 16-point quick navigation");
   assert.match(log, /Target Personas & Discoverability/, "MARKETING-LOG.txt must document personas");
@@ -438,4 +441,31 @@ test("third-party licenses invariants and permissive compatibility section", () 
   assert.match(lic, /Unprivileged Execution/);
   assert.match(lic, /RunAsInvoker/);
   assert.match(lic, /48h Security Response and 5-day Triage SLA/);
+});
+
+test("GitHub Actions lifecycle workflows stale.yml and welcome.yml define bounds and timeouts", () => {
+  const stalePath = path.join(root, ".github", "workflows", "stale.yml");
+  const welcomePath = path.join(root, ".github", "workflows", "welcome.yml");
+
+  assert.ok(fs.existsSync(stalePath), ".github/workflows/stale.yml must exist");
+  assert.ok(fs.existsSync(welcomePath), ".github/workflows/welcome.yml must exist");
+
+  const staleContent = fs.readFileSync(stalePath, "utf8");
+  const welcomeContent = fs.readFileSync(welcomePath, "utf8");
+
+  assert.match(staleContent, /timeout-minutes:\s*10/, "stale.yml must enforce 10-minute job timeout");
+  assert.match(staleContent, /permissions:\s*\n\s*issues:\s*write\s*\n\s*pull-requests:\s*write/, "stale.yml must declare issues and pull-requests permissions");
+
+  assert.match(welcomeContent, /timeout-minutes:\s*5/, "welcome.yml must enforce 5-minute job timeout");
+  assert.match(welcomeContent, /cancel-in-progress:\s*true/, "welcome.yml must enforce cancel-in-progress concurrency");
+  assert.match(welcomeContent, /permissions:\s*\n\s*issues:\s*write\s*\n\s*pull-requests:\s*write/, "welcome.yml must declare issues and pull-requests permissions");
+});
+
+test("NOTICE attribution file integrity and open-bricks umbrella linkage", () => {
+  const noticePath = path.join(root, "NOTICE");
+  assert.ok(fs.existsSync(noticePath), "NOTICE file must exist");
+  const content = fs.readFileSync(noticePath, "utf8");
+  assert.match(content, /^open-compute-mcp/, "NOTICE must mention open-compute-mcp");
+  assert.match(content, /open-bricks open-source umbrella/, "NOTICE must reference open-bricks open-source umbrella");
+  assert.match(content, /THIRD_PARTY_LICENSES\.md/, "NOTICE must reference THIRD_PARTY_LICENSES.md");
 });

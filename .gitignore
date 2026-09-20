@@ -45,32 +45,55 @@ desktop.ini
 .idea/
 .vscode/
 
-# Temporary locks & sync conflicts
+# Temporary locks & multi-agent coordination
 LOCK
-LOCK*.txt
 LOCK.*
+LOCK*.txt
+LOCK.user.*
+LOCK.until.*
+LOCK.condition.*
 LOCK.permissions.json
 *.lock
+.automation-lock
 !package-lock.json
+
+# Multi-host sync conflict copies
 *.conflict
 *.sync-conflict-*
 *.sync-temp-*
 *-CONFLIT-*
 *-conflict-*
+*conflicted copy*
+* (Kopie)*
+* (Copy)*
+* (kopie)*
+* (copy)*
+*-WORKSTATION*
 *-WORKSTATION-LG*
+*-LAPTOP*
+*-ASUS*
 *-ASUS-GEI*
+*-Mac Studio*
+*-MacBook*
 
-# Temporary files, caches, and test artifacts
+# Temporary files, patch residues & editor backups
 *.tmp
 *.bak
 *.swp
+*.orig
+*.rej
 *~
+
+# Test, coverage, and build caches
 .pytest_cache/
 .ruff_cache/
 .coverage/
+.coverage
+.coverage.*
+coverage/
 htmlcov/
 .wheel-smoke/
+.hypothesis/
 .nyc_output/
 .turbo/
 build/
-*.orig

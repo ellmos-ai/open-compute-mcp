@@ -91,6 +91,7 @@ test("gitignore protects local credential and registry-token artifacts", () => {
   assert.equal(isIgnored(".env.example"), false, ".env.example should stay trackable");
   assert.equal(isIgnored(".env.sample"), false, ".env.sample should stay trackable");
   assert.equal(isIgnored("THIRD_PARTY_LICENSES.md"), false, "THIRD_PARTY_LICENSES.md should stay trackable");
+  assert.equal(isIgnored("NOTICE"), false, "NOTICE should stay trackable");
 });
 
 test("gitignore protects conflict copies and multi-agent locks while tracking package-lock.json", () => {
@@ -99,11 +100,23 @@ test("gitignore protects conflict copies and multi-agent locks while tracking pa
     "LOCK.permissions.json",
     "LOCK.until.test.txt",
     "LOCK.condition.2026.txt",
+    "LOCK.user.agent.txt",
+    ".automation-lock",
     "sample.lock",
     "cache.lock",
     "backup-CONFLIT-2026.txt",
     "temp-conflict-merge.js",
     "sample.sync-temp-01.tmp",
+    "sample conflicted copy.txt",
+    "sample (Kopie).txt",
+    "sample (Copy).txt",
+    "sample (kopie).txt",
+    "sample (copy).txt",
+    "host-WORKSTATION.log",
+    "device-LAPTOP.txt",
+    "device-ASUS.txt",
+    "backup-Mac Studio.log",
+    "backup-MacBook.log",
     "workspace.tmp",
     "report.bak",
     "buffer.swp",
@@ -172,16 +185,21 @@ test("gitignore protects build caches, coverage artifacts, and merge leftovers",
     ".turbo/",
     "build/",
     "sample.orig",
+    "patch.rej",
     ".pytest_cache/",
     ".ruff_cache/",
+    ".hypothesis/",
+    ".coverage",
+    "coverage/",
     "htmlcov/",
   ]) {
     assert.equal(isIgnored(samplePath), true, `${samplePath} should be ignored`);
   }
 });
 
-test("GitHub Actions CI workflow defines job timeout", () => {
+test("GitHub Actions CI workflow defines least-privilege permissions and job timeout", () => {
   const ciYaml = readRoot(".github/workflows/ci.yml");
   assert.match(ciYaml, /timeout-minutes:\s*15/, "CI workflow must enforce 15-minute job timeout");
+  assert.match(ciYaml, /permissions:\s*\n\s*contents:\s*read/, "CI workflow must enforce contents: read least-privilege permission");
 });
 

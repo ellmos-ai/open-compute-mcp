@@ -5,6 +5,18 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.0-alpha.20] - 2026-09-20
+
+### Technical Hygiene, CI Lifecycle Workflows & Repository Hardening (Pfad A 2026-09-20)
+- **CI Workflow Hardening & Least-Privilege Permissions**: Hardened `.github/workflows/ci.yml` with explicit top-level `permissions: contents: read`.
+- **Automated Lifecycle Workflows**: Added standard `stale.yml` (`timeout-minutes: 10`, schedule: daily at 01:30 UTC) and `welcome.yml` (`timeout-minutes: 5`, `concurrency: cancel-in-progress: true`) workflows to streamline issue and community pull request triage.
+- **Multi-Host Cloud-Sync & Lock Hardening (`.gitignore`)**: Hardened `.gitignore` with comprehensive multi-host conflict patterns (`*conflicted copy*`, `* (Kopie)*`, `* (Copy)*`, `*-WORKSTATION*`, `*-LAPTOP*`, `*-ASUS*`, `*-Mac Studio*`, `*-MacBook*`), canonical lock patterns (`LOCK.user.*`, `LOCK.until.*`, `LOCK.condition.*`, `.automation-lock`), and test artifacts (`.hypothesis/`, `*.rej`).
+- **Open-Source Attribution & Level 1 SBOM Transparency**: Added canonical `NOTICE` attribution file referencing the open-bricks open-source umbrella and anchored `NOTICE` within `package.json`'s distribution `files` whitelist.
+- **Third-Party License Review & Level 1 SBOM Re-Audit**: Re-audited runtime and architectural dependencies in `THIRD_PARTY_LICENSES.md` as of `2026-09-20`, verifying zero copyleft, local stdio zero-egress (`INV-LOCAL-01`), unprivileged `RunAsInvoker` execution (`INV-PROC-07`), and open-bricks 48h/5d security SLAs (`INV-SLA-10`).
+- **Manifest & Version Harmonization**: Bumped version to `0.1.0-alpha.20` synchronously across `package.json`, `package-lock.json`, `server.json`, and `glama.json`.
+- **Contract Test Suite Expansion**: Expanded automated contract tests across `test/metadata-parity.test.js` and `test/repository-hygiene.test.js` to assert least-privilege CI permissions, lifecycle workflows (`stale.yml`, `welcome.yml`), `NOTICE` presence in package files whitelist, synchronized timestamps (`2026-09-20`), and hardened multi-host gitignore patterns.
+- **Maintenance & Hygiene Logging**: Appended Pfad A hygiene run to `MARKETING-LOG.txt`.
+
 ## [0.1.0-alpha.19] - 2026-09-13
 
 ### Discoverability, 16-Point Navigation, Target Personas & Comparative Matrix (Pfad B 2026-09-13)
