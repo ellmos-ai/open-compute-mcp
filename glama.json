@@ -20,7 +20,13 @@
     "safety",
     "signal-overlay",
     "push-to-talk",
-    "mcp-server"
+    "mcp-server",
+    "desktop-automation",
+    "accessibility",
+    "agent-framework",
+    "testing-tools",
+    "keyboard-automation",
+    "mouse-automation"
   ],
   "tools": {
     "count": 16

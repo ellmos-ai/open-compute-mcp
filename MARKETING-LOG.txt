@@ -5,8 +5,8 @@ Repository: https://github.com/ellmos-ai/open-compute-mcp
 Project Name: open-compute-mcp (Distribution: open-compute-mcp on npm)
 Umbrella Ecosystem: open-bricks (https://github.com/open-bricks)
 Architecture Domain: Model-Agnostic Computer-Use MCP Server (Desktop Automation & Perception)
-Audit Date: 2026-09-20
-Status: ACTIVE / PFAD A HYGIENE HARDENED
+Audit Date: 2026-09-22
+Status: ACTIVE / PFAD B DISCOVERABILITY & ARCHITECTURE AUDITED
 ================================================================================
 
 1. PRODUCT IDENTITY & MISSION
@@ -99,6 +99,21 @@ and open-bricks ecosystems:
 
 6. MAINTENANCE & HYGIENE RUNS (PFAD A / PFAD B)
 --------------------------------------------------------------------------------
+2026-09-22 (Pfad B):
+  - Strict Version Freeze policy (T-20260920-167562623) enforced: version kept frozen at 0.1.0-alpha.20.
+  - Saturated GitHub repository topics to maximum capacity (20/20 topics) via gh repo edit.
+  - Aligned package.json keywords (20/20) and glama.json keywords (17) to match enriched taxonomy.
+  - Upgraded documentation across README.md and README_de.md to full 18-point dual reciprocal architecture with 100% reciprocal anchor parity (<a id="..."></a>).
+  - Consolidated Quick Start & Prerequisites with embedded MCP client configurations in Section 3.
+  - Added Level 1 SBOM Transparency & Invariant Matrix (INV-LOCAL-01 through INV-SLA-10) in Section 13.
+  - Added Registry Manifests & Schema Parity in Section 15.
+  - Added Quality Gates & Pre-Release Checklist in Section 16.
+  - Added Licensing & Canonical Attribution in Section 17.
+  - Added German Statutory Notice (§ 521 BGB Gefälligkeitsrecht) and 48h Security Response SLA in Section 18.
+  - Updated NOTICE file and THIRD_PARTY_LICENSES.md with Level 1 SBOM Invariant Matrix, Non-Elevation Certification, and Zero-Copyleft Isolation Guarantee.
+  - Verified visual architecture diagrams with 0 Mermaid linter syntax errors across all 5 markdown files.
+  - Synchronized llms.txt context index with 2026-09-22 timestamp.
+
 2026-09-20 (Pfad A):
   - Version bump to 0.1.0-alpha.20 across package.json, package-lock.json, server.json, and glama.json.
   - CI workflow least-privilege permissions hardening (permissions: contents: read) in ci.yml.

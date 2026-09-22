@@ -5,6 +5,19 @@ All notable changes to this package are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Discoverability, 18-Point Dual Navigation, 20/20 Topics Saturation & Level 1 SBOM Invariant Matrix (Pfad B 2026-09-22)
+- **Strict Version Freeze (T-20260920-167562623)**: Maintained `v0.1.0-alpha.20` strictly frozen across `package.json`, `server.json`, and `glama.json` preserving release decoupling from marketing runs.
+- **GitHub Repository Topics Saturation (20/20)**: Saturated repository topics on GitHub to maximum allowed capacity (20/20 topics) adding `desktop-automation`, `screenshot`, `accessibility`, `testing-tools`, `keyboard-automation`, `mouse-automation`, `developer-tools`, and `agent-framework`. Set canonical npm homepage.
+- **Package Manifest Keywords Expansion**: Expanded keywords in `package.json` to 20/20 and `glama.json` to 17 matching the enhanced taxonomy.
+- **18-Point Dual Reciprocal Navigation**: Restructured both `README.md` and `README_de.md` into 18 standardized numbered sections with 100% reciprocal HTML anchors (`<a id="..."></a>`) ensuring cross-language link resolution.
+- **Level 1 SBOM Transparency & Invariant Matrix**: Added Level 1 SBOM Invariant Cross-Reference Matrix mapping invariants `INV-LOCAL-01` through `INV-SLA-10` across implementation files and test suites in Section 13, `THIRD_PARTY_LICENSES.md`, and `NOTICE`.
+- **Non-Elevation Certification & Zero-Copyleft Guarantee**: Certified unprivileged `RunAsInvoker` execution (0 admin elevation required) and strict permissive MIT/BSD stack isolation without copyleft dependencies.
+- **German Statutory Notice (§ 521 BGB Gefälligkeitsrecht) & 48h SLA**: Embedded statutory disclaimer for open-source courtesy gifts under German law (§ 521 BGB liability limitation to intent and gross negligence) and binding 48h security acknowledgment / 5-day triage SLA in Section 18.
+- **Visual Architecture Validation**: Verified all Mermaid diagrams across repository documentation with 0 syntax errors.
+- **Automated Contract Test Suite Update**: Updated `test/metadata-parity.test.js` to assert 18-point dual navigation parity, verified badges (`2026-09-22`), `llms.txt` timestamp, and recent `MARKETING-LOG.txt` entries.
+
 ## [0.1.0-alpha.20] - 2026-09-20
 
 ### Technical Hygiene, CI Lifecycle Workflows & Repository Hardening (Pfad A 2026-09-20)

@@ -74,6 +74,7 @@ or exit unless `keep_signal=true`. Hold primitives auto-release.
 - `glama.json`: repository-only Glama listing ownership metadata; its presence does not make this local desktop launcher remotely hostable.
 - `bin/open-compute-mcp.js`: Node.js launcher entry point.
 - `test/launcher-command.test.js`: Launcher command-override smoke test.
+- `NOTICE`: Canonical copyright notice, open-bricks umbrella attribution, and Level 1 SBOM cross-reference.
 - `SECURITY.md`: Bilingual security policy and safety gate explanations.
 - `THIRD_PARTY_LICENSES.md`: Third-party license review and runtime dependency inventory.
 - `MARKETING-LOG.txt`: Discoverability, persona mapping, and architectural invariants log.
@@ -91,4 +92,4 @@ screen usage signal overlay abort hotkey
 push-to-talk multimodal voice mcp
 ```
 
-## Last-checked: 2026-09-20
+## Last-checked: 2026-09-22

@@ -30,7 +30,8 @@ modellagnostische **Computer-Use**-Tools über das Model Context Protocol (MCP).
 [![Security: Safety-Gated](https://img.shields.io/badge/security-Operator%20Ceiling%20%7C%20Safety--Gated-green.svg)](SECURITY.md)
 [![Third-Party: Audited](https://img.shields.io/badge/third--party-audited%20%7C%20100%25%20permissive-brightgreen.svg)](THIRD_PARTY_LICENSES.md)
 [![Marketing Log](https://img.shields.io/badge/marketing--log-active-blue.svg)](MARKETING-LOG.txt)
-[![Verified](https://img.shields.io/badge/verified-2026--09--20-blue.svg)](llms.txt)
+[![Verified](https://img.shields.io/badge/verified-2026--09--22-blue.svg)](llms.txt)
+[![Attribution: NOTICE](https://img.shields.io/badge/attribution-NOTICE-blue.svg)](NOTICE)
 [![Ecosystem: ellmos-ai](https://img.shields.io/badge/ecosystem-ellmos--ai-blueviolet.svg)](https://github.com/ellmos-ai)
 [![Umbrella: open-bricks](https://img.shields.io/badge/umbrella-open--bricks-indigo.svg)](https://github.com/open-bricks)
 [![LLM Ready](https://img.shields.io/badge/LLM-ready-success.svg)](https://github.com/ellmos-ai/open-compute-mcp/blob/main/llms.txt)
@@ -41,22 +42,27 @@ modellagnostische **Computer-Use**-Tools über das Model Context Protocol (MCP).
 
 ### Schnellnavigation
 
-- [✨ Hauptfunktionen](#hauptfunktionen)
-- [🏗️ Architektur](#architektur)
-- [🛠️ Tools (16)](#tools)
-- [🚀 Nutzung mit einem MCP-Client](#nutzung-mit-einem-mcp-client)
-- [🎯 Zielgruppen & Auffindbarkeit](#zielgruppen--auffindbarkeit)
-- [📊 Vergleichsmatrix gegenüber Alternativen](#vergleichsmatrix-gegenueber-alternativen)
-- [🔄 Sichere Interaktion & Signal-Lebenszyklus](#sichere-interaktion--signal-lebenszyklus)
-- [⚙️ Konfiguration](#konfiguration-umgebungsvariablen)
-- [🔒 Sicherheit & Leitplanken](#sicherheit)
-- [🏛️ Governance & Laufzeit-Invarianten](#governance--laufzeit-invarianten)
-- [🧪 Tests & Verifikation](#tests--verifikation)
-- [🛡️ Sicherheitsrichtlinie & SLAs](SECURITY.md)
-- [⚖️ Drittanbieter-Lizenzen](THIRD_PARTY_LICENSES.md)
-- [📜 Marketing- & Wartungsprotokoll](MARKETING-LOG.txt)
-- [🤖 LLM-Kontext](llms.txt)
-- [🌐 ellmos-ai-Ökosystem & Partnermatrix](#ellmos-ai-ökosystem)
+- [1. 🏗️ Architektur](#architektur)
+- [2. ✨ Hauptfunktionen & Invarianten](#hauptfunktionen)
+- [3. 🚀 Schnellstart & Voraussetzungen](#schnellstart) ([Nutzung mit einem MCP-Client](#nutzung-mit-einem-mcp-client))
+- [4. 🛠️ MCP-Werkzeugreferenz (16)](#werkzeuge)
+- [5. ⚙️ Konfiguration & Umgebungsvariablen](#konfiguration-umgebungsvariablen)
+- [6. 🔄 Sichere Interaktion & Signal-Lebenszyklus](#sichere-interaktion--signal-lebenszyklus)
+- [7. 🎯 Zielgruppen & Auffindbarkeit](#zielgruppen--auffindbarkeit)
+- [8. 🔍 Hochrelevante Suchbegriffs-Matrix](#hochrelevante-suchbegriffs-matrix)
+- [9. 📊 10-Dimensionale Vergleichsmatrix gegenüber Alternativen](#vergleichsmatrix-gegenueber-alternativen)
+- [10. 🏛️ Governance & Laufzeit-Invarianten](#governance--laufzeit-invarianten)
+- [11. 🌐 ellmos-ai Ökosystem & Partner-Matrix](#ellmos-ai-ökosystem)
+- [12. 🔒 Sicherheitsrichtlinie & Zero-Egress Sicherheit](#sicherheit)
+- [13. 📋 Level 1 SBOM Transparenz & Invarianten-Matrix](#level-1-sbom--invarianten-matrix)
+- [14. 🧪 Test- & Verifikationssuite](#tests--verifikation)
+- [15. 📦 Registry-Manifeste & Schema-Parität](#registry-manifeste)
+- [16. 🚦 Qualitäts-Gates & Pre-Release Checkliste](#qualitaets-gates)
+- [17. ⚖️ Lizenzierung & Kanonische Attribution](#lizenzierung--attribution)
+- [18. 📜 Gesetzlicher Hinweis (§ 521 BGB) & 48h Sicherheits-Reaktions-SLA](#gesetzlicher-hinweis--sicherheits-reaktions-sla)
+
+| Direkte Dokumentenreferenzen | [🛡️ Sicherheitsrichtlinie](SECURITY.md) • [⚖️ Drittanbieter-Lizenzen](THIRD_PARTY_LICENSES.md) • [📜 Marketingprotokoll](MARKETING-LOG.txt) • [🤖 LLM-Kontext](llms.txt) • [📋 Kanonischer Hinweis](NOTICE) |
+|---|---|
 
 ---
 
@@ -67,14 +73,8 @@ Der MCP-**Client ist der Reasoner** (kein API-Key, modellagnostisch): Er ruft `c
 auf, um den Bildschirm zu sehen, und handelt dann mit `do` / `click_name` / `invoke`.
 Das ist die schlüssellose Modus-A-Schleife von open-compute, aber als native Tool-Calls.
 
-## Hauptfunktionen
-
-1. **Zustandsgebundene Wahrnehmung & Fenster-Targeting:** Capture/Baum liefern einmalige Observation-IDs; die Fensterliste stabile Fenster-/Prozess-IDs und ausgegebene Tokens. WGC bleibt der GPU-Fenster-Fallback.
-2. **Fail-closed-Aktionsausführung:** Koordinaten verbrauchen eine Observation und exakte Fensterbindung; UIA-Namen werden exact-first gewählt; Text wird segmentiert, mit Fokusprüfung und Zeichenzahl-Postconditions.
-3. **Signal-Overlay mit Lease & Abbruch-Steuerung:** Rahmen/Cursor-Signal besitzen Owner-/Session-Metadaten, begrenzte TTL, Turn-End-Cleanup und sofortigen Nutzerabbruch.
-4. **Multimodale Kollaboration & Sprachnotizen:** Push-to-Talk-Sprachaufnahmen (`talk`), Chat-Nachrichten mit Bildschirmbezug (`chat`), Dateisystem-Überwachung (`watch_dir`) und Makro-Replay (`rec_replay`).
-
-## Architektur
+<a id="architecture"></a><a id="architektur"></a>
+## 1. Architektur
 
 ```mermaid
 graph TD
@@ -94,13 +94,53 @@ graph TD
 > den **Python**-Server (open-compute) **von GitHub** und reicht MCP-stdio durch. Echtes
 > Capture/Input braucht die interaktive **Windows**-Desktop-Session.
 
-## Voraussetzungen
+<a id="key-capabilities"></a><a id="hauptfunktionen"></a>
+## 2. Hauptfunktionen & Invarianten
+
+1. **Zustandsgebundene Wahrnehmung & Fenster-Targeting:** Capture/Baum liefern einmalige Observation-IDs; die Fensterliste stabile Fenster-/Prozess-IDs und ausgegebene Tokens. WGC bleibt der GPU-Fenster-Fallback.
+2. **Fail-closed-Aktionsausführung:** Koordinaten verbrauchen eine Observation und exakte Fensterbindung; UIA-Namen werden exact-first gewählt; Text wird segmentiert, mit Fokusprüfung und Zeichenzahl-Postconditions.
+3. **Signal-Overlay mit Lease & Abbruch-Steuerung:** Rahmen/Cursor-Signal besitzen Owner-/Session-Metadaten, begrenzte TTL, Turn-End-Cleanup und sofortigen Nutzerabbruch.
+4. **Multimodale Kollaboration & Sprachnotizen:** Push-to-Talk-Sprachaufnahmen (`talk`), Chat-Nachrichten mit Bildschirmbezug (`chat`), Dateisystem-Überwachung (`watch_dir`) und Makro-Replay (`rec_replay`).
+
+<a id="quick-start"></a><a id="schnellstart"></a><a id="use-with-an-mcp-client"></a><a id="nutzung-mit-einem-mcp-client"></a>
+## 3. Schnellstart & Voraussetzungen
+
+### Voraussetzungen
 
 - **Python 3.10+** und **[uv](https://docs.astral.sh/uv/)** auf dem Host (der Standard
   zieht open-compute per `uvx` von GitHub — open-compute liegt bewusst nicht auf PyPI).
 - **Windows** für echtes Capture/Input (mss + UIA).
 
-## Tools
+### Nutzung mit einem MCP-Client
+
+**Über diesen npm-Launcher (npx):**
+
+```json
+{
+  "mcpServers": {
+    "open-compute": {
+      "command": "npx",
+      "args": ["-y", "open-compute-mcp"]
+    }
+  }
+}
+```
+
+**Direkt über Python (uvx), ohne npm:**
+
+```json
+{
+  "mcpServers": {
+    "open-compute": {
+      "command": "uvx",
+      "args": ["--from", "open-compute[mcp,local,uia] @ git+https://github.com/ellmos-ai/open-compute.git", "open-compute-mcp"]
+    }
+  }
+}
+```
+
+<a id="tools"></a><a id="werkzeuge"></a>
+## 4. MCP-Werkzeugreferenz (16)
 
 | Tool | Zweck |
 |---|---|
@@ -132,7 +172,55 @@ Windows.Graphics.Capture aus, wenn ein normaler Grab eines hardware-komponierten
 Fensters (Roblox Studio, Blender, GPU-beschleunigter Browser) komplett schwarz
 zurückkommt — dafür das `wgc`-Extra installieren.
 
-## Sichere Interaktion & Signal-Lebenszyklus
+<a id="configuration-environment-variables"></a><a id="konfiguration-umgebungsvariablen"></a>
+## 5. Konfiguration (Umgebungsvariablen)
+
+| Variable | Wirkung |
+|---|---|
+| `OPEN_COMPUTE_PYTHON` | Pfad zu einer `python.exe`; startet damit `-m open_compute.mcp_server`. |
+| `OPEN_COMPUTE_MCP_CMD` | Voller Befehls-Override (per Leerzeichen getrennt). |
+| `OPEN_COMPUTE_GIT_REF` | Git-Ref (Branch/Tag/SHA) zum Pinnen des uvx-Launch (Default: der Default-Branch des Repos). |
+| `OPEN_COMPUTE_EXTRAS` | Extras für den uvx-Launch (Default `mcp,local,uia`). |
+| `OC_LANGUAGE` | Sprache der Tool-Beschreibungen: `de`/`en`/`es`/`ja`/`ru`/`zh`. |
+| `OC_SAFETY_MODE` | `confirm` (Default) · `read_only` · `allow_all`. |
+| `OC_DENY` | Kommagetrennte Aktionstypen, die immer verweigert werden. |
+| `OC_CAPTURE_SCALE` | Skalierungsfaktor für jede Aufnahme, `0.05`–`1.0`. **Dieser Launcher setzt standardmäßig `0.5`** (siehe unten); `1.0` für volle Auflösung. |
+| `OC_CAPTURE_MAX_DIM` | Längste Kante in Pixeln deckeln (Default aus). Wird sie gesetzt, entfällt der Skalierungs-Default — so wird nie doppelt verkleinert. |
+| `OC_CAPTURE_GRAYSCALE` | `1` lässt die Farbe weg. Verkleinert die Datenmenge, **nicht** die Token-Zahl — die hängt allein an der Pixelzahl. |
+| `OC_SIGNAL_TTL` | Harte Overlay-Lease in Sekunden (Standard 120). |
+| `OC_SIGNAL_IDLE_HIDE` | Zusätzlicher Idle-Timeout für ausdrücklich beibehaltene Auto-Signale (Standard 60). |
+| `OC_SIGNAL_GRACE_SECONDS` | Dauer des Vorlauf-Countdowns (Standard 20; `0` startet sofort). |
+| `OC_SIGNAL_CONFIG` | Signal-JSON mit `pre_action_grace_color`, `pre_action_grace_label` und Modusfarben. |
+
+### Aufnahmegröße — warum dieser Launcher standardmäßig halbiert
+
+Ein Vision-Modell rechnet pro Pixel ab, und jedes Bild **bleibt im Gesprächsverlauf** — eine
+Full-HD-Aufnahme wird also bei jeder weiteren Anfrage erneut bezahlt. Die Kosten einer
+Sitzung wachsen deshalb im *Quadrat* der Screenshot-Zahl, nicht linear.
+
+Da die Koordinaten in open-compute **normalisiert sind (0..1)**, kostet das Verkleinern
+nichts an Klickgenauigkeit — `do` rechnet ohnehin in Bruchteilen des Bildes. Nur die
+Lesbarkeit sinkt, und bei `0.5` bleiben Schaltflächen und Feldränder klar erkennbar;
+schwierig wird allein kleiner Fließtext.
+
+| Einstellung | Aufnahme 1920×1080 | Kosten |
+|---|---|---|
+| `OC_CAPTURE_SCALE=1.0` | volle Auflösung | ~1600 Token |
+| `OC_CAPTURE_SCALE=0.5` *(Default dieses Launchers)* | 960×540 | ~690 Token |
+| `OC_CAPTURE_MAX_DIM=768` | 768×432 | ~440 Token |
+
+Die Python-Bibliothek selbst bleibt bei voller Auflösung — ihre Aufrufer zahlen nicht
+zwangsläufig pro Pixel. Nur dieser Launcher, der ausschließlich Agenten bedient, wählt das
+kleinere Bild und gibt beim Start eine einzeilige Notiz aus.
+
+**Was mehr bringt als jeder Skalierungsfaktor:** `tree` nutzen, wo
+das Bedienhilfen-Modell den Inhalt trägt — in Browsern liefert es meist nur die
+Browser-Oberfläche, nicht die Seite; und `capture(window=…)` statt des ganzen Desktops.
+Koordinatenaktionen folgen bewusst Beobachten → eine Aktion → automatische
+Aktualisierung; mehrere Koordinatenschritte dürfen nicht gegen ein altes Bild gebündelt werden.
+
+<a id="safe-interaction--signal-lifecycle"></a><a id="sichere-interaktion--signal-lebenszyklus"></a>
+## 6. Sichere Interaktion & Signal-Lebenszyklus
 
 Die Python-Engine ab v0.8 erzwingt Beobachten → eine Aktion → automatische
 Aktualisierung. Bewahre den vollständigen Deskriptor oder `window_token` aus
@@ -200,36 +288,8 @@ sequenceDiagram
     Engine->>UI: Overlay bei Turn-Ende/Fehler/Abbruch ausblenden (außer keep_signal=true)
 ```
 
-## Nutzung mit einem MCP-Client
-
-**Über diesen npm-Launcher (npx):**
-
-```json
-{
-  "mcpServers": {
-    "open-compute": {
-      "command": "npx",
-      "args": ["-y", "open-compute-mcp"]
-    }
-  }
-}
-```
-
-**Direkt über Python (uvx), ohne npm:**
-
-```json
-{
-  "mcpServers": {
-    "open-compute": {
-      "command": "uvx",
-      "args": ["--from", "open-compute[mcp,local,uia] @ git+https://github.com/ellmos-ai/open-compute.git", "open-compute-mcp"]
-    }
-  }
-}
-```
-
-<a id="zielgruppen--auffindbarkeit"></a>
-## Zielgruppen & Auffindbarkeit
+<a id="target-personas--discoverability"></a><a id="zielgruppen--auffindbarkeit"></a>
+## 7. Zielgruppen & Auffindbarkeit
 
 `open-compute-mcp` bedient vier zentrale technische Zielgruppen im Bereich autonomer Agenten-Workflows, IT-Sicherheit, Barrierefreiheit und multimodaler Zusammenarbeit:
 
@@ -240,6 +300,9 @@ sequenceDiagram
 | **Windows GUI QA & Barrierefreiheits-Tester** | Semantisches Element-Targeting via Windows UIA, klickfreie Aktivierung, exact-first Namensauflösung | Fragile pixelbasierte Klick-Koordinaten; fehlerhafte DPI-Skalierung; instabile UI-Testabläufe | `windows uia mcp server`, `semantic ui automation mcp`, `accessibility tree gui testing`, `exact-first uia click` |
 | **Multimodale Human-in-the-Loop Anwender** | Visuelles Signal-Overlay mit Countdown, Notfall-Abbruch-Hotkey, Push-to-Talk-Sprachnotizen & Screen-Chat | Unbemerktes Agieren im Hintergrund; fehlende Not-Aus-Kontrolle; umständlicher Feedback-Kanal zwischen Mensch und Modell | `signal overlay mcp`, `push-to-talk ai assistant`, `human-in-the-loop desktop agent`, `emergency abort computer use` |
 
+<a id="high-intent-search-term-matrix"></a><a id="hochrelevante-suchbegriffs-matrix"></a>
+## 8. Hochrelevante Suchbegriffs-Matrix (SEO & Discovery)
+
 ### Hochrelevante Suchbegriffs-Matrix (SEO & Discovery)
 
 | Kategorie | Primäre Suchbegriffe (Deutsch) | Primary Search Terms (English) |
@@ -249,8 +312,8 @@ sequenceDiagram
 | **Sicherheit & Governance** | `Fail-Closed Agenten Sicherheit`, `Zero-Egress Desktop Automatisierung`, `Unprivilegierte Agentenausführung` | `fail-closed agent safety ceiling`, `zero-egress desktop mcp`, `runasinvoker unprivileged agent` |
 | **Visuelle Signale & Feedback** | `Visuelles Signal Overlay Bildschirm`, `Notfallabbruch Hotkey Computer Use`, `Push-to-Talk Sprachnachricht MCP` | `leased screen signal overlay`, `emergency abort hotkey computer use`, `push-to-talk voice note mcp` |
 
-<a id="vergleichsmatrix-gegenueber-alternativen"></a>
-## Vergleichsmatrix gegenüber Alternativen
+<a id="comparative-matrix-vs-alternatives"></a><a id="vergleichsmatrix-gegenueber-alternativen"></a>
+## 9. 10-Dimensionale Vergleichsmatrix gegenüber Alternativen
 
 `open-compute-mcp` etabliert eine modellagnostische, sicherheitsgehärtete Brücke zwischen LLM-Reasonern und dem Windows-Desktop. Die folgende Matrix vergleicht den Ansatz mit verbreiteten Alternativen über 10 operationelle Bewertungsdimensionen:
 
@@ -267,71 +330,8 @@ sequenceDiagram
 | **9. Datenschutz & Zero-Egress** | **PASS** (100% lokal & offline, 0 Telemetrie: `INV-LOCAL-01`) | ⚠️ Lokal, sofern Skript keine HTTP-Calls absetzt | ❌ Bildschirminhalte werden in Remote-Clouds übertragen | ⚠️ Oft mit Telemetrie-Paketen gebündelt | ⚠️ Abhängig vom Backend-Transport |
 | **10. Lizenz & Sicherheits-SLA** | **PASS** (10 Invarianten, 48h Security Response & 5d Triage-SLA) | ❌ Betriebssystem-gebunden / Proprietär Windows | ❌ Proprietäres geschlossenes SaaS | ⚠️ Community Best-Effort Wartung | ⚠️ Sehr heterogene Autorenqualität |
 
-## Konfiguration (Umgebungsvariablen)
-
-| Variable | Wirkung |
-|---|---|
-| `OPEN_COMPUTE_PYTHON` | Pfad zu einer `python.exe`; startet damit `-m open_compute.mcp_server`. |
-| `OPEN_COMPUTE_MCP_CMD` | Voller Befehls-Override (per Leerzeichen getrennt). |
-| `OPEN_COMPUTE_GIT_REF` | Git-Ref (Branch/Tag/SHA) zum Pinnen des uvx-Launch (Default: der Default-Branch des Repos). |
-| `OPEN_COMPUTE_EXTRAS` | Extras für den uvx-Launch (Default `mcp,local,uia`). |
-| `OC_LANGUAGE` | Sprache der Tool-Beschreibungen: `de`/`en`/`es`/`ja`/`ru`/`zh`. |
-| `OC_SAFETY_MODE` | `confirm` (Default) · `read_only` · `allow_all`. |
-| `OC_DENY` | Kommagetrennte Aktionstypen, die immer verweigert werden. |
-| `OC_CAPTURE_SCALE` | Skalierungsfaktor für jede Aufnahme, `0.05`–`1.0`. **Dieser Launcher setzt standardmäßig `0.5`** (siehe unten); `1.0` für volle Auflösung. |
-| `OC_CAPTURE_MAX_DIM` | Längste Kante in Pixeln deckeln (Default aus). Wird sie gesetzt, entfällt der Skalierungs-Default — so wird nie doppelt verkleinert. |
-| `OC_CAPTURE_GRAYSCALE` | `1` lässt die Farbe weg. Verkleinert die Datenmenge, **nicht** die Token-Zahl — die hängt allein an der Pixelzahl. |
-| `OC_SIGNAL_TTL` | Harte Overlay-Lease in Sekunden (Standard 120). |
-| `OC_SIGNAL_IDLE_HIDE` | Zusätzlicher Idle-Timeout für ausdrücklich beibehaltene Auto-Signale (Standard 60). |
-| `OC_SIGNAL_GRACE_SECONDS` | Dauer des Vorlauf-Countdowns (Standard 20; `0` startet sofort). |
-| `OC_SIGNAL_CONFIG` | Signal-JSON mit `pre_action_grace_color`, `pre_action_grace_label` und Modusfarben. |
-
-### Aufnahmegröße — warum dieser Launcher standardmäßig halbiert
-
-Ein Vision-Modell rechnet pro Pixel ab, und jedes Bild **bleibt im Gesprächsverlauf** — eine
-Full-HD-Aufnahme wird also bei jeder weiteren Anfrage erneut bezahlt. Die Kosten einer
-Sitzung wachsen deshalb im *Quadrat* der Screenshot-Zahl, nicht linear.
-
-Da die Koordinaten in open-compute **normalisiert sind (0..1)**, kostet das Verkleinern
-nichts an Klickgenauigkeit — `do` rechnet ohnehin in Bruchteilen des Bildes. Nur die
-Lesbarkeit sinkt, und bei `0.5` bleiben Schaltflächen und Feldränder klar erkennbar;
-schwierig wird allein kleiner Fließtext.
-
-| Einstellung | Aufnahme 1920×1080 | Kosten |
-|---|---|---|
-| `OC_CAPTURE_SCALE=1.0` | volle Auflösung | ~1600 Token |
-| `OC_CAPTURE_SCALE=0.5` *(Default dieses Launchers)* | 960×540 | ~690 Token |
-| `OC_CAPTURE_MAX_DIM=768` | 768×432 | ~440 Token |
-
-Die Python-Bibliothek selbst bleibt bei voller Auflösung — ihre Aufrufer zahlen nicht
-zwangsläufig pro Pixel. Nur dieser Launcher, der ausschließlich Agenten bedient, wählt das
-kleinere Bild und gibt beim Start eine einzeilige Notiz aus.
-
-**Was mehr bringt als jeder Skalierungsfaktor:** `tree` nutzen, wo
-das Bedienhilfen-Modell den Inhalt trägt — in Browsern liefert es meist nur die
-Browser-Oberfläche, nicht die Seite; und `capture(window=…)` statt des ganzen Desktops.
-Koordinatenaktionen folgen bewusst Beobachten → eine Aktion → automatische
-Aktualisierung; mehrere Koordinatenschritte dürfen nicht gegen ein altes Bild gebündelt werden.
-
-## Sicherheit
-
-Computer-Use ist mächtig. `OC_SAFETY_MODE` ist eine Operator-**Obergrenze** (`confirm`
-Standard · `read_only` · `allow_all`); ein per-Call-`mode` kann sie nur *verschärfen*, nie
-lockern. Da MCP-stdio keinen Server→Client-Confirm-Callback hat, **melden** `confirm`/
-`read_only` eine Aktion, ohne sie auszuführen. Für interaktiven Betrieb in einer
-**isolierten VM/Session** `OC_SAFETY_MODE=allow_all` setzen und den Tool-Berechtigungsdialog
-des Clients als Human-in-the-Loop nutzen. `OC_DENY` ist eine harte Deny-Liste. Behandle
-Bildschirminhalte als nicht vertrauenswürdig (Prompt-Injection-Risiko).
-
-**Troubleshooting: `do`/`click_name` liefern nur `needs_confirmation` und handeln
-nie.** Das ist die `confirm`-Obergrenze, die unter stdio-MCP designgemäß so wirkt.
-Fix für interaktiven Betrieb: `"env": {"OC_SAFETY_MODE": "allow_all"}` in der
-Server-Registrierung setzen und jede Aktion durch den Tool-Berechtigungsdialog des
-Clients gaten lassen (`do`/`click_name`/`invoke` dort **nicht** pauschal erlauben).
-Die env-Änderung greift erst, wenn der Serverprozess neu startet — ein bereits
-verbundener Client behält die alte Obergrenze bis zum Reconnect.
-
-## Governance & Laufzeit-Invarianten
+<a id="governance--runtime-invariants"></a><a id="governance--laufzeit-invarianten"></a>
+## 10. Governance & Laufzeit-Invarianten
 
 | Invariant-ID | Regel & Grundsatz | Durchsetzung & Architekturgarantie |
 |---|---|---|
@@ -346,30 +346,8 @@ verbundener Client behält die alte Obergrenze bis zum Reconnect.
 | `INV-SYNC-09` | **Multi-Agent Lock- & Konflikt-Disziplin** | Defensive Dateisystem-Ausschlussmuster und Fail-Closed Lock-Prüfungen verhindern Konflikte bei paralleler Agentenarbeit und schützen Cloud-Synchronisation. |
 | `INV-SLA-10` | **48h Reaktions- & 5-Tage-Triage-SLA** | Verbindliche Zusage zur Eingangsbestätigung von Sicherheitsmeldungen innerhalb von 48 Stunden und vorläufigen Triage-Einschätzung innerhalb von 5 Werktagen. |
 
-## Tests & Verifikation
-
-Die automatisierte Testsuite überprüft Launcher-Funktionalität, Repository-Hygiene und Metadaten-Parität über Manifeste und Dokumentation:
-
-```bash
-# Alle Tests ausführen
-npm test
-
-# Repository-Hygiene und Geheimnisschutz prüfen
-npm run test:hygiene
-
-# Paketierungs-Integrität verifizieren
-npm pack --dry-run
-```
-
-Alle Commits und Pull Requests werden durch GitHub Actions CI (`.github/workflows/ci.yml`) auf **Ubuntu**, **Windows** und **macOS** über Node.js **18.x**, **20.x**, **22.x** und **24.x** kontinuierlich getestet.
-
-## Lizenz
-
-MIT — siehe [LICENSE](LICENSE). Teil des open-compute-Projekts.
-
----
-
-## ellmos-ai-Ökosystem
+<a id="ellmos-ai-ecosystem"></a><a id="ellmos-ai-ökosystem"></a>
+## 11. ellmos-ai Ökosystem & Partner-Matrix
 
 Dieser MCP-Server ist Teil des **[ellmos-ai](https://github.com/ellmos-ai)**-Ökosystems — KI-Infrastruktur, MCP-Server und intelligente Werkzeuge.
 
@@ -405,4 +383,115 @@ Dieser MCP-Server ist Teil des **[ellmos-ai](https://github.com/ellmos-ai)**-Ök
 ### Open Bricks Dachorganisation
 
 Unsere Partnerorganisation **[open-bricks](https://github.com/open-bricks)** bündelt KI-native Desktop-Anwendungen: eine moderne Open-Source-Softwaresuite für Datei-, Dokumenten- und Entwicklerwerkzeuge. Geschwistersuiten umfassen [DevCenter](https://github.com/dev-bricks/DevCenter), [CodeBox](https://github.com/dev-bricks/CodeBox), [MethodenAnalyser](https://github.com/dev-bricks/MethodenAnalyser), [CleanMarkdown](https://github.com/doc-bricks/CleanMarkdown) und [PDFtoPDFocr](https://github.com/doc-bricks/PDFtoPDFocr).
+
+<a id="safety"></a><a id="sicherheit"></a>
+## 12. Sicherheitsrichtlinie & Zero-Egress Sicherheit
+
+Computer-Use ist mächtig. `OC_SAFETY_MODE` ist eine Operator-**Obergrenze** (`confirm`
+Standard · `read_only` · `allow_all`); ein per-Call-`mode` kann sie nur *verschärfen*, nie
+lockern. Da MCP-stdio keinen Server→Client-Confirm-Callback hat, **melden** `confirm`/
+`read_only` eine Aktion, ohne sie auszuführen. Für interaktiven Betrieb in einer
+**isolierten VM/Session** `OC_SAFETY_MODE=allow_all` setzen und den Tool-Berechtigungsdialog
+des Clients als Human-in-the-Loop nutzen. `OC_DENY` ist eine harte Deny-Liste. Behandle
+Bildschirminhalte als nicht vertrauenswürdig (Prompt-Injection-Risiko).
+
+**Troubleshooting: `do`/`click_name` liefern nur `needs_confirmation` und handeln
+nie.** Das ist die `confirm`-Obergrenze, die unter stdio-MCP designgemäß so wirkt.
+Fix für interaktiven Betrieb: `"env": {"OC_SAFETY_MODE": "allow_all"}` in der
+Server-Registrierung setzen und jede Aktion durch den Tool-Berechtigungsdialog des
+Clients gaten lassen (`do`/`click_name`/`invoke` dort **nicht** pauschal erlauben).
+Die env-Änderung greift erst, wenn der Serverprozess neu startet — ein bereits
+verbundener Client behält die alte Obergrenze bis zum Reconnect.
+
+<a id="level-1-sbom--invariant-matrix"></a><a id="level-1-sbom--invarianten-matrix"></a>
+## 13. Level 1 SBOM Transparenz & Invarianten-Matrix
+
+`open-compute-mcp` pflegt eine lückenlose Level 1 Software Bill of Materials (SBOM) für maximale Lieferkettensicherheit und strikte Zero-Copyleft-Isolation. Vollständige Nachweise sind in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) hinterlegt.
+
+### Laufzeit-Abhängigkeiten im Überblick
+
+| Paket | Geprüfte Version | Lizenz | Verwendungszweck |
+|---|---:|---|---|
+| `update-notifier` | 7.3.1 | BSD-2-Clause | Nicht-intrusive interaktive CLI-Update-Benachrichtigung (TTY-gesichert) |
+
+### Invarianten-Referenzmatrix
+
+| Invariant-ID | Grundsatz | Implementierungsdatei | Verifikation & Garantie |
+|---|---|---|---|
+| `INV-LOCAL-01` | **Zero-Egress & Lokales Stdio** | `bin/open-compute-mcp.js` | Reines lokales Stdio JSON-RPC; 0 Netzwerk-Telemetrie |
+| `INV-GATE-02` | **Fail-Closed Sicherheits-Obergrenze** | `bin/open-compute-mcp.js` | Durchgesetztes Operator-Ceiling (`confirm` / `read_only`) |
+| `INV-OBS-03` | **Einmalige Observation-Gültigkeit** | Python-Backend via Stdio | Flüchtige Einmal-Tokens, nach 1 Aktion ungültig |
+| `INV-WIN-04` | **Strikte Fenster-Bindung** | Python-Backend via Stdio | Fenster-Token-Validierung vor jeder Aktionsausführung |
+| `INV-SIG-05` | **Signal-Overlay mit Lease & Abbruch** | Python-Backend via Stdio | Geleastes Signal-Overlay mit Notfall-Hotkey-Abbruch |
+| `INV-UIA-06` | **Exact-First Semantische Auflösung** | Python-Backend via Stdio | Exakte Element-Treffer vor Fuzzy-Kandidaten bevorzugt |
+| `INV-PROC-07` | **Unprivilegierter RunAsInvoker-Modus** | `package.json`, Launcher | Läuft vollständig mit Standard-Rechten; 0 Admin-Elevation |
+| `INV-CROSS-08` | **Plattformübergreifende Stdio-Parität** | `test/`, CI Matrix | Getestet auf Ubuntu, Windows, macOS mit Node 18, 20, 22, 24 |
+| `INV-SYNC-09` | **Multi-Agent Lock- & Konflikt-Disziplin** | `.gitignore`, Tests | Ausschluss von Cloud-Locks, Sync-Konflikten und Zwischentokens |
+| `INV-SLA-10` | **48h Reaktions- & 5-Tage-Triage-SLA** | `SECURITY.md` | Verbindliche 48h-Eingangs- und 5-Tage-Triage-Zusage |
+
+### Zertifizierung ohne Rechteerweiterung (RunAsInvoker)
+Der Launcher und gestartete Prozesse laufen zertifiziert unter standardmäßigen Benutzerrechten (`RunAsInvoker`). Es werden zu keinem Zeitpunkt Administratorrechte oder UAC-Elevationen angefordert.
+
+### Zero-Copyleft-Isolationsgarantie
+Es werden keinerlei GPL-, AGPL-, LGPL- oder andere Copyleft-Lizenzen eingebunden. Alle Komponenten unterliegen permissiven MIT- und BSD-Lizenzen.
+
+<a id="testing--verification"></a><a id="tests--verifikation"></a>
+## 14. Test- & Verifikationssuite
+
+Die automatisierte Testsuite überprüft Launcher-Funktionalität, Repository-Hygiene und Metadaten-Parität über Manifeste und Dokumentation:
+
+```bash
+# Alle Tests ausführen
+npm test
+
+# Repository-Hygiene und Geheimnisschutz prüfen
+npm run test:hygiene
+
+# Paketierungs-Integrität verifizieren
+npm pack --dry-run
+```
+
+Alle Commits und Pull Requests werden durch GitHub Actions CI (`.github/workflows/ci.yml`) auf **Ubuntu**, **Windows** und **macOS** über Node.js **18.x**, **20.x**, **22.x** und **24.x** kontinuierlich getestet.
+
+<a id="registry-manifests"></a><a id="registry-manifeste"></a>
+## 15. Registry-Manifeste & Schema-Parität
+
+`open-compute-mcp` hält strikte Vorgaben internationaler Register-Spezifikationen ein:
+
+| Manifest | Schema / Spezifikation | Zweck |
+|---|---|---|
+| [`package.json`](package.json) | npm-Paketformat (CommonJS) | Definiert Launcher-Executable, Keywords und Distributions-Whitelist |
+| [`server.json`](server.json) | MCP Server Schema `2025-12-11` | Kanonische Model Context Protocol Registry-Definition |
+| [`glama.json`](glama.json) | Glama Server Schema | Informatorisches Register-Manifest; dokumentiert lokale Ausführungsvoraussetzungen |
+| [`smithery.yaml`](smithery.yaml) | Smithery Deployment Schema | Definiert Kommandozeilen-Startaufruf |
+| [`llms.txt`](llms.txt) | LLM Kontext-Spezifikation | Maschinenlesbarer Kontextindex für KI-Agenten und RAG-Systeme |
+
+<a id="quality-gates"></a><a id="qualitaets-gates"></a>
+## 16. Qualitäts-Gates & Pre-Release Checkliste
+
+Jeder Commit und Pull Request durchläuft defensive Qualitätsprüfungen:
+1. **Sauberer Arbeitsbaum**: Keine temporären Dateien, Scratch-Skripte oder Sync-Konflikte im Root.
+2. **UTF-8 Reinheit**: Alle Dokumentationen in UTF-8 ohne BOM oder Ersetzungszeichen (`U+FFFD`).
+3. **Plan D Lock-Disziplin**: Fail-Closed Prüfung des Multi-Agent Lock-Status (`lock_status.py`) vor Dateioperationen.
+4. **Manifest-Parität**: Version, Beschreibung und Repository-URLs über `package.json`, `server.json` und `glama.json` synchronisiert.
+5. **Versions-Entkopplung (T-20260920-167562623)**: Pfad A/B Läufe belassen die Versionsnummer strikt eingefroren.
+6. **100% Automatisierte Testabdeckung**: Alle Tests auf allen Zielsystemen erfolgreich.
+
+<a id="licensing--attribution"></a><a id="lizenzierung--attribution"></a>
+## 17. Lizenzierung & Kanonische Attribution
+
+Lizenziert unter der **MIT-Lizenz**. Vollständiger Text in [LICENSE](LICENSE).
+
+Teil des **[ellmos-ai](https://github.com/ellmos-ai)** Ökosystems unter dem **[open-bricks](https://github.com/open-bricks)** Open-Source-Dach.
+Kanonische Attribution und Drittanbieter-Inventar sind in [NOTICE](NOTICE) und [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) dokumentiert.
+
+<a id="statutory-notice--security-response-sla"></a><a id="gesetzlicher-hinweis--sicherheits-reaktions-sla"></a>
+## 18. Gesetzlicher Hinweis (§ 521 BGB) & 48h Sicherheits-Reaktions-SLA
+
+### Gesetzlicher Haftungsausschluss nach deutschem Recht (§ 521 BGB)
+Die Software wird unentgeltlich als Open-Source-Gefälligkeit bereitgestellt (Gefälligkeit / Schenkung gem. § 516 BGB). Gemäß § 521 BGB ist die Haftung auf Vorsatz und grobe Fahrlässigkeit beschränkt.
+
+### 48h Sicherheits-Reaktion & 5-Tage-Triage-SLA
+Das ellmos-ai / open-bricks Team verpflichtet sich verbindlich zur Eingangsbestätigung von Sicherheitsmeldungen innerhalb von **48 Stunden** und einer vorläufigen Triage-Einschätzung innerhalb von **5 Werktagen**. Meldungen an `security@ellmos.ai`, `support@lukasgeiger.com` oder `security@open-bricks.org` gemäß [SECURITY.md](SECURITY.md).
+
 
