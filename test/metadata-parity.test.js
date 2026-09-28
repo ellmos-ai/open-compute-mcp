@@ -120,6 +120,8 @@ test("bilingual security policy presence and contact integrity", () => {
   assert.match(sec, /48 hours|48 Stunden/, "SECURITY.md must specify 48h response SLA");
   assert.match(sec, /5 business days|5 Werktagen/, "SECURITY.md must specify 5-day triage commitment");
   assert.match(sec, /Supported Versions|Unterstützte Versionen/, "SECURITY.md must contain supported versions matrix");
+  assert.match(sec, /30 calendar days|30 Kalendertagen/, "SECURITY.md must specify 30-day remediation SLA");
+  assert.match(sec, /INV-SLA-10/, "SECURITY.md must reference INV-SLA-10");
   assert.match(sec, /OC_SAFETY_MODE/, "SECURITY.md must explain OC_SAFETY_MODE");
 });
 
@@ -191,8 +193,8 @@ test("badges and quick navigation parity across README files", () => {
 
   assert.match(enReadme, /Quick Navigation/, "README.md must include Quick Navigation");
   assert.match(deReadme, /Schnellnavigation/, "README_de.md must include Schnellnavigation");
-  assert.match(enReadme, /tests-37%20passed-brightgreen\.svg/, "README.md must link 37 passed tests badge");
-  assert.match(deReadme, /tests-37%20passed-brightgreen\.svg/, "README_de.md must link 37 passed tests badge");
+  assert.match(enReadme, /tests-38%20passed-brightgreen\.svg/, "README.md must link 38 passed tests badge");
+  assert.match(deReadme, /tests-38%20passed-brightgreen\.svg/, "README_de.md must link 38 passed tests badge");
   assert.match(enReadme, /actions\/workflows\/ci\.yml\/badge\.svg/, "README.md must link dynamic CI workflow badge");
   assert.match(deReadme, /actions\/workflows\/ci\.yml\/badge\.svg/, "README_de.md must link dynamic CI workflow badge");
   assert.doesNotMatch(enReadme, /glama\.ai\/mcp\/servers\/ellmos-ai\/open-compute-mcp\/badges\/score\.svg/, "README.md must not promote an incompatible hosted listing");
@@ -252,7 +254,7 @@ test("package.json repository and ecosystem urls integrity", () => {
 test("third party licenses inventory documentation integrity", () => {
   const licenses = readText("THIRD_PARTY_LICENSES.md");
   assert.match(licenses, /# Third-Party License Review/, "THIRD_PARTY_LICENSES.md must have title");
-  assert.match(licenses, /Stand:\s*2026-09-22/, "THIRD_PARTY_LICENSES.md must have current review date");
+  assert.match(licenses, /Stand:\s*2026-09-28/, "THIRD_PARTY_LICENSES.md must have current review date");
   assert.match(licenses, /update-notifier/, "THIRD_PARTY_LICENSES.md must list update-notifier");
   assert.match(licenses, /BSD-2-Clause/, "THIRD_PARTY_LICENSES.md must list BSD-2-Clause license");
 });
@@ -459,7 +461,7 @@ test("third-party licenses invariants and permissive compatibility section", () 
   assert.match(lic, /Zero-Copyleft Isolation Guarantee/);
   assert.match(lic, /Non-Elevation Certification/);
   assert.match(lic, /RunAsInvoker/);
-  assert.match(lic, /48h Security Response and 5-day Triage SLA/i);
+  assert.match(lic, /48h Security Response.*5-day Triage.*30-day Remediation SLA/i);
 });
 
 test("GitHub Actions lifecycle workflows stale.yml and welcome.yml define bounds and timeouts", () => {

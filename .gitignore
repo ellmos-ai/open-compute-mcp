@@ -21,18 +21,20 @@ credential*.json
 *.token
 *.tokens
 *token*.json
+*.secret
 *recovery*code*
 *recovery*codes*
-id_rsa
-id_dsa
-id_ecdsa
-id_ed25519
+id_rsa*
+id_dsa*
+id_ecdsa*
+id_ed25519*
 *.key
 *.pem
 *.p12
 *.pfx
 *.crt
 *.cer
+*.csr
 *.der
 .mcpregistry_github_token
 .mcpregistry_registry_token
@@ -75,6 +77,7 @@ LOCK.permissions.json
 *-ASUS-GEI*
 *-Mac Studio*
 *-MacBook*
+CONFLICT_REVIEW_LOG*
 
 # Temporary files, patch residues & editor backups
 *.tmp

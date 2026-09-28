@@ -84,6 +84,13 @@ test("gitignore protects local credential and registry-token artifacts", () => {
     "foo.sync-conflict-20260824.js",
     "sample-WORKSTATION-LG.js",
     "sample-ASUS-GEI.js",
+    "id_rsa.pub",
+    "id_ed25519.pub",
+    "id_dsa.pub",
+    "id_ecdsa.pub",
+    "server.csr",
+    "api.secret",
+    "CONFLICT_REVIEW_LOG-WORKSTATION-LG.txt",
   ]) {
     assert.equal(isIgnored(samplePath), true, `${samplePath} should be ignored`);
   }
@@ -137,6 +144,9 @@ test("npm ignore keeps defensive secret patterns beside the files whitelist", ()
     "*.p12",
     ".mcpregistry_*_token",
     "*-protocoll.txt",
+    "*.csr",
+    "*.secret",
+    "CONFLICT_REVIEW_LOG*",
   ]) {
     assert.match(npmignore, new RegExp(pattern.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   }
@@ -203,3 +213,9 @@ test("GitHub Actions CI workflow defines least-privilege permissions and job tim
   assert.match(ciYaml, /permissions:\s*\n\s*contents:\s*read/, "CI workflow must enforce contents: read least-privilege permission");
 });
 
+test("security policy defines 30-day remediation SLA for confirmed vulnerabilities", () => {
+  const sec = readRoot("SECURITY.md");
+  assert.match(sec, /30 calendar days/i, "SECURITY.md English section must define 30 calendar days remediation SLA");
+  assert.match(sec, /30 Kalendertagen/i, "SECURITY.md German section must define 30 Kalendertage remediation SLA");
+  assert.match(sec, /INV-SLA-10/, "SECURITY.md must reference INV-SLA-10");
+});

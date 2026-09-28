@@ -16,7 +16,7 @@ Please report security issues privately via GitHub **[Private Vulnerability Repo
 - **Maintainer:** [lukas@ellmos.ai](mailto:lukas@ellmos.ai)
 - **Maintainer:** [support@lukasgeiger.com](mailto:support@lukasgeiger.com)
 
-We acknowledge receipt of vulnerability reports within 48 hours, provide a preliminary triage assessment within 5 business days, and coordinate remediation steps prior to public disclosure.
+We acknowledge receipt of vulnerability reports within 48 hours, provide a preliminary triage assessment within 5 business days, and commit to delivering a fix or mitigation within 30 calendar days for confirmed vulnerabilities (`INV-SLA-10`) prior to public disclosure.
 
 ### Supported Versions
 
@@ -52,7 +52,7 @@ Bitte melden Sie Sicherheitslücken vertraulich über die GitHub-Funktion **[Pri
 - **Maintainer:** [lukas@ellmos.ai](mailto:lukas@ellmos.ai)
 - **Maintainer:** [support@lukasgeiger.com](mailto:support@lukasgeiger.com)
 
-Wir bestätigen den Eingang von Meldungen innerhalb von 48 Stunden, liefern innerhalb von 5 Werktagen eine vorläufige Triage-Einschätzung und stimmen Behebungsmaßnahmen vor einer Veröffentlichung ab.
+Wir bestätigen den Eingang von Meldungen innerhalb von 48 Stunden, liefern innerhalb von 5 Werktagen eine vorläufige Triage-Einschätzung und verpflichten uns, innerhalb von 30 Kalendertagen eine Behebung oder Schutzmaßnahme für bestätigte Sicherheitslücken bereitzustellen (`INV-SLA-10`), bevor eine Veröffentlichung erfolgt.
 
 ### Unterstützte Versionen
 

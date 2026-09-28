@@ -7,6 +7,12 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### AI Security & Dependency Audit: 30-Day Remediation SLA, SSH Wildcard & Secret Hardening, SBOM Parity (2026-09-28)
+- **30-Day Remediation SLA Hardening (`INV-SLA-10`)**: Embedded binding 30-calendar-day remediation commitment for confirmed vulnerabilities in `SECURITY.md` across both English and German sections, synchronized with `THIRD_PARTY_LICENSES.md`, `README.md`, and `README_de.md`.
+- **Defensive Gitignore & Npmignore Hardening**: Expanded SSH key exclusions to comprehensive wildcards (`id_rsa*`, `id_dsa*`, `id_ecdsa*`, `id_ed25519*`), added CSR protections (`*.csr`), generic secrets (`*.secret`), and multi-host review log filters (`CONFLICT_REVIEW_LOG*`).
+- **Level 1 SBOM & Dependency Audit Parity**: Re-audited runtime dependency (`update-notifier` 7.3.1, BSD-2-Clause) with 0 vulnerabilities across all packages via `npm audit`; updated `THIRD_PARTY_LICENSES.md` review stamp to `2026-09-28`.
+- **Contract Test Suite Expansion**: Extended `test/repository-hygiene.test.js` and `test/metadata-parity.test.js` with new contract tests asserting 30-day remediation SLA, SSH wildcards, CSR exclusions, and secret patterns across repository contracts (38/38 tests passing | 100% green).
+
 ### Discoverability, 18-Point Dual Navigation, 20/20 Topics Saturation & Level 1 SBOM Invariant Matrix (Pfad B 2026-09-22)
 - **Strict Version Freeze (T-20260920-167562623)**: Maintained `v0.1.0-alpha.20` strictly frozen across `package.json`, `server.json`, and `glama.json` preserving release decoupling from marketing runs.
 - **GitHub Repository Topics Saturation (20/20)**: Saturated repository topics on GitHub to maximum allowed capacity (20/20 topics) adding `desktop-automation`, `screenshot`, `accessibility`, `testing-tools`, `keyboard-automation`, `mouse-automation`, `developer-tools`, and `agent-framework`. Set canonical npm homepage.
