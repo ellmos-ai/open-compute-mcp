@@ -40,6 +40,7 @@ function isIgnored(samplePath) {
     samplePath === ".env.example" ||
     samplePath === ".env.sample" ||
     samplePath === "THIRD_PARTY_LICENSES.md" ||
+    samplePath === "THIRD_PARTY_LICENSES.txt" ||
     samplePath === "package-lock.json"
   ) {
     return false;
@@ -218,4 +219,72 @@ test("security policy defines 30-day remediation SLA for confirmed vulnerabiliti
   assert.match(sec, /30 calendar days/i, "SECURITY.md English section must define 30 calendar days remediation SLA");
   assert.match(sec, /30 Kalendertagen/i, "SECURITY.md German section must define 30 Kalendertage remediation SLA");
   assert.match(sec, /INV-SLA-10/, "SECURITY.md must reference INV-SLA-10");
+});
+
+test("THIRD_PARTY_LICENSES.txt Level 1 SBOM text companion integrity", () => {
+  assert.ok(fs.existsSync(path.join(root, "THIRD_PARTY_LICENSES.txt")), "THIRD_PARTY_LICENSES.txt must exist");
+  const txt = readRoot("THIRD_PARTY_LICENSES.txt");
+  assert.match(txt, /THIRD-PARTY LICENSES & LEVEL 1 SBOM NOTICE/);
+  assert.match(txt, /Project:\s*ellmos-ai\/open-compute-mcp/);
+  assert.match(txt, /Audited:\s*2026-09-29/);
+  assert.match(txt, /0\.1\.0-alpha\.20/);
+  assert.match(txt, /INV-LOCAL-01/);
+  assert.match(txt, /INV-SLA-10/);
+  assert.match(txt, /Zero-Copyleft Isolation Guarantee/);
+  assert.match(txt, /RunAsInvoker/);
+  assert.match(txt, /update-notifier/);
+});
+
+test("package.json files list includes THIRD_PARTY_LICENSES.txt", () => {
+  const pkg = JSON.parse(readRoot("package.json"));
+  assert.ok(
+    (pkg.files || []).includes("THIRD_PARTY_LICENSES.txt"),
+    "package.json files list must include THIRD_PARTY_LICENSES.txt"
+  );
+});
+
+test("GitHub Actions lifecycle workflows auto-assign.yml and label-sync.yml integrity", () => {
+  const autoAssignPath = path.join(root, ".github", "workflows", "auto-assign.yml");
+  const labelSyncPath = path.join(root, ".github", "workflows", "label-sync.yml");
+  const labelsPath = path.join(root, ".github", "labels.yml");
+
+  assert.ok(fs.existsSync(autoAssignPath), "auto-assign.yml must exist");
+  assert.ok(fs.existsSync(labelSyncPath), "label-sync.yml must exist");
+  assert.ok(fs.existsSync(labelsPath), "labels.yml must exist");
+
+  const autoAssign = fs.readFileSync(autoAssignPath, "utf8");
+  assert.match(autoAssign, /timeout-minutes:\s*5/, "auto-assign.yml must enforce 5-minute timeout");
+  assert.match(autoAssign, /cancel-in-progress:\s*true/, "auto-assign.yml must declare cancel-in-progress concurrency");
+  assert.match(autoAssign, /pull-requests:\s*write/, "auto-assign.yml must request pull-requests: write");
+
+  const labelSync = fs.readFileSync(labelSyncPath, "utf8");
+  assert.match(labelSync, /timeout-minutes:\s*5/, "label-sync.yml must enforce 5-minute timeout");
+  assert.match(labelSync, /cancel-in-progress:\s*true/, "label-sync.yml must declare cancel-in-progress concurrency");
+  assert.match(labelSync, /issues:\s*write/, "label-sync.yml must request issues: write");
+
+  const labels = fs.readFileSync(labelsPath, "utf8");
+  assert.match(labels, /name:\s*bug/, "labels.yml must define bug label");
+  assert.match(labels, /name:\s*enhancement/, "labels.yml must define enhancement label");
+  assert.match(labels, /name:\s*good first issue/, "labels.yml must define good first issue label");
+  assert.match(labels, /name:\s*help wanted/, "labels.yml must define help wanted label");
+  assert.match(labels, /name:\s*['"]?priority: high['"]?/, "labels.yml must define priority: high label");
+});
+
+test("gitignore defends against additional multi-host patterns, locks, and test caches", () => {
+  for (const samplePath of [
+    "Desktop.ini",
+    "sample-IDEAPAD.log",
+    "worker_WORKSTATION.txt",
+    "worker_WORKSTATION-LG.log",
+    "host-WORKSTATION.log",
+    "host-WORKSTATION-LG.log",
+    ".pytest_temp/",
+    ".pytest_tmp_sample/",
+    "uv.lock",
+    "file.swo",
+  ]) {
+    assert.equal(isIgnored(samplePath), true, `${samplePath} should be ignored`);
+  }
+
+  assert.equal(isIgnored("THIRD_PARTY_LICENSES.txt"), false, "THIRD_PARTY_LICENSES.txt should stay trackable");
 });

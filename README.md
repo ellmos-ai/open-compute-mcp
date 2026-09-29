@@ -21,7 +21,7 @@ model-agnostic **computer-use** tools exposed over the Model Context Protocol (M
 [![GitHub Stars](https://img.shields.io/github/stars/ellmos-ai/open-compute-mcp.svg)](https://github.com/ellmos-ai/open-compute-mcp)
 [![License: MIT](https://img.shields.io/github/license/ellmos-ai/open-compute-mcp.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
-[![Tests](https://img.shields.io/badge/tests-38%20passed-brightgreen.svg)](test)
+[![Tests](https://img.shields.io/badge/tests-42%20passed-brightgreen.svg)](test)
 [![Code Style: Prettier](https://img.shields.io/badge/code_style-prettier-brightgreen.svg)](https://prettier.io)
 [![Security SLA](https://img.shields.io/badge/security--sla-48h%20Response%20%7C%205d%20Triage-blue.svg)](SECURITY.md)
 [![MCP Enabled](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io)
@@ -30,7 +30,7 @@ model-agnostic **computer-use** tools exposed over the Model Context Protocol (M
 [![Security: Safety-Gated](https://img.shields.io/badge/security-Operator%20Ceiling%20%7C%20Safety--Gated-green.svg)](SECURITY.md)
 [![Third-Party: Audited](https://img.shields.io/badge/third--party-audited%20%7C%20100%25%20permissive-brightgreen.svg)](THIRD_PARTY_LICENSES.md)
 [![Marketing Log](https://img.shields.io/badge/marketing--log-active-blue.svg)](MARKETING-LOG.txt)
-[![Verified](https://img.shields.io/badge/verified-2026--09--22-blue.svg)](llms.txt)
+[![Verified](https://img.shields.io/badge/verified-2026--09--29-blue.svg)](llms.txt)
 [![Attribution: NOTICE](https://img.shields.io/badge/attribution-NOTICE-blue.svg)](NOTICE)
 [![Ecosystem: ellmos-ai](https://img.shields.io/badge/ecosystem-ellmos--ai-blueviolet.svg)](https://github.com/ellmos-ai)
 [![Umbrella: open-bricks](https://img.shields.io/badge/umbrella-open--bricks-indigo.svg)](https://github.com/open-bricks)
@@ -406,7 +406,7 @@ until it reconnects.
 <a id="level-1-sbom--invariant-matrix"></a><a id="level-1-sbom--invarianten-matrix"></a>
 ## 13. Level 1 SBOM Transparency & Invariant Matrix
 
-`open-compute-mcp` maintains a transparent Level 1 Software Bill of Materials (SBOM) ensuring comprehensive supply-chain hygiene and zero-copyleft isolation. Full details are documented in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
+`open-compute-mcp` maintains a transparent Level 1 Software Bill of Materials (SBOM) ensuring comprehensive supply-chain hygiene and zero-copyleft isolation. Full details are documented in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) and [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt).
 
 ### Runtime Dependency Overview
 
@@ -483,7 +483,7 @@ Every commit and pull request must satisfy rigorous defensive quality gates:
 Distributed under the **MIT License**. See [LICENSE](LICENSE) for full legal text.
 
 Part of the **[ellmos-ai](https://github.com/ellmos-ai)** family under the **[open-bricks](https://github.com/open-bricks)** open-source umbrella.
-Canonical attribution and dependency inventory are documented in [NOTICE](NOTICE) and [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
+Canonical attribution and dependency inventory are documented in [NOTICE](NOTICE), [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md), and [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt).
 
 <a id="statutory-notice--security-response-sla"></a><a id="gesetzlicher-hinweis--sicherheits-reaktions-sla"></a>
 ## 18. Statutory Notice (§ 521 BGB) & 48h Security Response SLA

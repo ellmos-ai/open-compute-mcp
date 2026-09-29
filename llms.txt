@@ -77,6 +77,7 @@ or exit unless `keep_signal=true`. Hold primitives auto-release.
 - `NOTICE`: Canonical copyright notice, open-bricks umbrella attribution, and Level 1 SBOM cross-reference.
 - `SECURITY.md`: Bilingual security policy and safety gate explanations.
 - `THIRD_PARTY_LICENSES.md`: Third-party license review and runtime dependency inventory.
+- `THIRD_PARTY_LICENSES.txt`: Plain-text Level 1 SBOM companion and runtime invariant matrix.
 - `MARKETING-LOG.txt`: Discoverability, persona mapping, and architectural invariants log.
 - `CHANGELOG.md`: Chronological log of releases and changes.
 
@@ -92,4 +93,4 @@ screen usage signal overlay abort hotkey
 push-to-talk multimodal voice mcp
 ```
 
-## Last-checked: 2026-09-22
+## Last-checked: 2026-09-29

@@ -7,6 +7,16 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Repository Lifecycle Hardening, CI Workflow Parity, Level 1 SBOM Text Companion & Contract Tests (Pfad A 2026-09-29)
+- **Strict Version Freeze Discipline (`T-20260920-167562623`)**: Maintained `v0.1.0-alpha.20` strictly frozen across all manifests; 0 version bumps during hygiene runs.
+- **CI Lifecycle Workflows Deployed**: Added `.github/workflows/auto-assign.yml` (`actions/github-script@v7`, `timeout-minutes: 5`, `concurrency: cancel-in-progress: true`, least-privilege `pull-requests: write`, `issues: write`), `.github/workflows/label-sync.yml` (`EndBug/label-sync@v2`, `timeout-minutes: 5`, `concurrency: cancel-in-progress: true`, least-privilege `issues: write`), and canonical `.github/labels.yml` with 11 standard taxonomy labels per GOVERNANCE.md §4.2.
+- **CI Stale Workflow Hardening**: Hardened `.github/workflows/stale.yml` with `concurrency: group: ${{ github.workflow }}-${{ github.ref }}, cancel-in-progress: true`.
+- **Multi-Host Cloud-Sync & Lock Defense**: Hardened `.gitignore` against Windows shell artifacts (`Desktop.ini`), package locks (`uv.lock`), multi-host identifiers (`*-IDEAPAD*`, `*_WORKSTATION*`, `*_WORKSTATION-LG*`, `*-WORKSTATION.*`, `*-WORKSTATION-LG.*`), editor buffers (`*.swo`), and test caches (`.pytest_temp/`, `.pytest_tmp*/`).
+- **Level 1 SBOM Plain-Text Companion**: Created canonical plain-text companion `THIRD_PARTY_LICENSES.txt` with full inventory of runtime dependencies, 10 Governance and Runtime Invariants (`INV-LOCAL-01` through `INV-SLA-10`), unprivileged `RunAsInvoker` non-elevation certification, and zero-copyleft permissive runtime dependency guarantee (`update-notifier` 7.3.1 BSD-2-Clause, Node.js stdlib under MIT).
+- **Attribution & Manifest Alignment**: Anchored `THIRD_PARTY_LICENSES.txt` within `package.json` distribution `files` whitelist and updated canonical `NOTICE` and `THIRD_PARTY_LICENSES.md` (Stand 2026-09-29) cross-references.
+- **RAG & Discovery Context Synchronization**: Synchronized `llms.txt` context index (`Last-checked: 2026-09-29`) and `MARKETING-LOG.txt` Section 6 Pfad A audit record.
+- **Contract Test Suite Expansion**: Added automated contract tests in `test/repository-hygiene.test.js` and `test/metadata-parity.test.js` covering CI lifecycle workflows, label synchronizer, plain-text Level 1 SBOM companion, package files whitelist inclusion, and multi-host gitignore defenses.
+
 ### AI Security & Dependency Audit: 30-Day Remediation SLA, SSH Wildcard & Secret Hardening, SBOM Parity (2026-09-28)
 - **30-Day Remediation SLA Hardening (`INV-SLA-10`)**: Embedded binding 30-calendar-day remediation commitment for confirmed vulnerabilities in `SECURITY.md` across both English and German sections, synchronized with `THIRD_PARTY_LICENSES.md`, `README.md`, and `README_de.md`.
 - **Defensive Gitignore & Npmignore Hardening**: Expanded SSH key exclusions to comprehensive wildcards (`id_rsa*`, `id_dsa*`, `id_ecdsa*`, `id_ed25519*`), added CSR protections (`*.csr`), generic secrets (`*.secret`), and multi-host review log filters (`CONFLICT_REVIEW_LOG*`).

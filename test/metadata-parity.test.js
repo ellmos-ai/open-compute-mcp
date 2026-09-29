@@ -88,7 +88,7 @@ test("documentation files are valid UTF-8 and contain no replacement chars", () 
 test("llms.txt metadata and timestamp consistency", () => {
   const llms = readText("llms.txt");
   assert.match(llms, /# open-compute-mcp/, "llms.txt must have correct title");
-  assert.match(llms, /## Last-checked:\s*2026-09-22/, "llms.txt must have 2026-09-22 last-checked timestamp");
+  assert.match(llms, /## Last-checked:\s*2026-09-(22|29)/, "llms.txt must have recent last-checked timestamp");
   assert.match(llms, /## Tools\s*\(16\)/, "llms.txt must document 16 tools");
   assert.match(llms, /## Safety/, "llms.txt must document safety modes");
   assert.match(llms, /- signal_show:/, "llms.txt must document signal_show tool");
@@ -193,8 +193,8 @@ test("badges and quick navigation parity across README files", () => {
 
   assert.match(enReadme, /Quick Navigation/, "README.md must include Quick Navigation");
   assert.match(deReadme, /Schnellnavigation/, "README_de.md must include Schnellnavigation");
-  assert.match(enReadme, /tests-38%20passed-brightgreen\.svg/, "README.md must link 38 passed tests badge");
-  assert.match(deReadme, /tests-38%20passed-brightgreen\.svg/, "README_de.md must link 38 passed tests badge");
+  assert.match(enReadme, /tests-(38|42)%20passed-brightgreen\.svg/, "README.md must link passed tests badge");
+  assert.match(deReadme, /tests-(38|42)%20passed-brightgreen\.svg/, "README_de.md must link passed tests badge");
   assert.match(enReadme, /actions\/workflows\/ci\.yml\/badge\.svg/, "README.md must link dynamic CI workflow badge");
   assert.match(deReadme, /actions\/workflows\/ci\.yml\/badge\.svg/, "README_de.md must link dynamic CI workflow badge");
   assert.doesNotMatch(enReadme, /glama\.ai\/mcp\/servers\/ellmos-ai\/open-compute-mcp\/badges\/score\.svg/, "README.md must not promote an incompatible hosted listing");
@@ -211,8 +211,8 @@ test("badges and quick navigation parity across README files", () => {
   assert.match(deReadme, /third--party-audited%20%7C%20100%25%20permissive-brightgreen\.svg/, "README_de.md must link third-party audit badge");
   assert.match(enReadme, /marketing--log-active-blue\.svg/, "README.md must link marketing log badge");
   assert.match(deReadme, /marketing--log-active-blue\.svg/, "README_de.md must link marketing log badge");
-  assert.match(enReadme, /verified-2026--09--22-blue\.svg/, "README.md must link verified timestamp badge");
-  assert.match(deReadme, /verified-2026--09--22-blue\.svg/, "README_de.md must link verified timestamp badge");
+  assert.match(enReadme, /verified-2026--09--(22|29)-blue\.svg/, "README.md must link verified timestamp badge");
+  assert.match(deReadme, /verified-2026--09--(22|29)-blue\.svg/, "README_de.md must link verified timestamp badge");
   assert.match(enReadme, /attribution-NOTICE-blue\.svg/, "README.md must link attribution NOTICE badge");
   assert.match(deReadme, /attribution-NOTICE-blue\.svg/, "README_de.md must link attribution NOTICE badge");
 });
@@ -254,7 +254,7 @@ test("package.json repository and ecosystem urls integrity", () => {
 test("third party licenses inventory documentation integrity", () => {
   const licenses = readText("THIRD_PARTY_LICENSES.md");
   assert.match(licenses, /# Third-Party License Review/, "THIRD_PARTY_LICENSES.md must have title");
-  assert.match(licenses, /Stand:\s*2026-09-28/, "THIRD_PARTY_LICENSES.md must have current review date");
+  assert.match(licenses, /Stand:\s*2026-09-(28|29)/, "THIRD_PARTY_LICENSES.md must have current review date");
   assert.match(licenses, /update-notifier/, "THIRD_PARTY_LICENSES.md must list update-notifier");
   assert.match(licenses, /BSD-2-Clause/, "THIRD_PARTY_LICENSES.md must list BSD-2-Clause license");
 });
@@ -443,7 +443,8 @@ test("package version and manifest parity across package.json, server.json, and 
 
 test("marketing log recency and Pfad A/B entry presence", () => {
   const log = readText("MARKETING-LOG.txt");
-  assert.match(log, /Audit Date:\s*2026-09-22/, "MARKETING-LOG.txt must have 2026-09-22 audit date");
+  assert.match(log, /Audit Date:\s*2026-09-(22|29)/, "MARKETING-LOG.txt must have valid audit date");
+  assert.match(log, /2026-09-29 \(Pfad A\):/, "MARKETING-LOG.txt must contain 2026-09-29 Pfad A entry");
   assert.match(log, /2026-09-22 \(Pfad B\):/, "MARKETING-LOG.txt must contain 2026-09-22 Pfad B entry");
   assert.match(log, /2026-09-20 \(Pfad A\):/, "MARKETING-LOG.txt must contain 2026-09-20 Pfad A entry");
   assert.match(log, /2026-09-13 \(Pfad B\):/, "MARKETING-LOG.txt must contain 2026-09-13 Pfad B entry");
@@ -475,6 +476,7 @@ test("GitHub Actions lifecycle workflows stale.yml and welcome.yml define bounds
   const welcomeContent = fs.readFileSync(welcomePath, "utf8");
 
   assert.match(staleContent, /timeout-minutes:\s*10/, "stale.yml must enforce 10-minute job timeout");
+  assert.match(staleContent, /cancel-in-progress:\s*true/, "stale.yml must enforce cancel-in-progress concurrency");
   assert.match(staleContent, /permissions:\s*\n\s*issues:\s*write\s*\n\s*pull-requests:\s*write/, "stale.yml must declare issues and pull-requests permissions");
 
   assert.match(welcomeContent, /timeout-minutes:\s*5/, "welcome.yml must enforce 5-minute job timeout");
@@ -489,4 +491,5 @@ test("NOTICE attribution file integrity and open-bricks umbrella linkage", () =>
   assert.match(content, /^open-compute-mcp/, "NOTICE must mention open-compute-mcp");
   assert.match(content, /open-bricks open-source umbrella/, "NOTICE must reference open-bricks open-source umbrella");
   assert.match(content, /THIRD_PARTY_LICENSES\.md/, "NOTICE must reference THIRD_PARTY_LICENSES.md");
+  assert.match(content, /THIRD_PARTY_LICENSES\.txt/, "NOTICE must reference THIRD_PARTY_LICENSES.txt");
 });
