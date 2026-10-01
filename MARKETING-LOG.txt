@@ -5,7 +5,7 @@ Repository: https://github.com/ellmos-ai/open-compute-mcp
 Project Name: open-compute-mcp (Distribution: open-compute-mcp on npm)
 Umbrella Ecosystem: open-bricks (https://github.com/open-bricks)
 Architecture Domain: Model-Agnostic Computer-Use MCP Server (Desktop Automation & Perception)
-Audit Date: 2026-09-22
+Audit Date: 2026-10-01
 Status: ACTIVE / PFAD B DISCOVERABILITY & ARCHITECTURE AUDITED
 ================================================================================
 
@@ -99,6 +99,14 @@ and open-bricks ecosystems:
 
 6. MAINTENANCE & HYGIENE RUNS (PFAD A / PFAD B)
 --------------------------------------------------------------------------------
+2026-10-01 (Pfad B):
+  - Strict Version Freeze policy (T-20260920-167562623) enforced: version kept frozen at 0.1.0-alpha.20.
+  - Visual Architecture Topology: Added ASCII Four-View Architecture Topology to Section 1 in README.md & README_de.md (View 1 Caller Runtimes & Clients, View 2 Zero-Egress Node.js Launcher, View 3 Python open-compute Sovereign Engine, View 4 Host Desktop Runtime & Isolation Boundary).
+  - 18-Point Dual Reciprocal Navigation: Saturated dual reciprocal HTML anchors (<a id="sec-01"></a>..<a id="sec-18"></a>) across all 18 sections in both README.md and README_de.md.
+  - Level 1 SBOM & Invariants Re-Audit: Re-audited Level 1 SBOM text companion THIRD_PARTY_LICENSES.txt and THIRD_PARTY_LICENSES.md (INV-LOCAL-01..INV-SLA-10, unprivileged RunAsInvoker, 0% Copyleft, 100% permissive MIT/BSD-2-Clause).
+  - Contract Tests Expansion: Added automated contract tests in test/metadata-parity.test.js covering ASCII four-view topology, 18-point sec-01..sec-18 anchor parity, Section 18 statutory notice integrity, and plain-text Level 1 SBOM date synchronization (46/46 tests passed | 100% green).
+  - Synchronized llms.txt context index and verified badges with 2026-10-01 timestamp.
+
 2026-09-29 (Pfad A):
   - Strict Version Freeze policy (T-20260920-167562623) enforced: version kept frozen at 0.1.0-alpha.20.
   - Deployed standard CI lifecycle workflows: auto-assign.yml (actions/github-script@v7, timeout: 5m, concurrency cancel-in-progress, least-privilege pull-requests: write, issues: write), label-sync.yml (EndBug/label-sync@v2, timeout: 5m, concurrency cancel-in-progress, least-privilege issues: write), and canonical .github/labels.yml (11 standard labels per GOVERNANCE.md §4.2).

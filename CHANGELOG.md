@@ -7,6 +7,14 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Visual Architecture Topology, 18-Point Dual Anchors & Contract Tests (Pfad B 2026-10-01)
+- **Strict Version Freeze Discipline (`T-20260920-167562623`)**: Maintained `v0.1.0-alpha.20` strictly frozen across all manifests (`package.json`, `package-lock.json`, `server.json`, `glama.json`).
+- **Visual Architecture Topology**: Embedded ASCII Four-View System Architecture Topology directly into Section 1 of both `README.md` and `README_de.md` (View 1: AI Caller Runtimes & Multi-Agent Clients, View 2: Zero-Egress Node.js Launcher & Protocol Dispatch, View 3: Python open-compute Sovereign Engine, View 4: Host Desktop Runtime & Isolation Boundary).
+- **18-Point Dual Reciprocal Navigation Parity**: Enforced dual reciprocal HTML anchors (`<a id="sec-01"></a>` through `<a id="sec-18"></a>`) across all 18 standardized sections in both English and German README documents.
+- **Level 1 SBOM Text Companion Re-Audit**: Re-audited canonical plain-text companion `THIRD_PARTY_LICENSES.txt` and `THIRD_PARTY_LICENSES.md` (Stand 2026-10-01) reaffirming 10 Runtime Invariants (`INV-LOCAL-01` through `INV-SLA-10`), unprivileged `RunAsInvoker` non-elevation certification, and zero-copyleft permissive stack.
+- **Metadata & Discovery Context Synchronization**: Synchronized `llms.txt` (`Last-checked: 2026-10-01`), verified badges (`2026-10-01`), and `MARKETING-LOG.txt` Section 6 audit log.
+- **Contract Test Suite Expansion**: Added 4 automated contract tests in `test/metadata-parity.test.js` validating ASCII topology, 18-point dual anchors, Section 18 statutory notice (§ 521 BGB), and SBOM text companion review date (46/46 tests passing | 100% green).
+
 ### Repository Lifecycle Hardening, CI Workflow Parity, Level 1 SBOM Text Companion & Contract Tests (Pfad A 2026-09-29)
 - **Strict Version Freeze Discipline (`T-20260920-167562623`)**: Maintained `v0.1.0-alpha.20` strictly frozen across all manifests; 0 version bumps during hygiene runs.
 - **CI Lifecycle Workflows Deployed**: Added `.github/workflows/auto-assign.yml` (`actions/github-script@v7`, `timeout-minutes: 5`, `concurrency: cancel-in-progress: true`, least-privilege `pull-requests: write`, `issues: write`), `.github/workflows/label-sync.yml` (`EndBug/label-sync@v2`, `timeout-minutes: 5`, `concurrency: cancel-in-progress: true`, least-privilege `issues: write`), and canonical `.github/labels.yml` with 11 standard taxonomy labels per GOVERNANCE.md §4.2.

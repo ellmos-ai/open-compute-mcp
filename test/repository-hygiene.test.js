@@ -226,7 +226,7 @@ test("THIRD_PARTY_LICENSES.txt Level 1 SBOM text companion integrity", () => {
   const txt = readRoot("THIRD_PARTY_LICENSES.txt");
   assert.match(txt, /THIRD-PARTY LICENSES & LEVEL 1 SBOM NOTICE/);
   assert.match(txt, /Project:\s*ellmos-ai\/open-compute-mcp/);
-  assert.match(txt, /Audited:\s*2026-09-29/);
+  assert.match(txt, /Audited:\s*2026-(09-29|10-01)/);
   assert.match(txt, /0\.1\.0-alpha\.20/);
   assert.match(txt, /INV-LOCAL-01/);
   assert.match(txt, /INV-SLA-10/);

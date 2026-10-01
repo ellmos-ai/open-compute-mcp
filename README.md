@@ -21,7 +21,7 @@ model-agnostic **computer-use** tools exposed over the Model Context Protocol (M
 [![GitHub Stars](https://img.shields.io/github/stars/ellmos-ai/open-compute-mcp.svg)](https://github.com/ellmos-ai/open-compute-mcp)
 [![License: MIT](https://img.shields.io/github/license/ellmos-ai/open-compute-mcp.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
-[![Tests](https://img.shields.io/badge/tests-42%20passed-brightgreen.svg)](test)
+[![Tests](https://img.shields.io/badge/tests-46%20passed-brightgreen.svg)](test)
 [![Code Style: Prettier](https://img.shields.io/badge/code_style-prettier-brightgreen.svg)](https://prettier.io)
 [![Security SLA](https://img.shields.io/badge/security--sla-48h%20Response%20%7C%205d%20Triage-blue.svg)](SECURITY.md)
 [![MCP Enabled](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io)
@@ -30,7 +30,7 @@ model-agnostic **computer-use** tools exposed over the Model Context Protocol (M
 [![Security: Safety-Gated](https://img.shields.io/badge/security-Operator%20Ceiling%20%7C%20Safety--Gated-green.svg)](SECURITY.md)
 [![Third-Party: Audited](https://img.shields.io/badge/third--party-audited%20%7C%20100%25%20permissive-brightgreen.svg)](THIRD_PARTY_LICENSES.md)
 [![Marketing Log](https://img.shields.io/badge/marketing--log-active-blue.svg)](MARKETING-LOG.txt)
-[![Verified](https://img.shields.io/badge/verified-2026--09--29-blue.svg)](llms.txt)
+[![Verified](https://img.shields.io/badge/verified-2026--10--01-blue.svg)](llms.txt)
 [![Attribution: NOTICE](https://img.shields.io/badge/attribution-NOTICE-blue.svg)](NOTICE)
 [![Ecosystem: ellmos-ai](https://img.shields.io/badge/ecosystem-ellmos--ai-blueviolet.svg)](https://github.com/ellmos-ai)
 [![Umbrella: open-bricks](https://img.shields.io/badge/umbrella-open--bricks-indigo.svg)](https://github.com/open-bricks)
@@ -73,7 +73,7 @@ The MCP **client is the reasoner** (no API key, model-agnostic): it calls `captu
 to see the screen, then acts with `do` / `click_name` / `invoke`. This is the keyless
 Mode-A loop of open-compute, but as native tool-calls.
 
-<a id="architecture"></a><a id="architektur"></a>
+<a id="sec-01"></a><a id="architecture"></a><a id="architektur"></a>
 ## 1. Architecture
 
 ```mermaid
@@ -90,11 +90,65 @@ graph TD
     end
 ```
 
+### Four-View System Architecture Topology
+
+```text
++====================================================================================================+
+|                     OPEN-COMPUTE-MCP — FOUR-VIEW SYSTEM ARCHITECTURE TOPOLOGY                     |
++====================================================================================================+
+
+[VIEW 1: AI CALLER RUNTIMES & MULTI-AGENT CLIENTS]
+  +------------------------------------------------------------------------------------------------+
+  |  +--------------------+  +--------------------+  +--------------------+  +-------------------+ |
+  |  | Claude Code / Desktop |  | Antigravity (AGY)  |  | Cursor / VS Code   |  | Custom MCP Agents | |
+  |  +---------+----------+  +---------+----------+  +---------+----------+  +---------+---------+ |
+  |            |                       |                       |                       |           |
+  |            +-----------------------+-----------+-----------+-----------------------+           |
+  |                                                | Model Context Protocol (MCP)                  |
+  |                                                v Stdio JSON-RPC Transport                      |
+  +------------------------------------------------------------------------------------------------+
+                                                   |
+[VIEW 2: ZERO-EGRESS NODE.JS LAUNCHER & PROTOCOL DISPATCH]
+  +------------------------------------------------------------------------------------------------+
+  |  npx open-compute-mcp (Node.js Thin Bridge, CommonJS / RunAsInvoker)                           |
+  |  - stdio pipe isolation (0 network sockets, zero telemetry egress)                            |
+  |  - Environment sanitizer & launch parameter resolver (OPEN_COMPUTE_MCP_CMD / uvx)            |
+  |  - Version parity guard (0.1.0-alpha.20 manifest sync)                                         |
+  +------------------------------------------------+-----------------------------------------------+
+                                                   | Stdio Process Stream
+                                                   v (uvx --from git+https://github.com/ellmos-ai/...)
+[VIEW 3: PYTHON OPEN-COMPUTE SOVEREIGN ENGINE]
+  +------------------------------------------------------------------------------------------------+
+  |  open-compute Python Engine (@main)                                                            |
+  |  +---------------------------+  +---------------------------+  +-----------------------------+ |
+  |  | Vision & Perception       |  | Input & Semantic Tree     |  | Signal Overlay & Voice      | |
+  |  | - capture (mss / WGC GPU) |  | - click_name (UIA tree)   |  | - signal_show (glowing UI)  | |
+  |  | - coords / scale factors  |  | - invoke (pattern action) |  | - signal_abort (hotkey)     | |
+  |  | - one-shot observation_id |  | - do (mouse / keyboard)   |  | - talk (push-to-talk WAV)   | |
+  |  +---------------------------+  +---------------------------+  +-----------------------------+ |
+  |                                                |                                               |
+  |  +---------------------------------------------v---------------------------------------------+ |
+  |  | Operator Safety Ceiling & Execution Guard (Fail-Closed)                                   | |
+  |  | - OC_SAFETY_MODE (confirm / read_only / allow_all)                                         | |
+  |  | - OC_DENY (hard action deny list) | One-Shot Observation Token Enforcement                   | |
+  |  +-------------------------------------------------------------------------------------------+ |
+  +------------------------------------------------+-----------------------------------------------+
+                                                   | Direct OS Windows Handles
+                                                   v
+[VIEW 4: HOST DESKTOP RUNTIME & ISOLATION BOUNDARY]
+  +------------------------------------------------------------------------------------------------+
+  |  Interactive Windows Desktop Session (Win32 / UIA / DirectX Graphics)                          |
+  |  - Desktop Screen Buffer (multi-monitor, DPI scaling, GPU acceleration)                        |
+  |  - Native Windows UI Automation Tree (exact-first element resolution)                          |
+  |  - User-Mode Isolation Boundary (RunAsInvoker INV-PROC-07, zero kernel drivers)                |
+  +------------------------------------------------------------------------------------------------+
+```
+
 > This package is a **thin launcher**. It contains no server logic — it spawns the
 > **Python** open-compute server (pulled from GitHub) and pipes MCP stdio through.
 > Real screen capture and input require the **interactive Windows desktop session**.
 
-<a id="key-capabilities"></a><a id="hauptfunktionen"></a>
+<a id="sec-02"></a><a id="key-capabilities"></a><a id="hauptfunktionen"></a>
 ## 2. Key Capabilities & Invariants
 
 1. **State-bound Perception & Window Targeting:** Captures/trees return one-shot observation IDs; window enumeration returns stable window/process IDs and issued tokens. WGC remains the GPU-window fallback.
@@ -102,7 +156,7 @@ graph TD
 3. **Leased Signal Overlay & Abort Control:** The glowing border/cursor signal has owner/session metadata, a bounded TTL, turn-end cleanup, and immediate human abort.
 4. **Multimodal Collaboration & Voice Notes:** Push-to-talk voice recording (`talk`), screen chat messaging (`chat`), directory monitoring (`watch_dir`), and macro replay (`rec_replay`).
 
-<a id="quick-start"></a><a id="schnellstart"></a><a id="use-with-an-mcp-client"></a><a id="nutzung-mit-einem-mcp-client"></a>
+<a id="sec-03"></a><a id="quick-start"></a><a id="schnellstart"></a><a id="use-with-an-mcp-client"></a><a id="nutzung-mit-einem-mcp-client"></a>
 ## 3. Quick Start & Prerequisites
 
 ### Prerequisites
@@ -142,7 +196,7 @@ graph TD
 }
 ```
 
-<a id="tools"></a><a id="werkzeuge"></a>
+<a id="sec-04"></a><a id="tools"></a><a id="werkzeuge"></a>
 ## 4. MCP Tool Reference (16)
 
 | Tool | Purpose |
@@ -174,7 +228,7 @@ clicking, game input); anything still held is released when the server stops.
 a hardware-composited window (Roblox Studio, Blender, a GPU-accelerated browser)
 comes back all-black — install the `wgc` extra for that.
 
-<a id="configuration-environment-variables"></a><a id="konfiguration-umgebungsvariablen"></a>
+<a id="sec-05"></a><a id="configuration-environment-variables"></a><a id="konfiguration-umgebungsvariablen"></a>
 ## 5. Configuration (Environment Variables)
 
 | Variable | Effect |
@@ -221,7 +275,7 @@ the browser chrome, not the page; and use `capture(window=…)` rather than the 
 Coordinate actions deliberately follow observe → one action → automatic refresh;
 do not batch multiple coordinate steps against one stale frame.
 
-<a id="safe-interaction--signal-lifecycle"></a><a id="sichere-interaktion--signal-lebenszyklus"></a>
+<a id="sec-06"></a><a id="safe-interaction--signal-lifecycle"></a><a id="sichere-interaktion--signal-lebenszyklus"></a>
 ## 6. Safe Interaction & Signal Lifecycle
 
 The v0.8 Python engine enforces observe → one action → automatic refresh. Keep
@@ -287,7 +341,7 @@ sequenceDiagram
     Engine->>UI: Remove overlay on turn end/error/abort (unless keep_signal=true)
 ```
 
-<a id="target-personas--discoverability"></a><a id="zielgruppen--auffindbarkeit"></a>
+<a id="sec-07"></a><a id="target-personas--discoverability"></a><a id="zielgruppen--auffindbarkeit"></a>
 ## 7. Target Personas & Discoverability
 
 `open-compute-mcp` is architected for four technical personas across autonomous AI operations, system engineering, accessibility assurance, and multimodal human-in-the-loop workflows:
@@ -299,7 +353,7 @@ sequenceDiagram
 | **Windows GUI QA & Accessibility Engineers** | Semantic element targeting via UI Automation (UIA), click-free activation, exact-first matching | Fragile optical/OCR coordinate clicking; broken resolution scaling; brittle UI test automation | `windows uia mcp server`, `semantic ui automation mcp`, `accessibility tree gui testing`, `exact-first uia click` |
 | **Multimodal Human-in-the-Loop Operators** | Leased visual signal overlay with countdown, emergency human abort hotkey, push-to-talk voice/chat | Silent background tampering; inability to stop runaway models; disjointed human-agent feedback loops | `signal overlay mcp`, `push-to-talk ai assistant`, `human-in-the-loop desktop agent`, `emergency abort computer use` |
 
-<a id="high-intent-search-term-matrix"></a><a id="hochrelevante-suchbegriffs-matrix"></a>
+<a id="sec-08"></a><a id="high-intent-search-term-matrix"></a><a id="hochrelevante-suchbegriffs-matrix"></a>
 ## 8. High-Intent Search Term Matrix (SEO & Discoverability)
 
 ### High-Intent Search Term Matrix (SEO & Discoverability)
@@ -311,7 +365,7 @@ sequenceDiagram
 | **Safety & Governance** | `fail-closed agent safety ceiling`, `zero-egress desktop mcp`, `runasinvoker unprivileged agent` | `Fail-Closed Agenten Sicherheit`, `Zero-Egress Desktop Automatisierung`, `Unprivilegierte Agentenausführung` |
 | **Visual Signals & Feedback** | `leased screen signal overlay`, `emergency abort hotkey computer use`, `push-to-talk voice note mcp` | `Visuelles Signal Overlay Bildschirm`, `Notfallabbruch Hotkey Computer Use`, `Push-to-Talk Sprachnachricht MCP` |
 
-<a id="comparative-matrix-vs-alternatives"></a><a id="vergleichsmatrix-gegenueber-alternativen"></a>
+<a id="sec-09"></a><a id="comparative-matrix-vs-alternatives"></a><a id="vergleichsmatrix-gegenueber-alternativen"></a>
 ## 9. 10-Dimension Comparative Matrix vs. Alternatives
 
 `open-compute-mcp` delivers a model-agnostic, safety-bounded bridge between LLM reasoners and the Windows desktop environment. The following matrix illustrates how `open-compute-mcp` compares with alternative desktop interaction patterns across 10 operational dimensions:
@@ -329,7 +383,7 @@ sequenceDiagram
 | **9. Privacy & Zero-Egress** | **PASS** (100% offline, zero network telemetry: `INV-LOCAL-01`) | ⚠️ Local unless script calls external endpoints | ❌ Screen frames streamed to remote cloud | ⚠️ Telemetry packages often bundled | ⚠️ Dependent on backend transport |
 | **10. Governance & Security SLA** | **PASS** (10 Invariants, 48h Security Response & 5d Triage SLA) | ❌ OS vendor lifecycle | ❌ Proprietary closed-source Terms of Service | ⚠️ Community best-effort maintenance | ⚠️ Heterogeneous author quality |
 
-<a id="governance--runtime-invariants"></a><a id="governance--laufzeit-invarianten"></a>
+<a id="sec-10"></a><a id="governance--runtime-invariants"></a><a id="governance--laufzeit-invarianten"></a>
 ## 10. Governance & Runtime Invariants
 
 | Invariant ID | Rule & Principle | Enforcement & Architectural Guarantee |
@@ -345,7 +399,7 @@ sequenceDiagram
 | `INV-SYNC-09` | **Multi-Agent Lock & Conflict Discipline** | Defensive file system ignore patterns and fail-closed lock checks prevent concurrent workspace pollution and protect cloud synchronization integrity. |
 | `INV-SLA-10` | **48h Security Response & 5-Day Triage SLA** | Documented commitment to acknowledge vulnerability disclosures within 48 hours and deliver preliminary triage within 5 business days. |
 
-<a id="ellmos-ai-ecosystem"></a><a id="ellmos-ai-ökosystem"></a>
+<a id="sec-11"></a><a id="ellmos-ai-ecosystem"></a><a id="ellmos-ai-ökosystem"></a>
 ## 11. ellmos-ai Ecosystem & Sibling Matrix
 
 This MCP server is part of the **[ellmos-ai](https://github.com/ellmos-ai)** ecosystem — AI infrastructure, MCP servers, and intelligent tools.
@@ -383,7 +437,7 @@ This MCP server is part of the **[ellmos-ai](https://github.com/ellmos-ai)** eco
 
 Our partner organization **[open-bricks](https://github.com/open-bricks)** bundles AI-native desktop applications — a modern, open-source software suite built for the age of AI. Sibling suites include [DevCenter](https://github.com/dev-bricks/DevCenter), [CodeBox](https://github.com/dev-bricks/CodeBox), [MethodenAnalyser](https://github.com/dev-bricks/MethodenAnalyser), [CleanMarkdown](https://github.com/doc-bricks/CleanMarkdown), and [PDFtoPDFocr](https://github.com/doc-bricks/PDFtoPDFocr).
 
-<a id="safety"></a><a id="sicherheit"></a>
+<a id="sec-12"></a><a id="safety"></a><a id="sicherheit"></a>
 ## 12. Security Policy & Zero-Egress Safety
 
 Computer-use is powerful. `OC_SAFETY_MODE` is an operator **ceiling** (`confirm`
@@ -403,7 +457,7 @@ auto-allow `do`/`click_name`/`invoke` there). The env change only takes effect w
 the server process (re)starts — an already-connected client keeps the old ceiling
 until it reconnects.
 
-<a id="level-1-sbom--invariant-matrix"></a><a id="level-1-sbom--invarianten-matrix"></a>
+<a id="sec-13"></a><a id="level-1-sbom--invariant-matrix"></a><a id="level-1-sbom--invarianten-matrix"></a>
 ## 13. Level 1 SBOM Transparency & Invariant Matrix
 
 `open-compute-mcp` maintains a transparent Level 1 Software Bill of Materials (SBOM) ensuring comprehensive supply-chain hygiene and zero-copyleft isolation. Full details are documented in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) and [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt).
@@ -435,7 +489,7 @@ The launcher and spawned processes are certified to run entirely under standard 
 ### Zero-Copyleft Isolation Guarantee
 No GPL, AGPL, LGPL, or other copyleft-licensed dependencies are included or linked. All code is distributed under permissive MIT and BSD licenses.
 
-<a id="testing--verification"></a><a id="tests--verifikation"></a>
+<a id="sec-14"></a><a id="testing--verification"></a><a id="tests--verifikation"></a>
 ## 14. Testing & Verification Suite
 
 The repository features a comprehensive automated test suite validating contract invariants, manifest parity, and repository hygiene:
@@ -453,7 +507,7 @@ npm pack --dry-run
 
 All pull requests and commits are verified through GitHub Actions CI (`.github/workflows/ci.yml`) with automated matrix builds on **Ubuntu**, **Windows**, and **macOS** across Node.js **18.x**, **20.x**, **22.x**, and **24.x**.
 
-<a id="registry-manifests"></a><a id="registry-manifeste"></a>
+<a id="sec-15"></a><a id="registry-manifests"></a><a id="registry-manifeste"></a>
 ## 15. Registry Manifests & Schema Parity
 
 `open-compute-mcp` adheres to multi-registry standard specifications:
@@ -466,7 +520,7 @@ All pull requests and commits are verified through GitHub Actions CI (`.github/w
 | [`smithery.yaml`](smithery.yaml) | Smithery deployment schema | Defines command-line launch invocation |
 | [`llms.txt`](llms.txt) | LLM context specification | Machine-readable context index for AI agents and RAG indexers |
 
-<a id="quality-gates"></a><a id="qualitaets-gates"></a>
+<a id="sec-16"></a><a id="quality-gates"></a><a id="qualitaets-gates"></a>
 ## 16. Quality Gates & Pre-Release Checklist
 
 Every commit and pull request must satisfy rigorous defensive quality gates:
@@ -477,7 +531,7 @@ Every commit and pull request must satisfy rigorous defensive quality gates:
 5. **Release Decoupling (T-20260920-167562623)**: Pfad A/B discoverability and hygiene runs strictly preserve the version field without unauthorized bumps.
 6. **100% Automated Test Pass Rate**: Full test suite passing across all platforms.
 
-<a id="licensing--attribution"></a><a id="lizenzierung--attribution"></a>
+<a id="sec-17"></a><a id="licensing--attribution"></a><a id="lizenzierung--attribution"></a>
 ## 17. Licensing & Canonical Attribution
 
 Distributed under the **MIT License**. See [LICENSE](LICENSE) for full legal text.
@@ -485,7 +539,7 @@ Distributed under the **MIT License**. See [LICENSE](LICENSE) for full legal tex
 Part of the **[ellmos-ai](https://github.com/ellmos-ai)** family under the **[open-bricks](https://github.com/open-bricks)** open-source umbrella.
 Canonical attribution and dependency inventory are documented in [NOTICE](NOTICE), [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md), and [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt).
 
-<a id="statutory-notice--security-response-sla"></a><a id="gesetzlicher-hinweis--sicherheits-reaktions-sla"></a>
+<a id="sec-18"></a><a id="statutory-notice--security-response-sla"></a><a id="gesetzlicher-hinweis--sicherheits-reaktions-sla"></a>
 ## 18. Statutory Notice (§ 521 BGB) & 48h Security Response SLA
 
 ### Statutory Disclaimer under German Law (§ 521 BGB)
