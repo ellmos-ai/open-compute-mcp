@@ -7,6 +7,15 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Repository Lifecycle Hardening, Bilingual CONTRIBUTING Guidelines, Level 1 SBOM Re-Audit & Contract Tests (Pfad A 2026-10-03)
+- **Strict Version Freeze Discipline (`T-20260920-167562623`)**: Maintained `v0.1.0-alpha.20` strictly frozen across all manifests (`package.json`, `package-lock.json`, `server.json`, `glama.json`); zero version bumps during hygiene maintenance.
+- **Bilingual CONTRIBUTING.md Guidelines (EN/DE)**: Created comprehensive contributor guidelines `CONTRIBUTING.md` detailing 10 Governance and Runtime Invariants (`INV-LOCAL-01` through `INV-SLA-10`), unprivileged `RunAsInvoker` non-elevation execution mode (`INV-PROC-07`), Plan D local development workflow (`C:\_Local_DEV\repos\open-compute-mcp`), version freeze discipline, quality gates (`npm test`, `npm pack --dry-run`, `git diff --check`, `git diff -G"version"`), statutory notice (§ 521 BGB German courtesy law), and 48h Security Response SLA (`security@ellmos.ai`, `security@open-bricks.org`).
+- **Package Manifest Files Whitelist Expansion**: Added `CONTRIBUTING.md` to `package.json` distribution `files` array.
+- **Multi-Host Cloud-Sync & Lock Defense**: Hardened `.gitignore` against multi-agent coordination locks (`LOCK.dev.*`, `LOCK.antigravity.*`, `LOCK.bugsearch.*`), Windows thumbnail caches (`ehthumbs.db`), task execution plans (`TASKPLAN_*.md`, `*-TASKPLAN*`), host tokens (`*-IDEAPAD-GEI*`, `*-IDEAPAD-GEI.*`), and test caches (`.vitest/`, `.tox/`).
+- **Level 1 SBOM Text Companion Re-Audit**: Re-audited `THIRD_PARTY_LICENSES.txt` and `THIRD_PARTY_LICENSES.md` (Stand 2026-10-03) reaffirming zero-copyleft permissive stack, unprivileged `RunAsInvoker` mode, and cross-references to `NOTICE` and `CONTRIBUTING.md`.
+- **Documentation & Context Synchronization**: Synchronized `llms.txt` (`Last-checked: 2026-10-03`), verified badges (`2026-10-03`), added Contributing Guidelines badges to `README.md` and `README_de.md`, and recorded Pfad A hygiene run in `MARKETING-LOG.txt`.
+- **Contract Test Suite Expansion**: Added new automated contract tests in `test/metadata-parity.test.js` and `test/repository-hygiene.test.js` validating `CONTRIBUTING.md` bilingual parity, package files inclusion, and hardened lock defense patterns.
+
 ### Visual Architecture Topology, 18-Point Dual Anchors & Contract Tests (Pfad B 2026-10-01)
 - **Strict Version Freeze Discipline (`T-20260920-167562623`)**: Maintained `v0.1.0-alpha.20` strictly frozen across all manifests (`package.json`, `package-lock.json`, `server.json`, `glama.json`).
 - **Visual Architecture Topology**: Embedded ASCII Four-View System Architecture Topology directly into Section 1 of both `README.md` and `README_de.md` (View 1: AI Caller Runtimes & Multi-Agent Clients, View 2: Zero-Egress Node.js Launcher & Protocol Dispatch, View 3: Python open-compute Sovereign Engine, View 4: Host Desktop Runtime & Isolation Boundary).

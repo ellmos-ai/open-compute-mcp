@@ -226,7 +226,7 @@ test("THIRD_PARTY_LICENSES.txt Level 1 SBOM text companion integrity", () => {
   const txt = readRoot("THIRD_PARTY_LICENSES.txt");
   assert.match(txt, /THIRD-PARTY LICENSES & LEVEL 1 SBOM NOTICE/);
   assert.match(txt, /Project:\s*ellmos-ai\/open-compute-mcp/);
-  assert.match(txt, /Audited:\s*2026-(09-29|10-01)/);
+  assert.match(txt, /Audited:\s*2026-(09-29|10-(01|03))/);
   assert.match(txt, /0\.1\.0-alpha\.20/);
   assert.match(txt, /INV-LOCAL-01/);
   assert.match(txt, /INV-SLA-10/);
@@ -240,6 +240,14 @@ test("package.json files list includes THIRD_PARTY_LICENSES.txt", () => {
   assert.ok(
     (pkg.files || []).includes("THIRD_PARTY_LICENSES.txt"),
     "package.json files list must include THIRD_PARTY_LICENSES.txt"
+  );
+});
+
+test("package.json files list includes CONTRIBUTING.md", () => {
+  const pkg = JSON.parse(readRoot("package.json"));
+  assert.ok(
+    (pkg.files || []).includes("CONTRIBUTING.md"),
+    "package.json files list must include CONTRIBUTING.md"
   );
 });
 
@@ -287,4 +295,23 @@ test("gitignore defends against additional multi-host patterns, locks, and test 
   }
 
   assert.equal(isIgnored("THIRD_PARTY_LICENSES.txt"), false, "THIRD_PARTY_LICENSES.txt should stay trackable");
+});
+
+test("gitignore defends against multi-agent locks, ehthumbs, task plans, and IDEAPAD-GEI tokens", () => {
+  for (const samplePath of [
+    "ehthumbs.db",
+    "TASKPLAN_01.md",
+    "sample-TASKPLAN-run",
+    "LOCK.dev.user.txt",
+    "LOCK.antigravity.run.txt",
+    "LOCK.bugsearch.run.txt",
+    "sample-IDEAPAD-GEI.log",
+    "test-IDEAPAD-GEI.tmp",
+    ".vitest/",
+    ".tox/",
+  ]) {
+    assert.equal(isIgnored(samplePath), true, `${samplePath} should be ignored`);
+  }
+
+  assert.equal(isIgnored("CONTRIBUTING.md"), false, "CONTRIBUTING.md should stay trackable");
 });

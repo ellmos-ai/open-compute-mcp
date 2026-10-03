@@ -69,6 +69,7 @@ or exit unless `keep_signal=true`. Hold primitives auto-release.
 
 - `README.md`: English documentation, quickstart instructions, and sequence diagrams.
 - `README_de.md`: German documentation and sequence diagrams.
+- `CONTRIBUTING.md`: Bilingual contributor guidelines (EN/DE), 10 runtime invariants, Plan D workflow, and quality gates.
 - `package.json`: npm package manifest with launcher configuration.
 - `server.json`: MCP registry configuration.
 - `glama.json`: repository-only Glama listing ownership metadata; its presence does not make this local desktop launcher remotely hostable.
@@ -93,4 +94,4 @@ screen usage signal overlay abort hotkey
 push-to-talk multimodal voice mcp
 ```
 
-## Last-checked: 2026-10-01
+## Last-checked: 2026-10-03

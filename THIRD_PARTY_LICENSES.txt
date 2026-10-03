@@ -1,9 +1,10 @@
 THIRD-PARTY LICENSES & LEVEL 1 SBOM NOTICE
 Project: ellmos-ai/open-compute-mcp
-Audited: 2026-10-01
+Audited: 2026-10-03
 Repository Version: 0.1.0-alpha.20 (Version Freeze per T-20260920-167562623)
 Repository License: MIT License (see LICENSE)
 Repository Attribution Notice: NOTICE (see NOTICE)
+Contributor Guidelines: CONTRIBUTING.md (see CONTRIBUTING.md)
 Architecture & Privacy: 100% Local-First Stdio JSON-RPC, Zero-Egress, Unprivileged User-Mode (RunAsInvoker), Ephemeral Observation Lifespan
 
 ================================================================================

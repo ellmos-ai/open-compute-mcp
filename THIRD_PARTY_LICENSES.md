@@ -1,6 +1,6 @@
 # Third-Party License Review
 
-Stand: 2026-10-01.
+Stand: 2026-10-03.
 
 ## Runtime dependencies
 
@@ -8,7 +8,7 @@ Stand: 2026-10-01.
 |---|---:|---|---|
 | `update-notifier` | 7.3.1 | BSD-2-Clause | Non-intrusive interactive CLI update notification (TTY-guarded) |
 
-The npm package does not vendor these dependencies; they are installed by npm from their registry packages. A plain-text Level 1 SBOM companion is maintained in `THIRD_PARTY_LICENSES.txt`.
+The npm package does not vendor these dependencies; they are installed by npm from their registry packages. A plain-text Level 1 SBOM companion is maintained in `THIRD_PARTY_LICENSES.txt` and contributor guidelines in `CONTRIBUTING.md`.
 
 ## Reviewed but not vendored / Architecture references
 

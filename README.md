@@ -21,22 +21,23 @@ model-agnostic **computer-use** tools exposed over the Model Context Protocol (M
 [![GitHub Stars](https://img.shields.io/github/stars/ellmos-ai/open-compute-mcp.svg)](https://github.com/ellmos-ai/open-compute-mcp)
 [![License: MIT](https://img.shields.io/github/license/ellmos-ai/open-compute-mcp.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
-[![Tests](https://img.shields.io/badge/tests-46%20passed-brightgreen.svg)](test)
+[![Tests](https://img.shields.io/badge/tests-50%20passed-brightgreen.svg)](test)
 [![Code Style: Prettier](https://img.shields.io/badge/code_style-prettier-brightgreen.svg)](https://prettier.io)
 [![Security SLA](https://img.shields.io/badge/security--sla-48h%20Response%20%7C%205d%20Triage-blue.svg)](SECURITY.md)
+[![Contributing: Guidelines](https://img.shields.io/badge/contributing-guidelines-orange.svg)](CONTRIBUTING.md)
 [![MCP Enabled](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/open-compute-mcp)
 [![Privacy: Zero-Egress](https://img.shields.io/badge/privacy-100%25%20Offline%20%7C%20Zero--Egress-blue.svg)](SECURITY.md)
 [![Security: Safety-Gated](https://img.shields.io/badge/security-Operator%20Ceiling%20%7C%20Safety--Gated-green.svg)](SECURITY.md)
 [![Third-Party: Audited](https://img.shields.io/badge/third--party-audited%20%7C%20100%25%20permissive-brightgreen.svg)](THIRD_PARTY_LICENSES.md)
 [![Marketing Log](https://img.shields.io/badge/marketing--log-active-blue.svg)](MARKETING-LOG.txt)
-[![Verified](https://img.shields.io/badge/verified-2026--10--01-blue.svg)](llms.txt)
+[![Verified](https://img.shields.io/badge/verified-2026--10--03-blue.svg)](llms.txt)
 [![Attribution: NOTICE](https://img.shields.io/badge/attribution-NOTICE-blue.svg)](NOTICE)
 [![Ecosystem: ellmos-ai](https://img.shields.io/badge/ecosystem-ellmos--ai-blueviolet.svg)](https://github.com/ellmos-ai)
 [![Umbrella: open-bricks](https://img.shields.io/badge/umbrella-open--bricks-indigo.svg)](https://github.com/open-bricks)
 [![LLM Ready](https://img.shields.io/badge/LLM-ready-success.svg)](https://github.com/ellmos-ai/open-compute-mcp/blob/main/llms.txt)
 
-📦 **[View on npm →](https://www.npmjs.com/package/open-compute-mcp)** • 📋 **[Security Policy](SECURITY.md)** • ⚖️ **[Licenses](THIRD_PARTY_LICENSES.md)** • 🤖 **[LLM Context (llms.txt)](llms.txt)**
+📦 **[View on npm →](https://www.npmjs.com/package/open-compute-mcp)** • 📋 **[Security Policy](SECURITY.md)** • 🤝 **[Contributing Guidelines](CONTRIBUTING.md)** • ⚖️ **[Licenses](THIRD_PARTY_LICENSES.md)** • 🤖 **[LLM Context (llms.txt)](llms.txt)**
 
 ---
 
@@ -61,7 +62,7 @@ model-agnostic **computer-use** tools exposed over the Model Context Protocol (M
 - [17. ⚖️ Licensing & Canonical Attribution](#licensing--attribution)
 - [18. 📜 Statutory Notice (§ 521 BGB) & 48h Security Response SLA](#statutory-notice--security-response-sla)
 
-| Direct Document References | [🛡️ Security Policy](SECURITY.md) • [⚖️ Third-Party Licenses](THIRD_PARTY_LICENSES.md) • [📜 Marketing Log](MARKETING-LOG.txt) • [🤖 LLM Context](llms.txt) • [📋 Canonical Notice](NOTICE) |
+| Direct Document References | [🛡️ Security Policy](SECURITY.md) • [🤝 Contributing Guidelines](CONTRIBUTING.md) • [⚖️ Third-Party Licenses](THIRD_PARTY_LICENSES.md) • [📜 Marketing Log](MARKETING-LOG.txt) • [🤖 LLM Context](llms.txt) • [📋 Canonical Notice](NOTICE) |
 |---|---|
 
 ---

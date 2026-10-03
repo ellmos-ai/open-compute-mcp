@@ -5,8 +5,8 @@ Repository: https://github.com/ellmos-ai/open-compute-mcp
 Project Name: open-compute-mcp (Distribution: open-compute-mcp on npm)
 Umbrella Ecosystem: open-bricks (https://github.com/open-bricks)
 Architecture Domain: Model-Agnostic Computer-Use MCP Server (Desktop Automation & Perception)
-Audit Date: 2026-10-01
-Status: ACTIVE / PFAD B DISCOVERABILITY & ARCHITECTURE AUDITED
+Audit Date: 2026-10-03
+Status: ACTIVE / PFAD A HYGIENE & SBOM AUDITED
 ================================================================================
 
 1. PRODUCT IDENTITY & MISSION
@@ -99,6 +99,15 @@ and open-bricks ecosystems:
 
 6. MAINTENANCE & HYGIENE RUNS (PFAD A / PFAD B)
 --------------------------------------------------------------------------------
+2026-10-03 (Pfad A):
+  - Strict Version Freeze policy (T-20260920-167562623) enforced: version kept frozen at 0.1.0-alpha.20.
+  - Bilingual CONTRIBUTING Guidelines: Authored comprehensive CONTRIBUTING.md guidelines covering 10 Governance and Runtime Invariants (INV-LOCAL-01..INV-SLA-10), unprivileged RunAsInvoker non-elevation mode (INV-PROC-07), Plan D local development workflow (C:\_Local_DEV\repos\open-compute-mcp), version freeze discipline, quality gates, § 521 BGB German statutory notice, and 48h Security Response SLA (INV-SLA-10).
+  - Package Distribution Manifest Whitelist: Added CONTRIBUTING.md to package.json files array.
+  - Multi-Host Cloud-Sync & Lock Defense: Hardened .gitignore against multi-agent locks (LOCK.dev.*, LOCK.antigravity.*, LOCK.bugsearch.*), Windows thumbnail caches (ehthumbs.db), task plans (TASKPLAN_*.md, *-TASKPLAN*), host tokens (*-IDEAPAD-GEI*, *-IDEAPAD-GEI.*), and test caches (.vitest/, .tox/).
+  - Level 1 SBOM Text Companion Re-Audit: Re-audited Level 1 SBOM text companion THIRD_PARTY_LICENSES.txt and THIRD_PARTY_LICENSES.md with Stand 2026-10-03, cross-referencing NOTICE and CONTRIBUTING.md.
+  - Synchronized Documentation & Badges: Added Contributing Guidelines badges to README.md and README_de.md; updated verified badges to 2026-10-03; updated llms.txt context index with 2026-10-03 timestamp and CONTRIBUTING.md reference.
+  - Automated Contract Test Expansion: Added contract tests in test/metadata-parity.test.js and test/repository-hygiene.test.js for CONTRIBUTING.md parity, package files whitelist, .gitignore lock defenses, and 2026-10-03 timestamp synchronization.
+
 2026-10-01 (Pfad B):
   - Strict Version Freeze policy (T-20260920-167562623) enforced: version kept frozen at 0.1.0-alpha.20.
   - Visual Architecture Topology: Added ASCII Four-View Architecture Topology to Section 1 in README.md & README_de.md (View 1 Caller Runtimes & Clients, View 2 Zero-Egress Node.js Launcher, View 3 Python open-compute Sovereign Engine, View 4 Host Desktop Runtime & Isolation Boundary).
