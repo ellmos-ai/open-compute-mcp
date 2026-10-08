@@ -94,4 +94,4 @@ screen usage signal overlay abort hotkey
 push-to-talk multimodal voice mcp
 ```
 
-## Last-checked: 2026-10-03
+## Last-checked: 2026-10-08

@@ -5,7 +5,7 @@ Repository: https://github.com/ellmos-ai/open-compute-mcp
 Project Name: open-compute-mcp (Distribution: open-compute-mcp on npm)
 Umbrella Ecosystem: open-bricks (https://github.com/open-bricks)
 Architecture Domain: Model-Agnostic Computer-Use MCP Server (Desktop Automation & Perception)
-Audit Date: 2026-10-03
+Audit Date: 2026-10-08
 Status: ACTIVE / PFAD A HYGIENE & SBOM AUDITED
 ================================================================================
 
@@ -99,6 +99,14 @@ and open-bricks ecosystems:
 
 6. MAINTENANCE & HYGIENE RUNS (PFAD A / PFAD B)
 --------------------------------------------------------------------------------
+2026-10-08 (Pfad A):
+  - Strict Version Freeze policy (T-20260920-167562623) enforced: version kept frozen at 0.1.0-alpha.20.
+  - Automated Dependabot Actions Guard & Security Maintenance: Provisioned .github/dependabot.yml for automated weekly github-actions maintenance (Mondays 06:00 Europe/Berlin, open-pull-requests-limit: 3) and grouped security updates (open-pull-requests-limit: 0).
+  - Multi-Host Cloud-Sync & OS Defense: Hardened .gitignore against Windows thumbnail caches (thumbs.db, ehthumbs_vista.db) and multi-host device tokens (*-ASUS-GEI.*, *-IDEAPAD.*).
+  - Level 1 SBOM Text Companion Re-Audit: Re-audited Level 1 SBOM text companion THIRD_PARTY_LICENSES.txt and THIRD_PARTY_LICENSES.md (Stand 2026-10-08), certifying 10 runtime invariants (INV-LOCAL-01..INV-SLA-10), unprivileged RunAsInvoker non-elevation mode, and zero-copyleft permissive stack.
+  - Synchronized Documentation & Badges: Updated verified badges to 2026-10-08 in README.md and README_de.md; updated llms.txt Last-checked to 2026-10-08; updated test badge to 52 passed tests.
+  - Contract Test Suite Expansion: Added new contract tests in test/repository-hygiene.test.js and test/metadata-parity.test.js for Dependabot security/actions configuration and Pfad A changelog/marketing log recency (52/52 tests passed | 100% green).
+
 2026-10-03 (Pfad A):
   - Strict Version Freeze policy (T-20260920-167562623) enforced: version kept frozen at 0.1.0-alpha.20.
   - Bilingual CONTRIBUTING Guidelines: Authored comprehensive CONTRIBUTING.md guidelines covering 10 Governance and Runtime Invariants (INV-LOCAL-01..INV-SLA-10), unprivileged RunAsInvoker non-elevation mode (INV-PROC-07), Plan D local development workflow (C:\_Local_DEV\repos\open-compute-mcp), version freeze discipline, quality gates, § 521 BGB German statutory notice, and 48h Security Response SLA (INV-SLA-10).

@@ -226,7 +226,7 @@ test("THIRD_PARTY_LICENSES.txt Level 1 SBOM text companion integrity", () => {
   const txt = readRoot("THIRD_PARTY_LICENSES.txt");
   assert.match(txt, /THIRD-PARTY LICENSES & LEVEL 1 SBOM NOTICE/);
   assert.match(txt, /Project:\s*ellmos-ai\/open-compute-mcp/);
-  assert.match(txt, /Audited:\s*2026-(09-29|10-(01|03))/);
+  assert.match(txt, /Audited:\s*2026-(09-29|10-(01|03|08))/);
   assert.match(txt, /0\.1\.0-alpha\.20/);
   assert.match(txt, /INV-LOCAL-01/);
   assert.match(txt, /INV-SLA-10/);
@@ -300,6 +300,8 @@ test("gitignore defends against additional multi-host patterns, locks, and test 
 test("gitignore defends against multi-agent locks, ehthumbs, task plans, and IDEAPAD-GEI tokens", () => {
   for (const samplePath of [
     "ehthumbs.db",
+    "ehthumbs_vista.db",
+    "thumbs.db",
     "TASKPLAN_01.md",
     "sample-TASKPLAN-run",
     "LOCK.dev.user.txt",
@@ -307,6 +309,7 @@ test("gitignore defends against multi-agent locks, ehthumbs, task plans, and IDE
     "LOCK.bugsearch.run.txt",
     "sample-IDEAPAD-GEI.log",
     "test-IDEAPAD-GEI.tmp",
+    "sample-ASUS-GEI.tmp",
     ".vitest/",
     ".tox/",
   ]) {
@@ -314,4 +317,16 @@ test("gitignore defends against multi-agent locks, ehthumbs, task plans, and IDE
   }
 
   assert.equal(isIgnored("CONTRIBUTING.md"), false, "CONTRIBUTING.md should stay trackable");
+});
+
+test("dependabot configuration provides security updates and weekly github-actions maintenance", () => {
+  const dependabotPath = path.join(root, ".github", "dependabot.yml");
+  assert.ok(fs.existsSync(dependabotPath), ".github/dependabot.yml must exist");
+  const content = fs.readFileSync(dependabotPath, "utf8");
+  assert.match(content, /version:\s*2/, "dependabot.yml must use version 2");
+  assert.match(content, /package-ecosystem:\s*["']?npm["']?/, "dependabot.yml must configure npm ecosystem");
+  assert.match(content, /package-ecosystem:\s*["']?github-actions["']?/, "dependabot.yml must configure github-actions ecosystem");
+  assert.match(content, /open-pull-requests-limit:\s*0/, "npm updates must be security-only with PR limit 0");
+  assert.match(content, /open-pull-requests-limit:\s*3/, "github-actions updates must enforce PR limit 3");
+  assert.match(content, /timezone:\s*["']?Europe\/Berlin["']?/, "dependabot schedule must define Europe/Berlin timezone");
 });

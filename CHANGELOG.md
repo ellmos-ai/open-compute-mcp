@@ -7,6 +7,14 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Repository Lifecycle Hardening, Dependabot Actions Guard, Level 1 SBOM Re-Audit & Contract Tests (Pfad A 2026-10-08)
+- **Strict Version Freeze Discipline (`T-20260920-167562623`)**: Maintained `v0.1.0-alpha.20` strictly frozen across all manifests (`package.json`, `package-lock.json`, `server.json`, `glama.json`); zero version bumps during hygiene maintenance.
+- **Automated Dependabot Actions Guard & Security Maintenance**: Provisioned `.github/dependabot.yml` configured for weekly GitHub Actions dependency updates (Mondays 06:00 Europe/Berlin, `open-pull-requests-limit: 3`) and grouped security updates (`open-pull-requests-limit: 0`).
+- **Multi-Host Cloud-Sync & OS Defense**: Hardened `.gitignore` against Windows thumbnail caches (`thumbs.db`, `ehthumbs_vista.db`) and multi-host device tokens (`*-ASUS-GEI.*`, `*-IDEAPAD.*`).
+- **Level 1 SBOM Text Companion Re-Audit**: Re-audited `THIRD_PARTY_LICENSES.txt` and `THIRD_PARTY_LICENSES.md` (Stand 2026-10-08) reaffirming 10 Runtime Invariants (`INV-LOCAL-01` through `INV-SLA-10`), unprivileged `RunAsInvoker` mode, and zero-copyleft permissive stack.
+- **Documentation & Context Synchronization**: Synchronized `llms.txt` (`Last-checked: 2026-10-08`), verified badges (`2026-10-08`) and test count badges (`52 passed`) across `README.md` and `README_de.md`, and recorded Pfad A run in `MARKETING-LOG.txt`.
+- **Contract Test Suite Expansion**: Added new automated contract tests in `test/repository-hygiene.test.js` and `test/metadata-parity.test.js` asserting Dependabot configuration integrity, thumbnail cache defenses, and Pfad A recency (52/52 tests passing | 100% green).
+
 ### Repository Lifecycle Hardening, Bilingual CONTRIBUTING Guidelines, Level 1 SBOM Re-Audit & Contract Tests (Pfad A 2026-10-03)
 - **Strict Version Freeze Discipline (`T-20260920-167562623`)**: Maintained `v0.1.0-alpha.20` strictly frozen across all manifests (`package.json`, `package-lock.json`, `server.json`, `glama.json`); zero version bumps during hygiene maintenance.
 - **Bilingual CONTRIBUTING.md Guidelines (EN/DE)**: Created comprehensive contributor guidelines `CONTRIBUTING.md` detailing 10 Governance and Runtime Invariants (`INV-LOCAL-01` through `INV-SLA-10`), unprivileged `RunAsInvoker` non-elevation execution mode (`INV-PROC-07`), Plan D local development workflow (`C:\_Local_DEV\repos\open-compute-mcp`), version freeze discipline, quality gates (`npm test`, `npm pack --dry-run`, `git diff --check`, `git diff -G"version"`), statutory notice (§ 521 BGB German courtesy law), and 48h Security Response SLA (`security@ellmos.ai`, `security@open-bricks.org`).

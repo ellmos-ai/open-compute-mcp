@@ -43,7 +43,9 @@ id_ed25519*
 # OS / editor
 .DS_Store
 Thumbs.db
+thumbs.db
 ehthumbs.db
+ehthumbs_vista.db
 desktop.ini
 Desktop.ini
 TASKPLAN_*.md
@@ -87,7 +89,9 @@ uv.lock
 *-LAPTOP*
 *-ASUS*
 *-ASUS-GEI*
+*-ASUS-GEI.*
 *-IDEAPAD*
+*-IDEAPAD.*
 *-IDEAPAD-GEI*
 *-IDEAPAD-GEI.*
 *-Mac Studio*

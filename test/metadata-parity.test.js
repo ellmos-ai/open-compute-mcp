@@ -90,7 +90,7 @@ test("documentation files are valid UTF-8 and contain no replacement chars", () 
 test("llms.txt metadata and timestamp consistency", () => {
   const llms = readText("llms.txt");
   assert.match(llms, /# open-compute-mcp/, "llms.txt must have correct title");
-  assert.match(llms, /## Last-checked:\s*2026-(09-(22|29)|10-(01|03))/, "llms.txt must have recent last-checked timestamp");
+  assert.match(llms, /## Last-checked:\s*2026-(09-(22|29)|10-(01|03|08))/, "llms.txt must have recent last-checked timestamp");
   assert.match(llms, /## Tools\s*\(16\)/, "llms.txt must document 16 tools");
   assert.match(llms, /## Safety/, "llms.txt must document safety modes");
   assert.match(llms, /- signal_show:/, "llms.txt must document signal_show tool");
@@ -195,8 +195,8 @@ test("badges and quick navigation parity across README files", () => {
 
   assert.match(enReadme, /Quick Navigation/, "README.md must include Quick Navigation");
   assert.match(deReadme, /Schnellnavigation/, "README_de.md must include Schnellnavigation");
-  assert.match(enReadme, /tests-(38|42|46|50)%20passed-brightgreen\.svg/, "README.md must link passed tests badge");
-  assert.match(deReadme, /tests-(38|42|46|50)%20passed-brightgreen\.svg/, "README_de.md must link passed tests badge");
+  assert.match(enReadme, /tests-(38|42|46|50|52)%20passed-brightgreen\.svg/, "README.md must link passed tests badge");
+  assert.match(deReadme, /tests-(38|42|46|50|52)%20passed-brightgreen\.svg/, "README_de.md must link passed tests badge");
   assert.match(enReadme, /actions\/workflows\/ci\.yml\/badge\.svg/, "README.md must link dynamic CI workflow badge");
   assert.match(deReadme, /actions\/workflows\/ci\.yml\/badge\.svg/, "README_de.md must link dynamic CI workflow badge");
   assert.doesNotMatch(enReadme, /glama\.ai\/mcp\/servers\/ellmos-ai\/open-compute-mcp\/badges\/score\.svg/, "README.md must not promote an incompatible hosted listing");
@@ -213,8 +213,8 @@ test("badges and quick navigation parity across README files", () => {
   assert.match(deReadme, /third--party-audited%20%7C%20100%25%20permissive-brightgreen\.svg/, "README_de.md must link third-party audit badge");
   assert.match(enReadme, /marketing--log-active-blue\.svg/, "README.md must link marketing log badge");
   assert.match(deReadme, /marketing--log-active-blue\.svg/, "README_de.md must link marketing log badge");
-  assert.match(enReadme, /verified-2026--(09--(22|29)|10--(01|03))-blue\.svg/, "README.md must link verified timestamp badge");
-  assert.match(deReadme, /(verified|verifiziert)-2026--(09--(22|29)|10--(01|03))-blue\.svg/, "README_de.md must link verified timestamp badge");
+  assert.match(enReadme, /verified-2026--(09--(22|29)|10--(01|03|08))-blue\.svg/, "README.md must link verified timestamp badge");
+  assert.match(deReadme, /(verified|verifiziert)-2026--(09--(22|29)|10--(01|03|08))-blue\.svg/, "README_de.md must link verified timestamp badge");
   assert.match(enReadme, /attribution-NOTICE-blue\.svg/, "README.md must link attribution NOTICE badge");
   assert.match(deReadme, /attribution-NOTICE-blue\.svg/, "README_de.md must link attribution NOTICE badge");
 });
@@ -256,7 +256,7 @@ test("package.json repository and ecosystem urls integrity", () => {
 test("third party licenses inventory documentation integrity", () => {
   const licenses = readText("THIRD_PARTY_LICENSES.md");
   assert.match(licenses, /# Third-Party License Review/, "THIRD_PARTY_LICENSES.md must have title");
-  assert.match(licenses, /Stand:\s*2026-(09-(28|29)|10-(01|03))/, "THIRD_PARTY_LICENSES.md must have current review date");
+  assert.match(licenses, /Stand:\s*2026-(09-(28|29)|10-(01|03|08))/, "THIRD_PARTY_LICENSES.md must have current review date");
   assert.match(licenses, /update-notifier/, "THIRD_PARTY_LICENSES.md must list update-notifier");
   assert.match(licenses, /BSD-2-Clause/, "THIRD_PARTY_LICENSES.md must list BSD-2-Clause license");
 });
@@ -445,7 +445,8 @@ test("package version and manifest parity across package.json, server.json, and 
 
 test("marketing log recency and Pfad A/B entry presence", () => {
   const log = readText("MARKETING-LOG.txt");
-  assert.match(log, /Audit Date:\s*2026-(09-(22|29)|10-(01|03))/, "MARKETING-LOG.txt must have valid audit date");
+  assert.match(log, /Audit Date:\s*2026-(09-(22|29)|10-(01|03|08))/, "MARKETING-LOG.txt must have valid audit date");
+  assert.match(log, /2026-10-08 \(Pfad A\):/, "MARKETING-LOG.txt must contain 2026-10-08 Pfad A entry");
   assert.match(log, /2026-10-03 \(Pfad A\):/, "MARKETING-LOG.txt must contain 2026-10-03 Pfad A entry");
   assert.match(log, /2026-10-01 \(Pfad B\):/, "MARKETING-LOG.txt must contain 2026-10-01 Pfad B entry");
   assert.match(log, /2026-09-29 \(Pfad A\):/, "MARKETING-LOG.txt must contain 2026-09-29 Pfad A entry");
@@ -528,7 +529,7 @@ test("18-point dual reciprocal HTML anchors sec-01 through sec-18 in both README
 
 test("THIRD_PARTY_LICENSES.txt Level 1 SBOM text companion audit date synchronization", () => {
   const txtContent = readText("THIRD_PARTY_LICENSES.txt");
-  assert.match(txtContent, /Audited:\s*2026-(09-(28|29)|10-(01|03))/, "THIRD_PARTY_LICENSES.txt must have current audit date");
+  assert.match(txtContent, /Audited:\s*2026-(09-(28|29)|10-(01|03|08))/, "THIRD_PARTY_LICENSES.txt must have current audit date");
   assert.match(txtContent, /INV-LOCAL-01/, "THIRD_PARTY_LICENSES.txt must list INV-LOCAL-01");
   assert.match(txtContent, /INV-SLA-10/, "THIRD_PARTY_LICENSES.txt must list INV-SLA-10");
   assert.match(txtContent, /RunAsInvoker/, "THIRD_PARTY_LICENSES.txt must certify RunAsInvoker");
@@ -577,3 +578,14 @@ test("contributing guidelines badge and direct reference parity across README fi
   assert.ok(enReadme.includes("[🤝 Contributing Guidelines](CONTRIBUTING.md)"), "README.md must include Contributing Guidelines link");
   assert.ok(deReadme.includes("[🤝 Richtlinien für Mitwirkende](CONTRIBUTING.md)"), "README_de.md must include Richtlinien für Mitwirkende link");
 });
+
+test("dependabot workflow guard and changelog unreleased entry integrity", () => {
+  const changelog = readText("CHANGELOG.md");
+  assert.match(changelog, /## \[Unreleased\]/, "CHANGELOG.md must contain ## [Unreleased]");
+  assert.match(changelog, /Pfad A 2026-10-08/, "CHANGELOG.md must document Pfad A 2026-10-08 entry");
+  assert.match(changelog, /T-20260920-167562623/, "CHANGELOG.md must reference version freeze ticket");
+
+  const log = readText("MARKETING-LOG.txt");
+  assert.match(log, /2026-10-08 \(Pfad A\):/, "MARKETING-LOG.txt must document 2026-10-08 Pfad A run");
+});
+
