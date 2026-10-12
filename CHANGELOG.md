@@ -7,19 +7,24 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Documentation scope correction (2026-10-12)
+- Current documentation describes the npm package as a Node.js launcher that forwards local stdio to a separately fetched Python server. The default bootstrap and optional update notice can access external services; child processes inherit the launching environment and privileges. The wrapper does not provide network isolation, a sandbox, or privilege reduction.
+- The dependency pages now describe a selected direct npm dependency inventory, not a complete SBOM or a blanket copyleft/compliance finding. Maintainer response targets remain a published policy, not a runtime invariant. Earlier dated audit notes below record what those documents stated at the time; this correction supersedes their broad present-tense guarantees.
+- The detailed README guides were moved to dated corrected archives while the short README entrypoints retain the original section links. The exact predecessor documents remain available from their recorded source commit.
+
 ### Repository Lifecycle Hardening, Dependabot Actions Guard, Level 1 SBOM Re-Audit & Contract Tests (Pfad A 2026-10-08)
 - **Strict Version Freeze Discipline (`T-20260920-167562623`)**: Maintained `v0.1.0-alpha.20` strictly frozen across all manifests (`package.json`, `package-lock.json`, `server.json`, `glama.json`); zero version bumps during hygiene maintenance.
 - **Automated Dependabot Actions Guard & Security Maintenance**: Provisioned `.github/dependabot.yml` configured for weekly GitHub Actions dependency updates (Mondays 06:00 Europe/Berlin, `open-pull-requests-limit: 3`) and grouped security updates (`open-pull-requests-limit: 0`).
-- **Multi-Host Cloud-Sync & OS Defense**: Hardened `.gitignore` against Windows thumbnail caches (`thumbs.db`, `ehthumbs_vista.db`) and multi-host device tokens (`*-ASUS-GEI.*`, `*-IDEAPAD.*`).
+- **Multi-Host Cloud-Sync & OS Defense**: Hardened `.gitignore` against Windows thumbnail caches (`thumbs.db`, `ehthumbs_vista.db`) and host-specific sync artifacts.
 - **Level 1 SBOM Text Companion Re-Audit**: Re-audited `THIRD_PARTY_LICENSES.txt` and `THIRD_PARTY_LICENSES.md` (Stand 2026-10-08) reaffirming 10 Runtime Invariants (`INV-LOCAL-01` through `INV-SLA-10`), unprivileged `RunAsInvoker` mode, and zero-copyleft permissive stack.
 - **Documentation & Context Synchronization**: Synchronized `llms.txt` (`Last-checked: 2026-10-08`), verified badges (`2026-10-08`) and test count badges (`52 passed`) across `README.md` and `README_de.md`, and recorded Pfad A run in `MARKETING-LOG.txt`.
 - **Contract Test Suite Expansion**: Added new automated contract tests in `test/repository-hygiene.test.js` and `test/metadata-parity.test.js` asserting Dependabot configuration integrity, thumbnail cache defenses, and Pfad A recency (52/52 tests passing | 100% green).
 
 ### Repository Lifecycle Hardening, Bilingual CONTRIBUTING Guidelines, Level 1 SBOM Re-Audit & Contract Tests (Pfad A 2026-10-03)
 - **Strict Version Freeze Discipline (`T-20260920-167562623`)**: Maintained `v0.1.0-alpha.20` strictly frozen across all manifests (`package.json`, `package-lock.json`, `server.json`, `glama.json`); zero version bumps during hygiene maintenance.
-- **Bilingual CONTRIBUTING.md Guidelines (EN/DE)**: Created comprehensive contributor guidelines `CONTRIBUTING.md` detailing 10 Governance and Runtime Invariants (`INV-LOCAL-01` through `INV-SLA-10`), unprivileged `RunAsInvoker` non-elevation execution mode (`INV-PROC-07`), Plan D local development workflow (`C:\_Local_DEV\repos\open-compute-mcp`), version freeze discipline, quality gates (`npm test`, `npm pack --dry-run`, `git diff --check`, `git diff -G"version"`), statutory notice (§ 521 BGB German courtesy law), and 48h Security Response SLA (`security@ellmos.ai`, `security@open-bricks.org`).
+- **Bilingual CONTRIBUTING.md Guidelines (EN/DE)**: Created contributor guidelines covering runtime claims, the local development workflow, version freeze discipline, quality checks, a statutory notice, and maintainer response targets. The broad runtime and legal claims in that dated document were corrected in the 2026-10-12 documentation-scope update above.
 - **Package Manifest Files Whitelist Expansion**: Added `CONTRIBUTING.md` to `package.json` distribution `files` array.
-- **Multi-Host Cloud-Sync & Lock Defense**: Hardened `.gitignore` against multi-agent coordination locks (`LOCK.dev.*`, `LOCK.antigravity.*`, `LOCK.bugsearch.*`), Windows thumbnail caches (`ehthumbs.db`), task execution plans (`TASKPLAN_*.md`, `*-TASKPLAN*`), host tokens (`*-IDEAPAD-GEI*`, `*-IDEAPAD-GEI.*`), and test caches (`.vitest/`, `.tox/`).
+- **Multi-Host Cloud-Sync & Lock Defense**: Hardened `.gitignore` against multi-agent coordination locks, Windows thumbnail caches, task execution plans, host-specific sync artifacts, and test caches (`.vitest/`, `.tox/`).
 - **Level 1 SBOM Text Companion Re-Audit**: Re-audited `THIRD_PARTY_LICENSES.txt` and `THIRD_PARTY_LICENSES.md` (Stand 2026-10-03) reaffirming zero-copyleft permissive stack, unprivileged `RunAsInvoker` mode, and cross-references to `NOTICE` and `CONTRIBUTING.md`.
 - **Documentation & Context Synchronization**: Synchronized `llms.txt` (`Last-checked: 2026-10-03`), verified badges (`2026-10-03`), added Contributing Guidelines badges to `README.md` and `README_de.md`, and recorded Pfad A hygiene run in `MARKETING-LOG.txt`.
 - **Contract Test Suite Expansion**: Added new automated contract tests in `test/metadata-parity.test.js` and `test/repository-hygiene.test.js` validating `CONTRIBUTING.md` bilingual parity, package files inclusion, and hardened lock defense patterns.
@@ -36,7 +41,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - **Strict Version Freeze Discipline (`T-20260920-167562623`)**: Maintained `v0.1.0-alpha.20` strictly frozen across all manifests; 0 version bumps during hygiene runs.
 - **CI Lifecycle Workflows Deployed**: Added `.github/workflows/auto-assign.yml` (`actions/github-script@v7`, `timeout-minutes: 5`, `concurrency: cancel-in-progress: true`, least-privilege `pull-requests: write`, `issues: write`), `.github/workflows/label-sync.yml` (`EndBug/label-sync@v2`, `timeout-minutes: 5`, `concurrency: cancel-in-progress: true`, least-privilege `issues: write`), and canonical `.github/labels.yml` with 11 standard taxonomy labels per GOVERNANCE.md §4.2.
 - **CI Stale Workflow Hardening**: Hardened `.github/workflows/stale.yml` with `concurrency: group: ${{ github.workflow }}-${{ github.ref }}, cancel-in-progress: true`.
-- **Multi-Host Cloud-Sync & Lock Defense**: Hardened `.gitignore` against Windows shell artifacts (`Desktop.ini`), package locks (`uv.lock`), multi-host identifiers (`*-IDEAPAD*`, `*_WORKSTATION*`, `*_WORKSTATION-LG*`, `*-WORKSTATION.*`, `*-WORKSTATION-LG.*`), editor buffers (`*.swo`), and test caches (`.pytest_temp/`, `.pytest_tmp*/`).
+- **Multi-Host Cloud-Sync & Lock Defense**: Hardened `.gitignore` against Windows shell artifacts (`Desktop.ini`), package locks (`uv.lock`), host-specific sync patterns, editor buffers (`*.swo`), and test caches (`.pytest_temp/`, `.pytest_tmp*/`).
 - **Level 1 SBOM Plain-Text Companion**: Created canonical plain-text companion `THIRD_PARTY_LICENSES.txt` with full inventory of runtime dependencies, 10 Governance and Runtime Invariants (`INV-LOCAL-01` through `INV-SLA-10`), unprivileged `RunAsInvoker` non-elevation certification, and zero-copyleft permissive runtime dependency guarantee (`update-notifier` 7.3.1 BSD-2-Clause, Node.js stdlib under MIT).
 - **Attribution & Manifest Alignment**: Anchored `THIRD_PARTY_LICENSES.txt` within `package.json` distribution `files` whitelist and updated canonical `NOTICE` and `THIRD_PARTY_LICENSES.md` (Stand 2026-09-29) cross-references.
 - **RAG & Discovery Context Synchronization**: Synchronized `llms.txt` context index (`Last-checked: 2026-09-29`) and `MARKETING-LOG.txt` Section 6 Pfad A audit record.
@@ -152,7 +157,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Security & Dependency Hygiene Audit
 - **Third-Party License Review (`THIRD_PARTY_LICENSES.md`)**: Created comprehensive third-party license inventory auditing runtime dependencies (`update-notifier` 7.3.1 BSD-2-Clause) and reference architecture boundaries.
-- **Repository Hygiene & `.gitignore` Hardening**: Added explicit exclusion patterns for host sync conflicts (`*-WORKSTATION-LG*`, `*-ASUS-GEI*`, `*.conflict`, `*.sync-conflict-*`) and lock files (`LOCK*.txt`).
+- **Repository Hygiene & `.gitignore` Hardening**: Added explicit exclusion patterns for host sync conflicts and lock files (`LOCK*.txt`).
 - **Packaging & Manifest Parity**: Synchronized `package.json` `files` distribution array to include `THIRD_PARTY_LICENSES.md`.
 - **Contract Tests**: Expanded automated test suites in `test/repository-hygiene.test.js` and `test/metadata-parity.test.js` with license inventory parity and sync-conflict ignore contract tests (21/21 tests passing).
 - **Metadata & Documentation**: Synchronized `llms.txt` last-checked timestamp to `2026-08-24` and README test badges to 21 passed.
@@ -240,7 +245,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Security
 
-- Moved local MCP registry token files out of the OneDrive-synced repository root
+- Moved local MCP registry token files outside the repository root
   and expanded `.gitignore` / `.npmignore` coverage for local token, credential,
   recovery-code, private-key and certificate artifacts.
 - Added a repository hygiene test for Git ignore rules, defensive npm ignore

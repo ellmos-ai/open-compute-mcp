@@ -175,13 +175,13 @@ test("package files whitelist contains no credential-like entries", () => {
   }
 });
 
-test("third party licenses inventory parity with runtime dependencies", () => {
+test("selected license inventory covers declared direct runtime dependencies", () => {
   const pkg = JSON.parse(readRoot("package.json"));
   const licenses = readRoot("THIRD_PARTY_LICENSES.md");
   const deps = Object.keys(pkg.dependencies || {});
 
-  assert.ok(licenses.includes("Stand:"), "THIRD_PARTY_LICENSES.md must contain review date");
-  assert.ok(licenses.includes("Runtime dependencies"), "THIRD_PARTY_LICENSES.md must list runtime dependencies");
+  assert.match(licenses, /Reviewed:\s*\d{4}-\d{2}-\d{2}/);
+  assert.match(licenses, /declared direct runtime dependency/i);
   for (const dep of deps) {
     assert.ok(
       licenses.includes(`\`${dep}\``),
@@ -214,25 +214,21 @@ test("GitHub Actions CI workflow defines least-privilege permissions and job tim
   assert.match(ciYaml, /permissions:\s*\n\s*contents:\s*read/, "CI workflow must enforce contents: read least-privilege permission");
 });
 
-test("security policy defines 30-day remediation SLA for confirmed vulnerabilities", () => {
+test("security policy provides bilingual private reporting routes", () => {
   const sec = readRoot("SECURITY.md");
-  assert.match(sec, /30 calendar days/i, "SECURITY.md English section must define 30 calendar days remediation SLA");
-  assert.match(sec, /30 Kalendertagen/i, "SECURITY.md German section must define 30 Kalendertage remediation SLA");
-  assert.match(sec, /INV-SLA-10/, "SECURITY.md must reference INV-SLA-10");
+  assert.match(sec, /## English/);
+  assert.match(sec, /## Deutsch/);
+  assert.match(sec, /Private Vulnerability Reporting/);
+  assert.match(sec, /security@ellmos\.ai/);
 });
 
-test("THIRD_PARTY_LICENSES.txt Level 1 SBOM text companion integrity", () => {
+test("plain-text selected dependency license inventory integrity", () => {
   assert.ok(fs.existsSync(path.join(root, "THIRD_PARTY_LICENSES.txt")), "THIRD_PARTY_LICENSES.txt must exist");
   const txt = readRoot("THIRD_PARTY_LICENSES.txt");
-  assert.match(txt, /THIRD-PARTY LICENSES & LEVEL 1 SBOM NOTICE/);
-  assert.match(txt, /Project:\s*ellmos-ai\/open-compute-mcp/);
-  assert.match(txt, /Audited:\s*2026-(09-29|10-(01|03|08))/);
-  assert.match(txt, /0\.1\.0-alpha\.20/);
-  assert.match(txt, /INV-LOCAL-01/);
-  assert.match(txt, /INV-SLA-10/);
-  assert.match(txt, /Zero-Copyleft Isolation Guarantee/);
-  assert.match(txt, /RunAsInvoker/);
+  assert.match(txt, /SELECTED THIRD-PARTY LICENSE INFORMATION/);
+  assert.match(txt, /direct runtime dependency/i);
   assert.match(txt, /update-notifier/);
+  assert.match(txt, /BSD-2-Clause/);
 });
 
 test("package.json files list includes THIRD_PARTY_LICENSES.txt", () => {

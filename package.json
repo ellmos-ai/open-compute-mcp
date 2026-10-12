@@ -2,7 +2,7 @@
   "name": "open-compute-mcp",
   "version": "0.1.0-alpha.20",
   "mcpName": "io.github.lukisch/open-compute-mcp",
-  "description": "Local stdio npm launcher for Python open-compute; real capture and input require an interactive Windows desktop session on the MCP client's host. Not remotely hostable.",
+  "description": "Node.js npm launcher for the Python open-compute MCP server over local stdio. Real capture and input require an interactive Windows desktop on the MCP client's host; this package does not provide hosted desktop execution or a supported Glama/cloud-service deployment.",
   "type": "commonjs",
   "bin": {
     "open-compute-mcp": "bin/open-compute-mcp.js"
@@ -15,6 +15,7 @@
     "bin/",
     "README.md",
     "README_de.md",
+    "docs/archive/",
     "CONTRIBUTING.md",
     "CHANGELOG.md",
     "SECURITY.md",
@@ -23,6 +24,7 @@
     "NOTICE",
     "LICENSE",
     "server.json",
+    "glama.json",
     "smithery.yaml",
     "llms.txt",
     "MARKETING-LOG.txt"

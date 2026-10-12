@@ -4,114 +4,66 @@ ELLMOS-AI / OPEN-COMPUTE-MCP — DISCOVERABILITY & MARKETING LOG
 Repository: https://github.com/ellmos-ai/open-compute-mcp
 Project Name: open-compute-mcp (Distribution: open-compute-mcp on npm)
 Umbrella Ecosystem: open-bricks (https://github.com/open-bricks)
-Architecture Domain: Model-Agnostic Computer-Use MCP Server (Desktop Automation & Perception)
-Audit Date: 2026-10-08
-Status: ACTIVE / PFAD A HYGIENE & SBOM AUDITED
+Architecture Domain: Node.js launcher for the separate Python computer-use MCP server
+Last dated audit entry: 2026-10-08
+Status: Dated record; broad claims below were superseded on 2026-10-12
 ================================================================================
 
 1. PRODUCT IDENTITY & MISSION
 --------------------------------------------------------------------------------
-open-compute-mcp is a lightweight, zero-egress Node.js launcher for the
-open-compute MCP server. It exposes model-agnostic computer-use tools over the
-Model Context Protocol (MCP) using local stdio JSON-RPC.
+Current scope (updated 2026-10-12): `open-compute-mcp` is a Node.js npm launcher
+that forwards MCP stdio to the separate Python `open-compute` server. npm install,
+the default GitHub-based `uvx` bootstrap, and an optional interactive update check
+use network access. The child inherits the launching environment and operating-
+system privileges. Backend action behavior and the MCP client's approvals are
+outside this wrapper's enforcement boundary. See README.md and SECURITY.md.
 
-Key architectural highlights:
-  1. Keyless & Model-Agnostic: Connected LLM/agent client is the reasoner.
-     Works natively with Claude Code, Claude Desktop, Antigravity, Cursor, and
-     custom MCP agents without hardcoded API keys.
-  2. State-bound Perception: Ephemeral observation IDs enforce strict
-     observe -> act -> refresh cycles, eliminating stale-frame hallucination.
-  3. Safety-Gated Action Dispatch: Enforces operator safety ceilings
-     (OC_SAFETY_MODE=confirm/read_only/allow_all) and hard action deny lists.
-  4. Leased Signal Overlay: Visible, non-intrusive glowing screen border with
-     countdown, mode colors, bounded TTL, and emergency human abort hotkey.
-  5. Semantic Targeting & Voice: Precise Windows UI Automation (UIA) element
-     resolution, push-to-talk voice note recording, and screen chat messages.
-
-2. TARGET PERSONAS & AUDIENCE MAPPING
+2. EXAMPLE USE CASES
 --------------------------------------------------------------------------------
-Persona 1: Autonomous Coding & Desktop Agent Frameworks
-  - Need: Dependable desktop control, screenshot intake, and window targeting
-    without remote cloud dependencies or API lock-in.
-  - Value: Direct stdio MCP transport with normalized coordinates (0..1),
-    ephemeral observation tokens, and automatic hold-primitive release.
+The launcher may be useful to developers building MCP clients, Windows UI tests,
+accessibility workflows, or human-reviewed desktop automation. The Python server
+provides the computer-use tools; the client controls approvals and result routing.
+These are example audiences, not endorsements or assurances of suitability.
 
-Persona 2: Enterprise AI Safety & Governance Officers
-  - Need: Verifiable safety controls preventing runaway agent actions on
-    production desktops.
-  - Value: Fail-closed confirm mode, hard action blacklists (OC_DENY), visible
-    countdown grace overlays, and immediate hotkey abort.
-
-Persona 3: Accessibility & UI Quality Assurance Engineers
-  - Need: Semantic, accessibility-tree inspection (UIA) for testing native
-    Windows applications without relying solely on raw vision.
-  - Value: tree, click_name, and invoke tools provide exact-first semantic
-    targeting with ambiguity scores and accessible label reporting.
-
-Persona 4: Multimodal Human-in-the-Loop Collaborators
-  - Need: Seamless interaction with desktop agents via voice and screen chat.
-  - Value: Built-in talk (push-to-talk WAV recording) and chat tools enabling
-    fluid multimodal feedback loops.
-
-3. ARCHITECTURAL INVARIANTS & GOVERNANCE
+3. IMPLEMENTATION BOUNDARIES
 --------------------------------------------------------------------------------
-The project adheres to 10 strict runtime invariants (INV-LOCAL-01 to INV-SLA-10):
-  - INV-LOCAL-01: Zero-Egress & Local Stdio (100% offline, 0 network telemetry)
-  - INV-GATE-02: Fail-Closed Safety Ceiling (OC_SAFETY_MODE operator ceiling)
-  - INV-OBS-03: One-Shot Observation Lifespan (ephemeral observation_id tokens)
-  - INV-WIN-04: Strict Window Binding (required window descriptor / tokens)
-  - INV-SIG-05: Leased Signal Overlay & Immediate Abort (bounded TTL, hotkey)
-  - INV-UIA-06: Exact-First Semantic Resolution (deterministic UIA matching)
-  - INV-PROC-07: Unprivileged RunAsInvoker Mode (0 admin elevation required)
-  - INV-CROSS-08: Multi-OS Stdio Protocol Parity (Node.js 18-24 matrix CI)
-  - INV-SYNC-09: Multi-Agent Lock & Conflict Discipline (fail-closed hygiene)
-  - INV-SLA-10: 48h Security Response & 5-Day Triage SLA (open-bricks SLA)
+  - Transport: the Node wrapper forwards local MCP stdio; this is not a network filter.
+  - Startup: npm and the default uvx command retrieve packages from external services.
+  - Process: the Python child inherits environment variables and OS privileges.
+  - Desktop: real capture/input requires an interactive Windows desktop on the client host.
+  - Policy: the backend implements its own action behavior; the MCP client manages its approvals.
+  - Verification: CI tests this Node.js repository, not live desktop or network isolation.
 
-4. SIBLING ECOSYSTEM & PARTNER MATRIX
+4. RELATED REPOSITORIES
 --------------------------------------------------------------------------------
-open-compute-mcp integrates seamlessly with sibling projects in the ellmos-ai
-and open-bricks ecosystems:
-  - ellmos-ai/open-compute: Core Python computer-use engine backend
-  - ellmos-ai/bach: Local-first text-based OS with 113+ handlers and 550+ tools
-  - ellmos-ai/clutch: Provider-neutral LLM orchestration and budget management
-  - ellmos-ai/ellmos-filecommander-mcp: Safe file and process operations
-  - ellmos-ai/ellmos-codecommander-mcp: AST-aware code editing and diffing
-  - ellmos-ai/ellmos-controlcenter-mcp: Control plane and stack discovery
-  - ellmos-ai/ellmos-homebase-mcp: Persistent memory and swarm coordination
-  - ellmos-ai/n8n-manager-mcp: Automated workflow execution and management
-  - ellmos-ai/swarm-ai: Multi-agent consensus, stigmergy, and team coordination
-  - ellmos-ai/system-explorer: Evidence-based system discovery engine
-  - dev-bricks/DevCenter: Desktop developer hub and environment management
-  - dev-bricks/MethodenAnalyser: Static code analysis, metrics & refactoring
-  - dev-bricks/CodeBox: Code snippet repository and workspace tools
-  - file-bricks/ProFiler: Advanced file management and organization
-  - doc-bricks/FormularErstellen: Automated form and document generation
-  - open-bricks/open-bricks: Umbrella organization for AI-native desktop software
+The sibling project list below is a set of repository links, not an integration
+or compatibility statement. The Python `open-compute` repository is the backend
+that the default launcher command retrieves; all other linked projects remain
+separate unless their own documentation says otherwise.
 
-5. VERIFICATION & METADATA CONTRACTS
+5. REPOSITORY CHECKS
 --------------------------------------------------------------------------------
-  - Automated Node.js test suite with node:test
-  - Strict metadata and bilingual parity validation (test/metadata-parity.test.js)
-  - Defensive repository hygiene and credential protection (test/repository-hygiene.test.js)
-  - Multi-OS GitHub Actions CI workflow (Ubuntu, Windows, macOS across Node 18, 20, 22, 24)
-  - Bilingual documentation parity between README.md and README_de.md
-  - Structured machine-readable LLM context specification (llms.txt)
+  - Node.js test suite using node:test
+  - Package metadata and repository hygiene checks
+  - GitHub Actions matrix listed in .github/workflows/ci.yml
+  - English and German README entrypoints and corrected long-form guides
+  - Machine-readable project context in llms.txt
 
 6. MAINTENANCE & HYGIENE RUNS (PFAD A / PFAD B)
 --------------------------------------------------------------------------------
 2026-10-08 (Pfad A):
   - Strict Version Freeze policy (T-20260920-167562623) enforced: version kept frozen at 0.1.0-alpha.20.
   - Automated Dependabot Actions Guard & Security Maintenance: Provisioned .github/dependabot.yml for automated weekly github-actions maintenance (Mondays 06:00 Europe/Berlin, open-pull-requests-limit: 3) and grouped security updates (open-pull-requests-limit: 0).
-  - Multi-Host Cloud-Sync & OS Defense: Hardened .gitignore against Windows thumbnail caches (thumbs.db, ehthumbs_vista.db) and multi-host device tokens (*-ASUS-GEI.*, *-IDEAPAD.*).
+  - Multi-Host Cloud-Sync & OS Defense: Hardened .gitignore against Windows thumbnail caches (thumbs.db, ehthumbs_vista.db) and host-specific sync artifacts.
   - Level 1 SBOM Text Companion Re-Audit: Re-audited Level 1 SBOM text companion THIRD_PARTY_LICENSES.txt and THIRD_PARTY_LICENSES.md (Stand 2026-10-08), certifying 10 runtime invariants (INV-LOCAL-01..INV-SLA-10), unprivileged RunAsInvoker non-elevation mode, and zero-copyleft permissive stack.
   - Synchronized Documentation & Badges: Updated verified badges to 2026-10-08 in README.md and README_de.md; updated llms.txt Last-checked to 2026-10-08; updated test badge to 52 passed tests.
   - Contract Test Suite Expansion: Added new contract tests in test/repository-hygiene.test.js and test/metadata-parity.test.js for Dependabot security/actions configuration and Pfad A changelog/marketing log recency (52/52 tests passed | 100% green).
 
 2026-10-03 (Pfad A):
   - Strict Version Freeze policy (T-20260920-167562623) enforced: version kept frozen at 0.1.0-alpha.20.
-  - Bilingual CONTRIBUTING Guidelines: Authored comprehensive CONTRIBUTING.md guidelines covering 10 Governance and Runtime Invariants (INV-LOCAL-01..INV-SLA-10), unprivileged RunAsInvoker non-elevation mode (INV-PROC-07), Plan D local development workflow (C:\_Local_DEV\repos\open-compute-mcp), version freeze discipline, quality gates, § 521 BGB German statutory notice, and 48h Security Response SLA (INV-SLA-10).
+  - Bilingual CONTRIBUTING Guidelines: Authored CONTRIBUTING.md with local development guidance, version freeze discipline, quality checks, a statutory notice, and maintainer response targets. The broad runtime and legal claims in that dated document were corrected in the 2026-10-12 scope update at the top of this log.
   - Package Distribution Manifest Whitelist: Added CONTRIBUTING.md to package.json files array.
-  - Multi-Host Cloud-Sync & Lock Defense: Hardened .gitignore against multi-agent locks (LOCK.dev.*, LOCK.antigravity.*, LOCK.bugsearch.*), Windows thumbnail caches (ehthumbs.db), task plans (TASKPLAN_*.md, *-TASKPLAN*), host tokens (*-IDEAPAD-GEI*, *-IDEAPAD-GEI.*), and test caches (.vitest/, .tox/).
+  - Multi-Host Cloud-Sync & Lock Defense: Hardened .gitignore against multi-agent locks, Windows thumbnail caches, task plans, host-specific sync artifacts, and test caches (.vitest/, .tox/).
   - Level 1 SBOM Text Companion Re-Audit: Re-audited Level 1 SBOM text companion THIRD_PARTY_LICENSES.txt and THIRD_PARTY_LICENSES.md with Stand 2026-10-03, cross-referencing NOTICE and CONTRIBUTING.md.
   - Synchronized Documentation & Badges: Added Contributing Guidelines badges to README.md and README_de.md; updated verified badges to 2026-10-03; updated llms.txt context index with 2026-10-03 timestamp and CONTRIBUTING.md reference.
   - Automated Contract Test Expansion: Added contract tests in test/metadata-parity.test.js and test/repository-hygiene.test.js for CONTRIBUTING.md parity, package files whitelist, .gitignore lock defenses, and 2026-10-03 timestamp synchronization.
@@ -128,7 +80,7 @@ and open-bricks ecosystems:
   - Strict Version Freeze policy (T-20260920-167562623) enforced: version kept frozen at 0.1.0-alpha.20.
   - Deployed standard CI lifecycle workflows: auto-assign.yml (actions/github-script@v7, timeout: 5m, concurrency cancel-in-progress, least-privilege pull-requests: write, issues: write), label-sync.yml (EndBug/label-sync@v2, timeout: 5m, concurrency cancel-in-progress, least-privilege issues: write), and canonical .github/labels.yml (11 standard labels per GOVERNANCE.md §4.2).
   - Hardened stale.yml with concurrency cancel-in-progress.
-  - Hardened .gitignore against Desktop.ini, uv.lock, multi-host tokens (*-IDEAPAD*, *_WORKSTATION*, *-WORKSTATION.*), and test caches (.pytest_temp/, .pytest_tmp*/, *.swo).
+  - Hardened .gitignore against Desktop.ini, uv.lock, host-specific sync artifacts, and test caches (.pytest_temp/, .pytest_tmp*/, *.swo).
   - Created canonical plain-text Level 1 SBOM companion THIRD_PARTY_LICENSES.txt with 10 runtime invariants (INV-LOCAL-01..INV-SLA-10), unprivileged RunAsInvoker non-elevation certification, and zero-copyleft permissive runtime dependency inventory (update-notifier 7.3.1 BSD-2-Clause).
   - Re-audited THIRD_PARTY_LICENSES.md (Stand 2026-09-29) and NOTICE with cross-reference to THIRD_PARTY_LICENSES.txt.
   - Added THIRD_PARTY_LICENSES.txt to package.json distribution files whitelist.
