@@ -19,6 +19,47 @@ function readText(file) {
   return fs.readFileSync(filePath, "utf8");
 }
 
+function headingSlug(heading) {
+  return heading
+    .replace(/<[^>]*>/g, "")
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/[`*_~]/g, "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s-]/gu, "")
+    .replace(/[\s-]+/g, "-");
+}
+
+function validateLocalMarkdownLinks(file) {
+  const contents = readText(file).replace(/```[\s\S]*?```/g, "");
+  const links = [
+    ...contents.matchAll(/!?\[[^\]]*\]\(([^\s)]+)(?:\s+(?:"[^"]*"|'[^']*'))?\)/g),
+    ...contents.matchAll(/<img\b[^>]*\bsrc=["']([^"']+)["'][^>]*>/gi),
+  ];
+
+  for (const match of links) {
+    const link = match[1];
+    if (/^(?:[a-z][a-z\d+.-]*:|\/\/)/i.test(link)) continue;
+
+    const [rawTarget, rawFragment] = link.split("#", 2);
+    const relativeTarget = decodeURIComponent(rawTarget || path.basename(file));
+    const target = path.resolve(root, path.dirname(file), relativeTarget);
+    assert.ok(fs.existsSync(target), `${file} links to missing target ${link}`);
+
+    if (rawFragment) {
+      const fragment = decodeURIComponent(rawFragment);
+      const targetText = fs.readFileSync(target, "utf8");
+      const ids = new Set(
+        [...targetText.matchAll(/\b(?:id|name)=["']([^"']+)["']/gi)].map((item) => item[1])
+      );
+      for (const heading of targetText.matchAll(/^#{1,6}\s+(.+?)\s*#*\s*$/gm)) {
+        ids.add(headingSlug(heading[1]));
+      }
+      assert.ok(ids.has(fragment), `${file} links to missing fragment ${link}`);
+    }
+  }
+}
+
 test("version parity across manifests (package.json, server.json, glama.json)", () => {
   const pkg = readJson("package.json");
   const server = readJson("server.json");
@@ -40,6 +81,7 @@ test("package.json files list includes all canonical distribution files", () => 
     "bin/",
     "README.md",
     "README_de.md",
+    "docs/archive/",
     "CONTRIBUTING.md",
     "CHANGELOG.md",
     "SECURITY.md",
@@ -47,6 +89,7 @@ test("package.json files list includes all canonical distribution files", () => 
     "NOTICE",
     "LICENSE",
     "server.json",
+    "glama.json",
     "smithery.yaml",
     "llms.txt",
     "MARKETING-LOG.txt",
@@ -69,6 +112,8 @@ test("documentation files are valid UTF-8 and contain no replacement chars", () 
   const docFiles = [
     "README.md",
     "README_de.md",
+    "docs/archive/README-2026-10-12.md",
+    "docs/archive/README_de-2026-10-12.md",
     "CONTRIBUTING.md",
     "CHANGELOG.md",
     "SECURITY.md",
@@ -90,25 +135,20 @@ test("documentation files are valid UTF-8 and contain no replacement chars", () 
 test("llms.txt metadata and timestamp consistency", () => {
   const llms = readText("llms.txt");
   assert.match(llms, /# open-compute-mcp/, "llms.txt must have correct title");
-  assert.match(llms, /## Last-checked:\s*2026-(09-(22|29)|10-(01|03|08))/, "llms.txt must have recent last-checked timestamp");
-  assert.match(llms, /## Tools\s*\(16\)/, "llms.txt must document 16 tools");
-  assert.match(llms, /## Safety/, "llms.txt must document safety modes");
-  assert.match(llms, /- signal_show:/, "llms.txt must document signal_show tool");
-  assert.match(llms, /- signal_abort:/, "llms.txt must document signal_abort tool");
-  assert.match(llms, /- talk:/, "llms.txt must document talk tool");
+  assert.match(llms, /## Install/, "llms.txt must describe installation");
+  assert.match(llms, /## Process and network scope/, "llms.txt must describe process scope");
+  assert.match(llms, /## Tool inventory/, "llms.txt must identify its tool inventory");
+  assert.match(llms, /## Project files/, "llms.txt must link the project documentation");
 });
 
-test("glama.json tools count and features consistency", () => {
+test("glama.json metadata shape", () => {
   const glama = readJson("glama.json");
-  assert.equal(glama.tools.count, 16, "glama.json tool count must be 16");
-  assert.match(glama.description, /interactive Windows desktop session/i);
-  assert.match(glama.description, /not Glama-hostable/i);
-  assert.ok(glama.keywords.includes("signal-overlay"), "glama.json keywords must include signal-overlay");
-  assert.ok(glama.keywords.includes("push-to-talk"), "glama.json keywords must include push-to-talk");
-  assert.ok(
-    glama.features.some((f) => f.includes("signal overlay")),
-    "glama.json features must mention signal overlay"
-  );
+  assert.equal(typeof glama.name, "string");
+  assert.equal(typeof glama.version, "string");
+  assert.equal(typeof glama.description, "string");
+  assert.ok(Number.isInteger(glama.tools.count) && glama.tools.count > 0);
+  assert.ok(Array.isArray(glama.keywords));
+  assert.ok(Array.isArray(glama.features));
 });
 
 test("bilingual security policy presence and contact integrity", () => {
@@ -119,12 +159,8 @@ test("bilingual security policy presence and contact integrity", () => {
   assert.match(sec, /security@open-bricks\.org/, "SECURITY.md must contain security@open-bricks.org");
   assert.match(sec, /security@ellmos\.ai/, "SECURITY.md must contain security@ellmos.ai");
   assert.match(sec, /support@lukasgeiger\.com/, "SECURITY.md must contain support@lukasgeiger.com");
-  assert.match(sec, /48 hours|48 Stunden/, "SECURITY.md must specify 48h response SLA");
-  assert.match(sec, /5 business days|5 Werktagen/, "SECURITY.md must specify 5-day triage commitment");
-  assert.match(sec, /Supported Versions|Unterstützte Versionen/, "SECURITY.md must contain supported versions matrix");
-  assert.match(sec, /30 calendar days|30 Kalendertagen/, "SECURITY.md must specify 30-day remediation SLA");
-  assert.match(sec, /INV-SLA-10/, "SECURITY.md must reference INV-SLA-10");
-  assert.match(sec, /OC_SAFETY_MODE/, "SECURITY.md must explain OC_SAFETY_MODE");
+  assert.match(sec, /### Reporting a vulnerability/);
+  assert.match(sec, /### Sicherheitslücke melden/);
 });
 
 function validateMermaidBlocks(content, filename) {
@@ -176,56 +212,37 @@ function validateMermaidBlocks(content, filename) {
   }
 }
 
-test("mermaid lifecycle sequence diagrams in both README files", () => {
-  const enReadme = readText("README.md");
-  const deReadme = readText("README_de.md");
+test("Mermaid diagrams in the corrected detailed guides are structurally balanced", () => {
+  const enGuide = readText("docs/archive/README-2026-10-12.md");
+  const deGuide = readText("docs/archive/README_de-2026-10-12.md");
 
-  assert.match(enReadme, /```mermaid[\s\S]*?sequenceDiagram/, "README.md must have sequence diagram");
-  assert.match(deReadme, /```mermaid[\s\S]*?sequenceDiagram/, "README_de.md must have sequence diagram");
-  assert.match(enReadme, /Safe Interaction & Signal Lifecycle/, "README.md must have signal lifecycle heading");
-  assert.match(deReadme, /Sichere Interaktion & Signal-Lebenszyklus/, "README_de.md must have German signal lifecycle heading");
-
-  validateMermaidBlocks(enReadme, "README.md");
-  validateMermaidBlocks(deReadme, "README_de.md");
+  assert.match(enGuide, /```mermaid[\s\S]*?sequenceDiagram/);
+  assert.match(deGuide, /```mermaid[\s\S]*?sequenceDiagram/);
+  validateMermaidBlocks(enGuide, "docs/archive/README-2026-10-12.md");
+  validateMermaidBlocks(deGuide, "docs/archive/README_de-2026-10-12.md");
 });
 
-test("badges and quick navigation parity across README files", () => {
+test("short README entrypoints link to their detailed language guides", () => {
   const enReadme = readText("README.md");
   const deReadme = readText("README_de.md");
 
-  assert.match(enReadme, /Quick Navigation/, "README.md must include Quick Navigation");
-  assert.match(deReadme, /Schnellnavigation/, "README_de.md must include Schnellnavigation");
-  assert.match(enReadme, /tests-(38|42|46|50|52)%20passed-brightgreen\.svg/, "README.md must link passed tests badge");
-  assert.match(deReadme, /tests-(38|42|46|50|52)%20passed-brightgreen\.svg/, "README_de.md must link passed tests badge");
-  assert.match(enReadme, /actions\/workflows\/ci\.yml\/badge\.svg/, "README.md must link dynamic CI workflow badge");
-  assert.match(deReadme, /actions\/workflows\/ci\.yml\/badge\.svg/, "README_de.md must link dynamic CI workflow badge");
-  assert.doesNotMatch(enReadme, /glama\.ai\/mcp\/servers\/ellmos-ai\/open-compute-mcp\/badges\/score\.svg/, "README.md must not promote an incompatible hosted listing");
-  assert.doesNotMatch(deReadme, /glama\.ai\/mcp\/servers\/ellmos-ai\/open-compute-mcp\/badges\/score\.svg/, "README_de.md must not promote an incompatible hosted listing");
-  assert.match(enReadme, /not Glama-hostable/);
-  assert.match(deReadme, /nicht bei Glama hostbar/);
-  assert.doesNotMatch(enReadme, /open-compute-mcp\/badge["']/, "README.md must not include static Glama banner card");
-  assert.doesNotMatch(deReadme, /open-compute-mcp\/badge["']/, "README_de.md must not include static Glama banner card");
-  assert.doesNotMatch(enReadme, /glama-badge\.jpg/, "README.md must not reference static glama-badge.jpg");
-  assert.doesNotMatch(deReadme, /glama-badge\.jpg/, "README_de.md must not reference static glama-badge.jpg");
-  assert.match(enReadme, /Zero--Egress/, "README.md must include Zero-Egress badge");
-  assert.match(deReadme, /Zero--Egress/, "README_de.md must include Zero-Egress badge");
-  assert.match(enReadme, /third--party-audited%20%7C%20100%25%20permissive-brightgreen\.svg/, "README.md must link third-party audit badge");
-  assert.match(deReadme, /third--party-audited%20%7C%20100%25%20permissive-brightgreen\.svg/, "README_de.md must link third-party audit badge");
-  assert.match(enReadme, /marketing--log-active-blue\.svg/, "README.md must link marketing log badge");
-  assert.match(deReadme, /marketing--log-active-blue\.svg/, "README_de.md must link marketing log badge");
-  assert.match(enReadme, /verified-2026--(09--(22|29)|10--(01|03|08))-blue\.svg/, "README.md must link verified timestamp badge");
-  assert.match(deReadme, /(verified|verifiziert)-2026--(09--(22|29)|10--(01|03|08))-blue\.svg/, "README_de.md must link verified timestamp badge");
-  assert.match(enReadme, /attribution-NOTICE-blue\.svg/, "README.md must link attribution NOTICE badge");
-  assert.match(deReadme, /attribution-NOTICE-blue\.svg/, "README_de.md must link attribution NOTICE badge");
+  assert.match(enReadme, /docs\/archive\/README-2026-10-12\.md/);
+  assert.match(deReadme, /docs\/archive\/README_de-2026-10-12\.md/);
 });
 
-test("umbrella ecosystem badge parity in README files", () => {
-  const enReadme = readText("README.md");
-  const deReadme = readText("README_de.md");
-  assert.match(enReadme, /umbrella-open--bricks-indigo\.svg/, "README.md must link open-bricks umbrella badge");
-  assert.match(deReadme, /umbrella-open--bricks-indigo\.svg/, "README_de.md must link open-bricks umbrella badge");
-  assert.match(enReadme, /ecosystem-ellmos--ai-blueviolet\.svg/, "README.md must link ellmos-ai ecosystem badge");
-  assert.match(deReadme, /ecosystem-ellmos--ai-blueviolet\.svg/, "README_de.md must link ellmos-ai ecosystem badge");
+test("relative links and local assets resolve across published documentation", () => {
+  for (const file of [
+    "README.md",
+    "README_de.md",
+    "llms.txt",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "THIRD_PARTY_LICENSES.md",
+    "docs/archive/README-2026-10-12.md",
+    "docs/archive/README_de-2026-10-12.md",
+  ]) {
+    validateLocalMarkdownLinks(file);
+  }
 });
 
 test("GitHub Actions CI workflow schema, concurrency, and matrix integrity", () => {
@@ -255,176 +272,10 @@ test("package.json repository and ecosystem urls integrity", () => {
 
 test("third party licenses inventory documentation integrity", () => {
   const licenses = readText("THIRD_PARTY_LICENSES.md");
-  assert.match(licenses, /# Third-Party License Review/, "THIRD_PARTY_LICENSES.md must have title");
-  assert.match(licenses, /Stand:\s*2026-(09-(28|29)|10-(01|03|08))/, "THIRD_PARTY_LICENSES.md must have current review date");
+  assert.match(licenses, /# Third-party license information/, "THIRD_PARTY_LICENSES.md must have title");
+  assert.match(licenses, /Reviewed:\s*\d{4}-\d{2}-\d{2}/, "THIRD_PARTY_LICENSES.md must have a review date");
   assert.match(licenses, /update-notifier/, "THIRD_PARTY_LICENSES.md must list update-notifier");
   assert.match(licenses, /BSD-2-Clause/, "THIRD_PARTY_LICENSES.md must list BSD-2-Clause license");
-});
-
-test("governance and runtime invariants presence across documentation", () => {
-  const enReadme = readText("README.md");
-  const deReadme = readText("README_de.md");
-  const llms = readText("llms.txt");
-
-  const invariants = [
-    "INV-LOCAL-01",
-    "INV-GATE-02",
-    "INV-OBS-03",
-    "INV-WIN-04",
-    "INV-SIG-05",
-    "INV-UIA-06",
-    "INV-PROC-07",
-    "INV-CROSS-08",
-    "INV-SYNC-09",
-    "INV-SLA-10",
-  ];
-
-  for (const inv of invariants) {
-    assert.ok(enReadme.includes(inv), `README.md must document ${inv}`);
-    assert.ok(deReadme.includes(inv), `README_de.md must document ${inv}`);
-    assert.ok(llms.includes(inv), `llms.txt must document ${inv}`);
-  }
-});
-
-test("18-point dual quick navigation anchor parity across README files", () => {
-  const enReadme = readText("README.md");
-  const deReadme = readText("README_de.md");
-
-  const expectedEnNav = [
-    "#architecture",
-    "#key-capabilities",
-    "#quick-start",
-    "#tools",
-    "#configuration-environment-variables",
-    "#safe-interaction--signal-lifecycle",
-    "#target-personas--discoverability",
-    "#high-intent-search-term-matrix",
-    "#comparative-matrix-vs-alternatives",
-    "#governance--runtime-invariants",
-    "#ellmos-ai-ecosystem",
-    "#safety",
-    "#level-1-sbom--invariant-matrix",
-    "#testing--verification",
-    "#registry-manifests",
-    "#quality-gates",
-    "#licensing--attribution",
-    "#statutory-notice--security-response-sla",
-    "SECURITY.md",
-    "THIRD_PARTY_LICENSES.md",
-    "MARKETING-LOG.txt",
-    "llms.txt",
-    "NOTICE",
-  ];
-
-  const expectedDeNav = [
-    "#architektur",
-    "#hauptfunktionen",
-    "#schnellstart",
-    "#werkzeuge",
-    "#konfiguration-umgebungsvariablen",
-    "#sichere-interaktion--signal-lebenszyklus",
-    "#zielgruppen--auffindbarkeit",
-    "#hochrelevante-suchbegriffs-matrix",
-    "#vergleichsmatrix-gegenueber-alternativen",
-    "#governance--laufzeit-invarianten",
-    "#ellmos-ai-ökosystem",
-    "#sicherheit",
-    "#level-1-sbom--invarianten-matrix",
-    "#tests--verifikation",
-    "#registry-manifeste",
-    "#qualitaets-gates",
-    "#lizenzierung--attribution",
-    "#gesetzlicher-hinweis--sicherheits-reaktions-sla",
-    "SECURITY.md",
-    "THIRD_PARTY_LICENSES.md",
-    "MARKETING-LOG.txt",
-    "llms.txt",
-    "NOTICE",
-  ];
-
-  for (const target of expectedEnNav) {
-    assert.ok(enReadme.includes(target), `README.md Quick Navigation must link ${target}`);
-  }
-  for (const target of expectedDeNav) {
-    assert.ok(deReadme.includes(target), `README_de.md Schnellnavigation must link ${target}`);
-  }
-});
-
-test("security sla and code style badges in README files", () => {
-  const enReadme = readText("README.md");
-  const deReadme = readText("README_de.md");
-
-  assert.match(enReadme, /code_style-prettier-brightgreen\.svg/, "README.md must link Prettier code style badge");
-  assert.match(deReadme, /code_style-prettier-brightgreen\.svg/, "README_de.md must link Prettier code style badge");
-  assert.match(enReadme, /security--sla-48h%20Response%20%7C%205d%20Triage-blue\.svg/, "README.md must link Security SLA badge");
-  assert.match(deReadme, /security--sla-48h%20Response%20%7C%205d%20Triage-blue\.svg/, "README_de.md must link Security SLA badge");
-});
-
-test("target personas and high-intent search terms across README files", () => {
-  const enReadme = readText("README.md");
-  const deReadme = readText("README_de.md");
-
-  const enPersonas = [
-    "Autonomous AI Agents & Swarms",
-    "Enterprise AI Safety & SecOps Teams",
-    "Windows GUI QA & Accessibility Engineers",
-    "Multimodal Human-in-the-Loop Operators",
-  ];
-  const dePersonas = [
-    "Autonome KI-Agenten & Schwärme",
-    "Enterprise AI Safety & SecOps-Teams",
-    "Windows GUI QA & Barrierefreiheits-Tester",
-    "Multimodale Human-in-the-Loop Anwender",
-  ];
-
-  for (const p of enPersonas) {
-    assert.ok(enReadme.includes(p), `README.md must describe persona: ${p}`);
-  }
-  for (const p of dePersonas) {
-    assert.ok(deReadme.includes(p), `README_de.md must describe persona: ${p}`);
-  }
-
-  assert.match(enReadme, /### High-Intent Search Term Matrix \(SEO & Discoverability\)/);
-  assert.match(deReadme, /### Hochrelevante Suchbegriffs-Matrix \(SEO & Discovery\)/);
-});
-
-test("10-dimension comparative matrix vs alternatives across README files", () => {
-  const enReadme = readText("README.md");
-  const deReadme = readText("README_de.md");
-
-  const dimensions = [
-    "1. Primary Interface & Transport",
-    "2. Safety Ceiling & Guardrails",
-    "3. State Binding & Observation Lifespan",
-    "4. Dual Targeting Precision",
-    "5. Visual Signal & Countdown",
-    "6. Emergency Abort & Auto-Release",
-    "7. Multimodal Feedback",
-    "8. Token Economy Optimization",
-    "9. Privacy & Zero-Egress",
-    "10. Governance & Security SLA",
-  ];
-
-  for (const dim of dimensions) {
-    assert.ok(enReadme.includes(dim), `README.md comparative matrix must cover: ${dim}`);
-  }
-
-  const deDimensions = [
-    "1. Primäres Interface & Transport",
-    "2. Sicherheitsleitplanken & Ceiling",
-    "3. Zustandsbindung & Observation-Lebensdauer",
-    "4. Duale Targeting-Präzision",
-    "5. Visuelles Signal-Overlay & Countdown",
-    "6. Notfall-Abbruch & Auto-Release",
-    "7. Multimodales Feedback",
-    "8. Token- & Vision-Optimierung",
-    "9. Datenschutz & Zero-Egress",
-    "10. Lizenz & Sicherheits-SLA",
-  ];
-
-  for (const dim of deDimensions) {
-    assert.ok(deReadme.includes(dim), `README_de.md comparative matrix must cover: ${dim}`);
-  }
 });
 
 test("package version and manifest parity across package.json, server.json, and glama.json", () => {
@@ -437,37 +288,6 @@ test("package version and manifest parity across package.json, server.json, and 
   assert.equal(glama.version, "0.1.0-alpha.20", "glama.json version must be 0.1.0-alpha.20");
   assert.ok(server.packages && server.packages[0], "server.json packages array must exist");
   assert.equal(server.packages[0].version, "0.1.0-alpha.20", "server.json package entry must be 0.1.0-alpha.20");
-  assert.match(pkg.description, /interactive Windows desktop session/i);
-  assert.match(server.description, /interactive Windows desktop session/i);
-  assert.equal(pkg.keywords.includes("glama"), false, "package search tags must not promote incompatible hosted integration");
-  assert.match(readText("llms.txt"), /not Glama-hostable/);
-});
-
-test("marketing log recency and Pfad A/B entry presence", () => {
-  const log = readText("MARKETING-LOG.txt");
-  assert.match(log, /Audit Date:\s*2026-(09-(22|29)|10-(01|03|08))/, "MARKETING-LOG.txt must have valid audit date");
-  assert.match(log, /2026-10-08 \(Pfad A\):/, "MARKETING-LOG.txt must contain 2026-10-08 Pfad A entry");
-  assert.match(log, /2026-10-03 \(Pfad A\):/, "MARKETING-LOG.txt must contain 2026-10-03 Pfad A entry");
-  assert.match(log, /2026-10-01 \(Pfad B\):/, "MARKETING-LOG.txt must contain 2026-10-01 Pfad B entry");
-  assert.match(log, /2026-09-29 \(Pfad A\):/, "MARKETING-LOG.txt must contain 2026-09-29 Pfad A entry");
-  assert.match(log, /2026-09-22 \(Pfad B\):/, "MARKETING-LOG.txt must contain 2026-09-22 Pfad B entry");
-  assert.match(log, /2026-09-20 \(Pfad A\):/, "MARKETING-LOG.txt must contain 2026-09-20 Pfad A entry");
-  assert.match(log, /2026-09-13 \(Pfad B\):/, "MARKETING-LOG.txt must contain 2026-09-13 Pfad B entry");
-  assert.match(log, /18-point dual reciprocal architecture/, "MARKETING-LOG.txt must document 18-point dual reciprocal architecture");
-  assert.match(log, /Target Personas & Discoverability/, "MARKETING-LOG.txt must document personas");
-  assert.match(log, /10-dimension Comparative Matrix|10-DIMENSION COMPARATIVE ADVANTAGES/, "MARKETING-LOG.txt must document comparative matrix");
-});
-
-test("third-party licenses invariants and permissive compatibility section", () => {
-  const lic = readText("THIRD_PARTY_LICENSES.md");
-  assert.match(lic, /## Permissive License Compatibility & Invariants/);
-  assert.match(lic, /Level 1 SBOM Transparency & Invariant Cross-Reference Matrix/);
-  assert.match(lic, /INV-LOCAL-01/);
-  assert.match(lic, /INV-SLA-10/);
-  assert.match(lic, /Zero-Copyleft Isolation Guarantee/);
-  assert.match(lic, /Non-Elevation Certification/);
-  assert.match(lic, /RunAsInvoker/);
-  assert.match(lic, /48h Security Response.*5-day Triage.*30-day Remediation SLA/i);
 });
 
 test("GitHub Actions lifecycle workflows stale.yml and welcome.yml define bounds and timeouts", () => {
@@ -499,93 +319,38 @@ test("NOTICE attribution file integrity and open-bricks umbrella linkage", () =>
   assert.match(content, /THIRD_PARTY_LICENSES\.txt/, "NOTICE must reference THIRD_PARTY_LICENSES.txt");
 });
 
-test("visual architecture ASCII four-view topology in both README files", () => {
-  const enReadme = readText("README.md");
-  const deReadme = readText("README_de.md");
-
-  assert.match(enReadme, /OPEN-COMPUTE-MCP — FOUR-VIEW SYSTEM ARCHITECTURE TOPOLOGY/, "README.md must contain ASCII Four-View Topology");
-  assert.match(enReadme, /\[VIEW 1: AI CALLER RUNTIMES & MULTI-AGENT CLIENTS\]/, "README.md must contain View 1");
-  assert.match(enReadme, /\[VIEW 2: ZERO-EGRESS NODE\.JS LAUNCHER & PROTOCOL DISPATCH\]/, "README.md must contain View 2");
-  assert.match(enReadme, /\[VIEW 3: PYTHON OPEN-COMPUTE SOVEREIGN ENGINE\]/, "README.md must contain View 3");
-  assert.match(enReadme, /\[VIEW 4: HOST DESKTOP RUNTIME & ISOLATION BOUNDARY\]/, "README.md must contain View 4");
-
-  assert.match(deReadme, /OPEN-COMPUTE-MCP — VIER-EBENEN-SYSTEMARCHITEKTUR-TOPOLOGIE/, "README_de.md must contain ASCII Four-View Topology");
-  assert.match(deReadme, /\[EBENE 1: KI-AGENTEN-RUNTIMES & MULTI-AGENT-CLIENTS\]/, "README_de.md must contain Ebene 1");
-  assert.match(deReadme, /\[EBENE 2: ZERO-EGRESS NODE\.JS LAUNCHER & PROTOKOLL-DISPATCH\]/, "README_de.md must contain Ebene 2");
-  assert.match(deReadme, /\[EBENE 3: PYTHON OPEN-COMPUTE SOVERÄNE ENGINE\]/, "README_de.md must contain Ebene 3");
-  assert.match(deReadme, /\[EBENE 4: HOST-DESKTOP-LAUFZEIT & ISOLATIONSGRENZE\]/, "README_de.md must contain Ebene 4");
-});
-
-test("18-point dual reciprocal HTML anchors sec-01 through sec-18 in both README files", () => {
-  const enReadme = readText("README.md");
-  const deReadme = readText("README_de.md");
+test("corrected archives retain all legacy section anchors", () => {
+  const enReadme = readText("docs/archive/README-2026-10-12.md");
+  const deReadme = readText("docs/archive/README_de-2026-10-12.md");
 
   for (let i = 1; i <= 18; i++) {
     const secTag = `<a id="sec-${String(i).padStart(2, "0")}"></a>`;
-    assert.ok(enReadme.includes(secTag), `README.md must include anchor ${secTag}`);
-    assert.ok(deReadme.includes(secTag), `README_de.md must include anchor ${secTag}`);
+    assert.ok(enReadme.includes(secTag), `English archive must include anchor ${secTag}`);
+    assert.ok(deReadme.includes(secTag), `German archive must include anchor ${secTag}`);
   }
 });
 
-test("THIRD_PARTY_LICENSES.txt Level 1 SBOM text companion audit date synchronization", () => {
+test("plain-text dependency inventory lists the direct runtime dependency", () => {
   const txtContent = readText("THIRD_PARTY_LICENSES.txt");
-  assert.match(txtContent, /Audited:\s*2026-(09-(28|29)|10-(01|03|08))/, "THIRD_PARTY_LICENSES.txt must have current audit date");
-  assert.match(txtContent, /INV-LOCAL-01/, "THIRD_PARTY_LICENSES.txt must list INV-LOCAL-01");
-  assert.match(txtContent, /INV-SLA-10/, "THIRD_PARTY_LICENSES.txt must list INV-SLA-10");
-  assert.match(txtContent, /RunAsInvoker/, "THIRD_PARTY_LICENSES.txt must certify RunAsInvoker");
+  assert.match(txtContent, /SELECTED THIRD-PARTY LICENSE INFORMATION/);
+  assert.match(txtContent, /Declared direct runtime dependency/i);
+  assert.match(txtContent, /Package:\s*update-notifier/);
+  assert.match(txtContent, /Declared license:\s*BSD-2-Clause/);
 });
 
-test("statutory notice and German disclaimer under § 521 BGB in both README files", () => {
-  const enReadme = readText("README.md");
-  const deReadme = readText("README_de.md");
-
-  assert.match(enReadme, /§ 521 BGB/, "README.md must cite § 521 BGB");
-  assert.match(enReadme, /48 hours/i, "README.md must state 48h security response SLA");
-  assert.match(deReadme, /§ 521 BGB/, "README_de.md must cite § 521 BGB");
-  assert.match(deReadme, /48 Stunden/i, "README_de.md must state 48h security response SLA");
-});
-
-test("bilingual CONTRIBUTING.md guidelines and invariants parity", () => {
+test("contributing guide provides bilingual sections and runnable checks", () => {
   const contributing = readText("CONTRIBUTING.md");
   assert.match(contributing, /# Contributing to open-compute-mcp \/ Mitwirken an open-compute-mcp/);
   assert.match(contributing, /## English/);
   assert.match(contributing, /## Deutsch/);
-  assert.match(contributing, /INV-LOCAL-01/);
-  assert.match(contributing, /INV-GATE-02/);
-  assert.match(contributing, /INV-OBS-03/);
-  assert.match(contributing, /INV-WIN-04/);
-  assert.match(contributing, /INV-SIG-05/);
-  assert.match(contributing, /INV-UIA-06/);
-  assert.match(contributing, /INV-PROC-07/);
-  assert.match(contributing, /INV-CROSS-08/);
-  assert.match(contributing, /INV-SYNC-09/);
-  assert.match(contributing, /INV-SLA-10/);
-  assert.match(contributing, /RunAsInvoker/);
-  assert.match(contributing, /C:\\_Local_DEV\\repos\\open-compute-mcp/);
-  assert.match(contributing, /0\.1\.0-alpha\.20/);
-  assert.match(contributing, /§ 521 BGB/);
-  assert.match(contributing, /security@open-bricks\.org/);
-  assert.match(contributing, /security@ellmos\.ai/);
-  assert.match(contributing, /support@lukasgeiger\.com/);
-});
-
-test("contributing guidelines badge and direct reference parity across README files", () => {
-  const enReadme = readText("README.md");
-  const deReadme = readText("README_de.md");
-
-  assert.match(enReadme, /contributing-guidelines-orange\.svg/, "README.md must link contributing guidelines badge");
-  assert.match(deReadme, /mitwirken-richtlinien-orange\.svg/, "README_de.md must link mitwirken richtlinien badge");
-  assert.ok(enReadme.includes("[🤝 Contributing Guidelines](CONTRIBUTING.md)"), "README.md must include Contributing Guidelines link");
-  assert.ok(deReadme.includes("[🤝 Richtlinien für Mitwirkende](CONTRIBUTING.md)"), "README_de.md must include Richtlinien für Mitwirkende link");
+  assert.match(contributing, /npm test/);
+  assert.match(contributing, /npm pack --dry-run/);
+  assert.match(contributing, /git diff --check/);
 });
 
 test("dependabot workflow guard and changelog unreleased entry integrity", () => {
   const changelog = readText("CHANGELOG.md");
   assert.match(changelog, /## \[Unreleased\]/, "CHANGELOG.md must contain ## [Unreleased]");
-  assert.match(changelog, /Pfad A 2026-10-08/, "CHANGELOG.md must document Pfad A 2026-10-08 entry");
   assert.match(changelog, /T-20260920-167562623/, "CHANGELOG.md must reference version freeze ticket");
-
-  const log = readText("MARKETING-LOG.txt");
-  assert.match(log, /2026-10-08 \(Pfad A\):/, "MARKETING-LOG.txt must document 2026-10-08 Pfad A run");
 });
 

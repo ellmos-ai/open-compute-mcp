@@ -7,36 +7,34 @@
 <a name="english"></a>
 ## English
 
-### Reporting a Vulnerability
+### Reporting a vulnerability
 
-Please report security issues privately via GitHub **[Private Vulnerability Reporting](https://github.com/ellmos-ai/open-compute-mcp/security/advisories)** or directly via email:
-- **Umbrella Security Contact:** [security@open-bricks.org](mailto:security@open-bricks.org)
-- **Security Contact:** [security@ellmos.ai](mailto:security@ellmos.ai)
-- **Maintainer:** [lukas@open-bricks.org](mailto:lukas@open-bricks.org)
-- **Maintainer:** [lukas@ellmos.ai](mailto:lukas@ellmos.ai)
-- **Maintainer:** [support@lukasgeiger.com](mailto:support@lukasgeiger.com)
+Please report security issues privately through GitHub [Private Vulnerability Reporting](https://github.com/ellmos-ai/open-compute-mcp/security/advisories) or by email:
 
-We acknowledge receipt of vulnerability reports within 48 hours, provide a preliminary triage assessment within 5 business days, and commit to delivering a fix or mitigation within 30 calendar days for confirmed vulnerabilities (`INV-SLA-10`) prior to public disclosure.
+- Umbrella security contact: [security@open-bricks.org](mailto:security@open-bricks.org)
+- Security contact: [security@ellmos.ai](mailto:security@ellmos.ai)
+- Maintainers: [lukas@open-bricks.org](mailto:lukas@open-bricks.org), [lukas@ellmos.ai](mailto:lukas@ellmos.ai), [support@lukasgeiger.com](mailto:support@lukasgeiger.com)
 
-### Supported Versions
+Maintainers aim to acknowledge reports within 48 hours, provide an initial triage within 5 business days, and deliver a fix or mitigation within 30 calendar days for confirmed vulnerabilities before public disclosure. These are maintainer response targets; they are not runtime guarantees or a certification.
 
-| Version | Supported | Notes |
-|---|---|---|
-| 0.1.x | :white_check_mark: Supported | Active preview releases (0.1.0-alpha.x) |
-| < 0.1.0 | :x: Unsupported | Deprecated or unmaintained prototypes |
+### Supported versions
 
-### Scope & Operational Safety
+| Version | Support |
+|---|---|
+| 0.1.x | Active preview line |
+| Earlier versions | No longer maintained |
 
-`open-compute-mcp` is a lightweight Node.js launcher; the core computer-use engine runs via the Python [open-compute](https://github.com/ellmos-ai/open-compute) server it spawns. GUI automation and desktop interaction carry operational responsibilities:
+### Scope and operational notes
 
-- **Operator Ceiling (`OC_SAFETY_MODE`):** Configured as a strict operator ceiling (`confirm` default · `read_only` · `allow_all`). A per-call `mode` argument can only *tighten* the policy, never loosen it. Under stdio MCP, `confirm` and `read_only` report actions for confirmation without executing them.
-- **Interactive Execution:** Interactive use (`allow_all`) should only run in an **isolated VM or session**, using the MCP client's native tool-approval dialog as the human-in-the-loop gate.
-- **Hard Deny Lists (`OC_DENY`):** Allows hard-denying specific action types (e.g., `type,launch_app`).
-- **Visual Signal Overlay & Abort Hotkey:** Visual indicators (`signal_show`, `signal_hide`, `signal_abort`) provide continuous feedback (glowing screen border, colored cursor ring) and an immediate human abort mechanism.
-- **Hold-Primitive Auto-Release:** Any keys or mouse buttons held down (`mouse_down`, `key_down`) are automatically released when the server shuts down or on abort.
-- **Local-First & Zero Egress:** The launcher communicates strictly via local stdio JSON-RPC. It never transmits screenshots, telemetry, or system information to remote services.
-- **User-Mode Non-Elevation:** Operates entirely with standard user privileges; administrative elevation (root/administrator) is neither required nor recommended.
-- **Prompt Injection Defense:** Always treat on-screen text and captured graphical content as untrusted input.
+`open-compute-mcp` is a Node.js launcher for the separate Python [open-compute](https://github.com/ellmos-ai/open-compute) server. It forwards the MCP stdio streams to a child process. This transport does not filter network access.
+
+- Installing the npm package contacts npm. The default `uvx` launch fetches the Python project from GitHub, and the optional interactive update notice can check npm. The Python child and the MCP client may make their own network requests.
+- The child inherits the launching process's environment and operating-system privileges. This package does not provide a sandbox, firewall, environment scrubber, or privilege drop.
+- Action modes, deny lists, input targeting, and signal behavior belong to the Python server. Review its documentation and configure the MCP client's own tool approval controls. This launcher does not enforce those controls.
+- Real screen capture and input require an interactive Windows desktop on the MCP client's host. Tool results, including screenshots, are returned through the MCP client; the client controls their downstream routing and storage.
+- The Node.js wrapper tests do not certify live desktop behavior, provider behavior, or network isolation.
+
+Treat screen content and other external input as untrusted. Review permissions and network access for the complete process tree and the MCP client you choose to run.
 
 ---
 
@@ -45,31 +43,29 @@ We acknowledge receipt of vulnerability reports within 48 hours, provide a preli
 
 ### Sicherheitslücke melden
 
-Bitte melden Sie Sicherheitslücken vertraulich über die GitHub-Funktion **[Private Vulnerability Reporting](https://github.com/ellmos-ai/open-compute-mcp/security/advisories)** oder direkt per E-Mail:
-- **Sicherheitskontakt (Dachorganisation):** [security@open-bricks.org](mailto:security@open-bricks.org)
-- **Sicherheitskontakt:** [security@ellmos.ai](mailto:security@ellmos.ai)
-- **Maintainer:** [lukas@open-bricks.org](mailto:lukas@open-bricks.org)
-- **Maintainer:** [lukas@ellmos.ai](mailto:lukas@ellmos.ai)
-- **Maintainer:** [support@lukasgeiger.com](mailto:support@lukasgeiger.com)
+Bitte melde Sicherheitsprobleme vertraulich über GitHub [Private Vulnerability Reporting](https://github.com/ellmos-ai/open-compute-mcp/security/advisories) oder per E-Mail:
 
-Wir bestätigen den Eingang von Meldungen innerhalb von 48 Stunden, liefern innerhalb von 5 Werktagen eine vorläufige Triage-Einschätzung und verpflichten uns, innerhalb von 30 Kalendertagen eine Behebung oder Schutzmaßnahme für bestätigte Sicherheitslücken bereitzustellen (`INV-SLA-10`), bevor eine Veröffentlichung erfolgt.
+- Sicherheitskontakt der Dachorganisation: [security@open-bricks.org](mailto:security@open-bricks.org)
+- Sicherheitskontakt: [security@ellmos.ai](mailto:security@ellmos.ai)
+- Maintainer: [lukas@open-bricks.org](mailto:lukas@open-bricks.org), [lukas@ellmos.ai](mailto:lukas@ellmos.ai), [support@lukasgeiger.com](mailto:support@lukasgeiger.com)
+
+Die Maintainer bemühen sich, Meldungen innerhalb von 48 Stunden zu bestätigen, innerhalb von 5 Werktagen eine erste Triage vorzunehmen und bei bestätigten Sicherheitslücken vor einer öffentlichen Bekanntgabe innerhalb von 30 Kalendertagen eine Korrektur oder Schutzmaßnahme bereitzustellen. Das sind Reaktionsziele der Maintainer, keine Laufzeitgarantie oder Zertifizierung.
 
 ### Unterstützte Versionen
 
-| Version | Unterstützt | Hinweise |
-|---|---|---|
-| 0.1.x | :white_check_mark: Ja | Aktive Vorabversionen (0.1.0-alpha.x) |
-| < 0.1.0 | :x: Nein | Veraltete oder unbetreute Prototypen |
+| Version | Unterstützung |
+|---|---|
+| 0.1.x | Aktive Vorabversionsreihe |
+| Ältere Versionen | Werden nicht mehr gepflegt |
 
-### Geltungsbereich & Betriebssicherheit
+### Umfang und Betriebshinweise
 
-`open-compute-mcp` ist ein schlanker Node.js-Launcher; die eigentliche Computer-Use-Ausführung liegt im Python-Server [open-compute](https://github.com/ellmos-ai/open-compute). Desktop- und GUI-Automatisierung erfordern klare Sicherheitsleitplanken:
+`open-compute-mcp` ist ein Node.js-Launcher für den separaten Python-Server [open-compute](https://github.com/ellmos-ai/open-compute). Er leitet die MCP-stdio-Datenströme an einen Kindprozess weiter. Dieser Transport filtert keinen Netzwerkzugriff.
 
-- **Operator-Obergrenze (`OC_SAFETY_MODE`):** Dient als strikte Operator-Obergrenze (`confirm` Standard · `read_only` · `allow_all`). Ein aufrufbezogenes `mode`-Argument kann die Richtlinie nur *verschärfen*, nie lockern. Unter stdio-MCP melden `confirm` und `read_only` Aktionen zur Bestätigung, ohne sie auszuführen.
-- **Interaktive Ausführung:** Interaktiver Betrieb (`allow_all`) sollte ausschließlich in einer **isolierten VM oder Session** stattfinden, wobei der clientseitige Tool-Bestätigungsdialog als Human-in-the-Loop fungiert.
-- **Harte Ausschlusslisten (`OC_DENY`):** Ermöglicht das dauerhafte Sperren bestimmter Aktionstypen (z. B. `type,launch_app`).
-- **Visuelles Signal-Overlay & Abbruch-Hotkey:** Visuelle Signale (`signal_show`, `signal_hide`, `signal_abort`) bieten stetige optische Rückmeldung (leuchtender Bildschirmrahmen, farbiger Cursor-Ring) sowie eine sofortige manuelle Abbruchmöglichkeit per Hotkey.
-- **Automatisches Loslassen von Halte-Primitiven:** Alle gehaltenen Tasten oder Maustasten (`mouse_down`, `key_down`) werden bei Serverbeendigung oder Abbruch zuverlässig freigegeben.
-- **Local-First & Zero-Egress:** Der Launcher kommuniziert ausschließlich über lokales stdio-JSON-RPC. Es werden keinerlei Screenshots, Telemetriedaten oder Systemdaten an externe Server übertragen.
-- **User-Mode Non-Elevation:** Läuft vollständig mit regulären Benutzerrechten; Administratorrechte sind weder erforderlich noch empfohlen.
-- **Prompt-Injection-Schutz:** Auf dem Bildschirm dargestellte Texte und grafische Inhalte müssen stets als nicht vertrauenswürdig eingestuft werden.
+- Die npm-Installation kontaktiert npm. Der Standardstart mit `uvx` lädt das Python-Projekt von GitHub; der optionale Update-Hinweis im interaktiven Terminal kann npm abfragen. Der Python-Kindprozess und der MCP-Client können eigene Netzwerkanfragen stellen.
+- Der Kindprozess erbt Umgebung und Betriebssystemrechte des startenden Prozesses. Dieses Paket stellt weder Sandbox noch Firewall, Umgebungsbereinigung oder Rechteabbau bereit.
+- Aktionsmodi, Sperrlisten, Eingabezielauswahl und Signalverhalten gehören zum Python-Server. Prüfe dessen Dokumentation und richte die eigenen Werkzeugfreigaben des MCP-Clients ein. Dieser Launcher erzwingt diese Freigaben nicht.
+- Echte Bildschirmaufnahme und Eingaben erfordern einen interaktiven Windows-Desktop auf dem Host des MCP-Clients. Werkzeugergebnisse einschließlich Screenshots werden über den MCP-Client zurückgegeben; der Client steuert deren weitere Weiterleitung und Speicherung.
+- Die Tests des Node.js-Wrappers zertifizieren weder Live-Desktop-Verhalten noch Providerverhalten oder Netzwerktrennung.
+
+Behandle Bildschirminhalte und andere externe Eingaben als nicht vertrauenswürdig. Prüfe Berechtigungen und Netzwerkzugriff für den gesamten Prozessbaum und den gewählten MCP-Client.

@@ -1,97 +1,36 @@
 # open-compute-mcp
 
-> npm launcher for the open-compute MCP server — model-agnostic computer-use tools
-> (screenshot capture, canonical safety-gated actions, Windows UIA element
-> targeting, visual signal overlay, push-to-talk voice/chat) over the Model Context Protocol.
-> The connected AI client is the reasoner (keyless). The launcher spawns the Python
-> open-compute server from GitHub via uvx; real capture/input is Windows-only.
-> Local stdio only: real capture/input require an interactive Windows desktop
-> session on the MCP client's host. This launcher is not Glama-hostable.
+`open-compute-mcp` is a Node.js npm launcher for the separate Python [open-compute MCP server](https://github.com/ellmos-ai/open-compute). It starts the configured child command and forwards MCP stdio. Real screen capture and input require an interactive Windows desktop on the MCP client's host.
 
-## Install / run
+## Install
 
-- Client config (npx): command `npx`, args `["-y", "open-compute-mcp"]`.
-- Client config (uvx, no npm): command `uvx`, args
-  `["--from", "open-compute[mcp,local,uia] @ git+https://github.com/ellmos-ai/open-compute.git", "open-compute-mcp"]`.
-- Requires Python 3.10+ and uv on the host. Windows for real capture/input.
+- npm client configuration: command `npx`, args `[-y, open-compute-mcp]`.
+- The default launch uses `uvx` to fetch the Python project from GitHub and requires `uv` plus network access. The backend requires Python 3.10+; `uvx` can use an installed compatible interpreter or download and manage one. Default ref is `master`, overridden with `OPEN_COMPUTE_GIT_REF`.
+- Installing the npm package contacts npm. The default launch fetches from GitHub. An optional TTY update notice can check npm.
 
-## Tools (16)
+## Process and network scope
 
-- capture: return one-shot observation metadata plus an image (optional exact window; WGC fallback for hardware-composited windows).
-- do: run a safety-gated action; coordinates consume one observation_id and issued window descriptor/token; type/key/activation also require exact binding.
-- tree: return UIA elements and a one-shot observation_id for their normalized coordinates.
-- click_name: exact-first, ambiguity-safe UIA click in a required issued window, with score/alternatives.
-- invoke: exact-first click-free UIA activation in a required issued window.
-- list_windows: stable window_id/process_id/title, issued token, rect and center (read-only).
-- get_screen_size: virtual-desktop geometry and per-monitor breakdown — the frame 0..1 coords refer to (read-only).
-- watch_dir: watch directories for file-system changes.
-- push_status: feed-manager status (read-only).
-- rec_replay: replay a .clirec macro (needs the optional clirec package).
-- signal_show: show a configurable pre-action color/text countdown, then the mode-colored overlay, with owner/session lease and bounded TTL.
-- signal_hide: hide the signal overlay.
-- signal_status: owner/session/mode/phase/countdown/current color/accessibility label/visible/expires_at and pending abort message.
-- signal_abort: human abort reason prompt and report back to reasoner.
-- chat: human-to-model message regarding screen content with optional screenshot.
-- talk: push-to-talk voice note recording to WAV path for model-side STT/TTS.
+The Node wrapper uses local stdio as its MCP transport. It does not filter network access, scrub the environment, drop privileges, or sandbox the child. The child inherits the launcher process's environment and operating-system privileges. The Python server and MCP client may access other services according to their own behavior and configuration. The MCP client controls routing and storage of tool results, including screenshots.
 
-## Safety
+Action modes, deny lists, window targeting, and signal behavior are implemented by the Python server, not enforced by this npm wrapper. Review that project's documentation and the MCP client's approval settings. The Node wrapper's test suite does not certify live desktop, provider, or network-isolation behavior.
 
-`OC_SAFETY_MODE` is an operator ceiling (confirm default / read_only / allow_all);
-a per-call mode can only tighten it. Set allow_all only in an isolated VM. `OC_DENY`
-is a hard deny list. Treat on-screen content as untrusted. Use observe -> one action
--> automatic refresh; never reuse coordinates after focus/layout/modal changes.
-Text results expose lengths/status, never cleartext. Explicit signals use the
-configured text-first pre-action countdown (`OC_SIGNAL_GRACE_SECONDS` and
-`OC_SIGNAL_CONFIG`) before switching once to the mode color; no flashing or
-motion animation is required. Signals clean up at turn end, error, abort, TTL,
-or exit unless `keep_signal=true`. Hold primitives auto-release.
+## Tool inventory
 
-## Governance & Runtime Invariants
+The following 19 names match the Python project's README at commit [`762cb15042f144d31e99e5834f9508dc9769dd66`](https://github.com/ellmos-ai/open-compute/blob/762cb15042f144d31e99e5834f9508dc9769dd66/README.md). The launcher defaults to moving `master` unless `OPEN_COMPUTE_GIT_REF` is set; the running server's schemas are authoritative for its selected ref.
 
-- INV-LOCAL-01: Zero-Egress & Local Stdio (100% offline, 0 network telemetry)
-- INV-GATE-02: Fail-Closed Safety Ceiling (OC_SAFETY_MODE operator ceiling)
-- INV-OBS-03: One-Shot Observation Lifespan (ephemeral observation_id tokens)
-- INV-WIN-04: Strict Window Binding (required window descriptor / tokens)
-- INV-SIG-05: Leased Signal Overlay & Immediate Abort (bounded TTL, hotkey)
-- INV-UIA-06: Exact-First Semantic Resolution (deterministic UIA matching)
-- INV-PROC-07: Unprivileged RunAsInvoker Mode (0 admin elevation required)
-- INV-CROSS-08: Multi-OS Stdio Protocol Parity (Node.js 18-24 matrix CI)
-- INV-SYNC-09: Multi-Agent Lock & Conflict Discipline (fail-closed hygiene)
-- INV-SLA-10: 48h Security Response & 5-Day Triage SLA (open-bricks SLA)
+`capture`, `observe_filtered`, `capture_filtered`, `do`, `tree`, `click_name`, `invoke`, `list_windows`, `get_screen_size`, `watch_dir`, `push_status`, `rec_replay`, `signal_show`, `signal_hide`, `signal_status`, `signal_abort`, `chat`, `note_observation`, `talk`.
 
-## Links
+For exact parameters and version-specific behavior, use the Python server documentation and tool schemas exposed by the running MCP server.
 
-- Wrapper repo: https://github.com/ellmos-ai/open-compute-mcp
-- Server (Python): https://github.com/ellmos-ai/open-compute
-- npm Package: https://www.npmjs.com/package/open-compute-mcp
+## Project files
 
-## Important Files
+- [English quick entrypoint](README.md)
+- [German quick entrypoint](README_de.md)
+- [Corrected detailed English guide](docs/archive/README-2026-10-12.md)
+- [Corrected detailed German guide](docs/archive/README_de-2026-10-12.md)
+- [Security policy](SECURITY.md)
+- [Contributing guide](CONTRIBUTING.md)
+- [Selected direct dependency license information](THIRD_PARTY_LICENSES.md)
+- [Changelog](CHANGELOG.md)
 
-- `README.md`: English documentation, quickstart instructions, and sequence diagrams.
-- `README_de.md`: German documentation and sequence diagrams.
-- `CONTRIBUTING.md`: Bilingual contributor guidelines (EN/DE), 10 runtime invariants, Plan D workflow, and quality gates.
-- `package.json`: npm package manifest with launcher configuration.
-- `server.json`: MCP registry configuration.
-- `glama.json`: repository-only Glama listing ownership metadata; its presence does not make this local desktop launcher remotely hostable.
-- `bin/open-compute-mcp.js`: Node.js launcher entry point.
-- `test/launcher-command.test.js`: Launcher command-override smoke test.
-- `NOTICE`: Canonical copyright notice, open-bricks umbrella attribution, and Level 1 SBOM cross-reference.
-- `SECURITY.md`: Bilingual security policy and safety gate explanations.
-- `THIRD_PARTY_LICENSES.md`: Third-party license review and runtime dependency inventory.
-- `THIRD_PARTY_LICENSES.txt`: Plain-text Level 1 SBOM companion and runtime invariant matrix.
-- `MARKETING-LOG.txt`: Discoverability, persona mapping, and architectural invariants log.
-- `CHANGELOG.md`: Chronological log of releases and changes.
-
-## Search Phrases
-
-```
-open-compute-mcp node launcher
-model-agnostic computer use mcp server
-windows uia element targeting mcp
-mcp stdio screenshot capture tool
-safety gated GUI automation mcp
-screen usage signal overlay abort hotkey
-push-to-talk multimodal voice mcp
-```
-
-## Last-checked: 2026-10-08
+The repository manifests currently declare version `0.1.0-alpha.20`. This index describes the repository and does not certify a particular npm publication or Python backend revision.

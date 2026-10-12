@@ -3,7 +3,7 @@
   "name": "io.github.lukisch/open-compute-mcp",
   "version": "0.1.0-alpha.20",
   "title": "open-compute (computer-use)",
-  "description": "Local stdio launcher for computer use. Real capture and input require an interactive Windows desktop session on the MCP client's host; not remotely hostable.",
+  "description": "Node.js launcher for the Python computer-use MCP server over local stdio. Real capture and input require an interactive Windows desktop on the MCP client's host; this repository does not provide hosted desktop execution or a supported Glama/cloud-service deployment.",
   "websiteUrl": "https://github.com/ellmos-ai/open-compute-mcp",
   "repository": {
     "url": "https://github.com/ellmos-ai/open-compute-mcp",
