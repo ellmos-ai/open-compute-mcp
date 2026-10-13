@@ -39,6 +39,10 @@ For real capture and input, run the MCP client on the Windows desktop to be cont
 
 The [tool reference](docs/archive/README-2026-10-12.md#sec-04) is a snapshot of the separate Python project's tool list at a documented source ref. The running server's schemas define the available tools for the selected ref. See also the [environment variables](docs/archive/README-2026-10-12.md#sec-05).
 
+## Related integration
+
+The [Cowork Protocol Desktop Companion](https://github.com/ellmos-ai/cowork-protocol/blob/main/apps/desktop-companion/README.md) includes an optional, human-started computer-use adapter that launches the separate Python Open Compute MCP server over local stdio. Its documented default uses `uvx`; this npm launcher is not a Cowork dependency. This relationship does not change the process, network, or privilege boundaries described above.
+
 ## Documentation
 
 - [Architecture and behavior scope](docs/archive/README-2026-10-12.md#sec-01)

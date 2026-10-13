@@ -14,6 +14,10 @@ The Node wrapper uses local stdio as its MCP transport. It does not filter netwo
 
 Action modes, deny lists, window targeting, and signal behavior are implemented by the Python server, not enforced by this npm wrapper. Review that project's documentation and the MCP client's approval settings. The Node wrapper's test suite does not certify live desktop, provider, or network-isolation behavior.
 
+## Related integration
+
+- [Cowork Protocol Desktop Companion](https://github.com/ellmos-ai/cowork-protocol/blob/main/apps/desktop-companion/README.md): optional, human-started computer-use adapter using the separate Python Open Compute MCP server over local stdio. Its documented default uses `uvx`; this npm launcher is not a Cowork dependency and does not change the wrapper's process, network, or privilege boundaries.
+
 ## Tool inventory
 
 The following 19 names match the Python project's README at commit [`762cb15042f144d31e99e5834f9508dc9769dd66`](https://github.com/ellmos-ai/open-compute/blob/762cb15042f144d31e99e5834f9508dc9769dd66/README.md). The launcher defaults to moving `master` unless `OPEN_COMPUTE_GIT_REF` is set; the running server's schemas are authoritative for its selected ref.
