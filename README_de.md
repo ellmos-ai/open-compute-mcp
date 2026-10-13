@@ -39,6 +39,10 @@ Für echte Bildschirmaufnahme und Eingaben muss der MCP-Client auf dem zu steuer
 
 Die [Werkzeugübersicht](docs/archive/README_de-2026-10-12.md#sec-04) ist ein Snapshot der Werkzeugliste des separaten Python-Projekts zu einem dokumentierten Quell-Ref. Die Schemas des gestarteten Servers bestimmen die verfügbaren Werkzeuge des gewählten Refs. Siehe auch die [Umgebungsvariablen](docs/archive/README_de-2026-10-12.md#sec-05).
 
+## Verwandte Integration
+
+Der [Desktop Companion von Cowork Protocol](https://github.com/ellmos-ai/cowork-protocol/blob/main/apps/desktop-companion/README.md) bietet einen optionalen, vom Menschen gestarteten Computer-Use-Pfad über den separaten Python-Open-Compute-MCP-Server mit lokalem stdio. Die dokumentierte Standardkonfiguration startet das Python-Projekt über `uvx`; dieser npm-Launcher ist keine Cowork-Abhängigkeit. Der Querverweis ändert die oben beschriebenen Prozess-, Netzwerk- oder Berechtigungsgrenzen des Launchers nicht.
+
 ## Dokumentation
 
 - [Architektur und Verhaltensgrenzen](docs/archive/README_de-2026-10-12.md#sec-01)
