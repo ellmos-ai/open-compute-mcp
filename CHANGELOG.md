@@ -7,6 +7,9 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Spanish README (2026-10-28)
+- Added the Spanish README to the language navigation and npm package allowlist.
+
 ### Documentation scope correction (2026-10-12)
 - Current documentation describes the npm package as a Node.js launcher that forwards local stdio to a separately fetched Python server. The default bootstrap and optional update notice can access external services; child processes inherit the launching environment and privileges. The wrapper does not provide network isolation, a sandbox, or privilege reduction.
 - The dependency pages now describe a selected direct npm dependency inventory, not a complete SBOM or a blanket copyleft/compliance finding. Maintainer response targets remain a published policy, not a runtime invariant. Earlier dated audit notes below record what those documents stated at the time; this correction supersedes their broad present-tense guarantees.

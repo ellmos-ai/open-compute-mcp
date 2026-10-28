@@ -6,7 +6,7 @@ Dieser kurze Einstieg ersetzt die ausführliche [README.md aus dem Vorgänger-Co
 
 [![CI](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml) [![npm-Version](https://img.shields.io/npm/v/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp) [![Lizenz: MIT](https://img.shields.io/github/license/ellmos-ai/open-compute-mcp.svg)](LICENSE)
 
-[English](README.md) | **DE**
+[English](README.md) | **DE** | [Español](README_es.md)
 
 ## Installieren und starten
 

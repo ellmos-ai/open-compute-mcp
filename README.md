@@ -6,7 +6,7 @@ This short entrypoint replaces the long-form [README.md at predecessor commit 59
 
 [![CI](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml) [![npm version](https://img.shields.io/npm/v/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp) [![License: MIT](https://img.shields.io/github/license/ellmos-ai/open-compute-mcp.svg)](LICENSE)
 
-**EN** | [Deutsch](README_de.md)
+**EN** | [Deutsch](README_de.md) | [Español](README_es.md)
 
 ## Install and run
 
