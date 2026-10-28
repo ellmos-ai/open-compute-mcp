@@ -30,6 +30,7 @@ For exact parameters and version-specific behavior, use the Python server docume
 
 - [English quick entrypoint](README.md)
 - [German quick entrypoint](README_de.md)
+- [Spanish quick entrypoint](README_es.md)
 - [Corrected detailed English guide](docs/archive/README-2026-10-12.md)
 - [Corrected detailed German guide](docs/archive/README_de-2026-10-12.md)
 - [Security policy](SECURITY.md)
