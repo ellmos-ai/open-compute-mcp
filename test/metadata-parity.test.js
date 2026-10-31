@@ -353,4 +353,32 @@ test("dependabot workflow guard and changelog unreleased entry integrity", () =>
   assert.match(changelog, /## \[Unreleased\]/, "CHANGELOG.md must contain ## [Unreleased]");
   assert.match(changelog, /T-20260920-167562623/, "CHANGELOG.md must reference version freeze ticket");
 });
+test("Pfad B discoverability: README sequence diagram, badge currency and 2026-11-01 recency", () => {
+  const enReadme = readText("README.md");
+  const deReadme = readText("README_de.md");
+  const llms = readText("llms.txt");
+  const changelog = readText("CHANGELOG.md");
 
+  // Visual emblem
+  assert.match(enReadme, /assets\/wappen\.jpg/, "README.md must display the wappen emblem");
+  assert.match(deReadme, /assets\/wappen\.jpg/, "README_de.md must display the wappen emblem");
+
+  // Sequence diagrams in both entrypoints
+  assert.match(enReadme, /```mermaid[\s\S]*?sequenceDiagram[\s\S]*?Phase 1[\s\S]*?Phase 2[\s\S]*?Phase 3[\s\S]*?```/);
+  assert.match(deReadme, /```mermaid[\s\S]*?sequenceDiagram[\s\S]*?Phase 1[\s\S]*?Phase 2[\s\S]*?Phase 3[\s\S]*?```/);
+
+  // Validate mermaid blocks for syntax safety
+  validateMermaidBlocks(enReadme, "README.md");
+  validateMermaidBlocks(deReadme, "README_de.md");
+
+  // Badge currency
+  assert.match(enReadme, /verified-2026--11--01-blue\.svg/, "README.md must have verified-2026-11-01 badge");
+  assert.match(deReadme, /gepr%C3%BCft-2026--11--01-blue\.svg/, "README_de.md must have geprüft-2026-11-01 badge");
+  assert.match(enReadme, /tests-43%20passed%20%7C%20100%25-brightgreen\.svg/, "README.md must have 43 passed tests badge");
+  assert.match(deReadme, /Tests-43%20bestanden%20%7C%20100%25-brightgreen\.svg/, "README_de.md must have 43 bestanden tests badge");
+
+  // llms.txt and CHANGELOG recency
+  assert.match(llms, /2026-11-01/, "llms.txt must reference 2026-11-01");
+  assert.match(changelog, /2026-11-01/, "CHANGELOG.md must document 2026-11-01 Pfad B update");
+  assert.match(changelog, /T-20260920-167562623/, "CHANGELOG.md must maintain version freeze reference");
+});
