@@ -1,10 +1,14 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ellmos-ai/open-compute-mcp/main/assets/wappen.jpg" alt="emblema del servidor MCP de open-compute" width="300">
+</p>
+
 # open-compute-mcp
 
 > Lanzador npm para el servidor MCP de Python [open-compute](https://github.com/ellmos-ai/open-compute). Reenvía MCP JSON-RPC por stdin/stdout local. La captura real de pantalla y la entrada requieren un escritorio interactivo de Windows en el host del cliente MCP. No se ofrece un despliegue de escritorio alojado en Glama ni en la nube.
 
 Esta página de inicio breve sustituye a la guía extensa [README.md del commit predecesor 59cd953](https://github.com/ellmos-ai/open-compute-mcp/blob/59cd9530688b02c38b75d1926d5a1efdd1a4aa06/README.md). La guía detallada corregida está [archivada aquí](docs/archive/README-2026-10-12.md), donde conserva los antiguos anclajes de sección y diagramas. Es una copia corregida, no una instantánea histórica sin cambios; el original sigue disponible mediante el enlace al commit.
 
-[![CI](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml) [![versión npm](https://img.shields.io/npm/v/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp) [![Licencia: MIT](https://img.shields.io/github/license/ellmos-ai/open-compute-mcp.svg)](LICENSE)
+[![CI](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml) [![versión npm](https://img.shields.io/npm/v/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp) [![Pruebas: node --test](https://img.shields.io/badge/tests-43%20passed%20%7C%20100%25-brightgreen.svg)](test/) [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/) [![Licencia: MIT](https://img.shields.io/github/license/ellmos-ai/open-compute-mcp.svg)](LICENSE) [![Servidor MCP](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io) [![Verificado: 2026-11-01](https://img.shields.io/badge/verified-2026--11--01-blue.svg)](CHANGELOG.md) [![Contexto para LLM](https://img.shields.io/badge/LLM-llms.txt-blue.svg)](llms.txt)
 
 [English](README.md) | [Deutsch](README_de.md) | **Español**
 
@@ -26,6 +30,47 @@ Añade este servidor a un cliente MCP local:
 ```
 
 El paquete npm se publica por separado de este repositorio Git; consulta la versión publicada si necesitas una revisión concreta del código fuente. Hay una configuración directa con `uvx` en la [guía de inicio rápido detallada](docs/archive/README-2026-10-12.md#sec-03).
+
+## Arquitectura y flujo del protocolo
+
+El lanzador conecta las solicitudes JSON-RPC del cliente, mediante stdio local, con el motor Python que se ejecuta en el escritorio interactivo de Windows:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Reasoner as AI Reasoner (Antigravity / Claude / Cursor)
+    participant Launcher as Node.js Launcher (open-compute-mcp)
+    participant Engine as Python MCP Server (open-compute via uvx)
+    participant Desktop as Windows Desktop (WGC / UIA / Win32)
+    actor Operator as Human Operator (Supervision & Approvals)
+
+    Note over Reasoner,Operator: Phase 1 - Transport Initialization & Tool Discovery
+    Reasoner->>Launcher: MCP stdio JSON-RPC (initialize / tools/list)
+    Launcher->>Engine: Spawn Python process & pipe stdio
+    Engine-->>Launcher: Return tool schemas (capture, tree, do, click_name)
+    Launcher-->>Reasoner: Forward available tool definitions
+
+    Note over Reasoner,Operator: Phase 2 - Desktop Inspection & Visual Context
+    Reasoner->>Launcher: Call capture(window?) or tree()
+    Launcher->>Engine: Forward tool invocation over stdio
+    Engine->>Desktop: Windows Graphics Capture (WGC) or UI Automation inspect
+    Desktop-->>Engine: Raw frame buffer / accessibility element tree
+    Engine-->>Launcher: Formatted image (base64 PNG) or JSON tree result
+    Launcher-->>Reasoner: Relay visual context to model
+
+    Note over Reasoner,Operator: Phase 3 - Human Oversight & Gated Action Execution
+    Reasoner->>Launcher: Propose action: do(click, x, y) or click_name(target)
+    Launcher->>Engine: Forward action request over stdio
+    alt Client Approval Gate
+        Operator->>Engine: Confirm interactive desktop action
+        Engine->>Desktop: Synthesize mouse / keyboard event via Win32 API
+        Desktop-->>Engine: Action outcome & state change
+        Engine-->>Launcher: Success status report
+    else Deny or Boundary Check
+        Engine-->>Launcher: Action blocked by policy or client denial
+    end
+    Launcher-->>Reasoner: Forward execution receipt
+```
 
 ## Qué hace el lanzador
 

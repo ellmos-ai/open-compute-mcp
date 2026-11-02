@@ -1,10 +1,14 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ellmos-ai/open-compute-mcp/main/assets/wappen.jpg" alt="open-compute MCP server emblem" width="300">
+</p>
+
 # open-compute-mcp
 
 > npm-Launcher für den Python-[open-compute-MCP-Server](https://github.com/ellmos-ai/open-compute). Er leitet MCP-JSON-RPC über lokales stdin/stdout weiter. Für echte Bildschirmaufnahme und Eingaben ist ein interaktiver Windows-Desktop auf dem Host des MCP-Clients erforderlich. Eine gehostete Glama- oder andere Cloud-Desktop-Ausführung wird nicht angeboten.
 
 Dieser kurze Einstieg ersetzt die ausführliche [README.md aus dem Vorgänger-Commit 59cd953](https://github.com/ellmos-ai/open-compute-mcp/blob/59cd9530688b02c38b75d1926d5a1efdd1a4aa06/README.md). Der korrigierte Leitfaden im [Archiv](docs/archive/README_de-2026-10-12.md) erhält die früheren Abschnittsanker und Diagramme. Er ist eine korrigierte Fassung, keine unveränderte historische Kopie; das Original bleibt über den Commit-Link erreichbar.
 
-[![CI](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml) [![npm-Version](https://img.shields.io/npm/v/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp) [![Lizenz: MIT](https://img.shields.io/github/license/ellmos-ai/open-compute-mcp.svg)](LICENSE)
+[![CI](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml) [![npm-Version](https://img.shields.io/npm/v/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp) [![Tests: node --test](https://img.shields.io/badge/Tests-43%20bestanden%20%7C%20100%25-brightgreen.svg)](test/) [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/) [![Lizenz: MIT](https://img.shields.io/github/license/ellmos-ai/open-compute-mcp.svg)](LICENSE) [![MCP Server](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io) [![Geprüft: 2026-11-01](https://img.shields.io/badge/gepr%C3%BCft-2026--11--01-blue.svg)](CHANGELOG.md) [![LLM-Kontext](https://img.shields.io/badge/LLM-llms.txt-blue.svg)](llms.txt)
 
 [English](README.md) | **DE** | [Español](README_es.md)
 
@@ -26,6 +30,47 @@ Füge den Server einem lokalen MCP-Client hinzu:
 ```
 
 Das npm-Paket wird getrennt von diesem Git-Repository veröffentlicht. Prüfe seine veröffentlichte Version, wenn du eine bestimmte Quellrevision benötigst. Eine direkte `uvx`-Konfiguration steht im [ausführlichen Schnellstart](docs/archive/README_de-2026-10-12.md#sec-03).
+
+## Architektur & Protokollablauf
+
+Der Launcher vermittelt JSON-RPC-Anfragen des Clients über lokales stdio an die Python-Engine auf dem interaktiven Windows-Desktop:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Reasoner as KI-Reasoner (Antigravity / Claude / Cursor)
+    participant Launcher as Node.js-Launcher (open-compute-mcp)
+    participant Engine as Python-MCP-Server (open-compute via uvx)
+    participant Desktop as Windows-Desktop (WGC / UIA / Win32)
+    actor Operator as Menschlicher Operator (Aufsicht & Freigaben)
+
+    Note over Reasoner,Operator: Phase 1 - Transport-Initialisierung & Werkzeugerkennung
+    Reasoner->>Launcher: MCP-stdio-JSON-RPC (initialize / tools/list)
+    Launcher->>Engine: Python-Prozess starten & stdio weiterleiten
+    Engine-->>Launcher: Werkzeugschemas zurückgeben (capture, tree, do, click_name)
+    Launcher-->>Reasoner: Verfügbare Werkzeugdefinitionen bereitstellen
+
+    Note over Reasoner,Operator: Phase 2 - Desktop-Inspektion & visueller Kontext
+    Reasoner->>Launcher: Aufruf von capture(window?) oder tree()
+    Launcher->>Engine: Werkzeugaufruf über stdio weiterleiten
+    Engine->>Desktop: Windows Graphics Capture (WGC) oder UI-Automation-Inspektion
+    Desktop-->>Engine: Frame-Buffer oder Barrierefreiheits-Elementbaum
+    Engine-->>Launcher: Formatiertes Bild (Base64-PNG) oder JSON-Baumergebnis
+    Launcher-->>Reasoner: Visuellen Kontext an Modell übergeben
+
+    Note over Reasoner,Operator: Phase 3 - Menschliche Aufsicht & gesteuerte Ausführung
+    Reasoner->>Launcher: Aktion vorschlagen: do(click, x, y) oder click_name(target)
+    Launcher->>Engine: Aktionsanforderung über stdio weiterleiten
+    alt Freigabe-Gate des Clients
+        Operator->>Engine: Interaktive Desktop-Aktion bestätigen
+        Engine->>Desktop: Maus- oder Tastaturereignis über Win32-API ausführen
+        Desktop-->>Engine: Aktionsergebnis & Zustandsänderung
+        Engine-->>Launcher: Erfolgsbericht
+    else Ablehnung oder Sicherheitsgrenze
+        Engine-->>Launcher: Aktion durch Richtlinie oder Client-Ablehnung blockiert
+    end
+    Launcher-->>Reasoner: Ausführungsbeleg weiterleiten
+```
 
 ## Was der Launcher macht
 

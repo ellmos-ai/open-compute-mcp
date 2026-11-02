@@ -37,5 +37,6 @@ For exact parameters and version-specific behavior, use the Python server docume
 - [Contributing guide](CONTRIBUTING.md)
 - [Selected direct dependency license information](THIRD_PARTY_LICENSES.md)
 - [Changelog](CHANGELOG.md)
+- Verified: 2026-11-01 (Pfad B discoverability & sequence diagram synchronization)
 
 The repository manifests currently declare version `0.1.0-alpha.20`. This index describes the repository and does not certify a particular npm publication or Python backend revision.

@@ -7,8 +7,19 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Spanish README source refresh (2026-11-02)
+- Synchronized the Spanish entrypoint with source commit 4419900: emblem, badges, and architecture/protocol section; preserved the existing language navigation and package allowlist.
+
 ### Spanish README (2026-10-28)
 - Added the Spanish README to the language navigation and npm package allowlist.
+
+### Discoverability, Bilingual Sequence Diagram, Badge Currency & Contract Tests (Pfad B 2026-11-01)
+- **Strict Version Freeze Discipline (`T-20260920-167562623`)**: Maintained `v0.1.0-alpha.20` strictly frozen across all manifests (`package.json`, `package-lock.json`, `server.json`, `glama.json`); zero version bumps during documentation and discoverability maintenance.
+- **Bilingual Protocol Sequence Diagram**: Embedded a Mermaid `sequenceDiagram` in Section 2 of both `README.md` and `README_de.md` detailing the stdio JSON-RPC interaction flow across 3 phases (Phase 1: Transport Initialization & Tool Discovery, Phase 2: Desktop Inspection & Visual Context via WGC/UIA, Phase 3: Human Oversight & Gated Action Execution via Win32 API).
+- **Emblem & Visual Identity**: Integrated the official open-compute emblem (`assets/wappen.jpg`) into English and German README entrypoints.
+- **Badge Currency & Discoverability**: Synchronized test suite status badge (`node --test 43 passed | 100%`), Node.js engine compatibility (`>=18`), MIT license, MCP Server classification, LLM context indicator (`llms.txt`), and verification currency (`verified: 2026-11-01` / `geprüft: 2026-11-01`) across both READMEs.
+- **RAG & Discovery Context Index**: Updated `llms.txt` with verified recency stamp `2026-11-01`.
+- **Contract Test Suite Expansion**: Added new automated contract test in `test/metadata-parity.test.js` verifying README sequence diagram structure, badge currency (verified-2026-11-01, 43 passed tests), and link integrity (43/43 tests passing | 100% green).
 
 ### Documentation scope correction (2026-10-12)
 - Current documentation describes the npm package as a Node.js launcher that forwards local stdio to a separately fetched Python server. The default bootstrap and optional update notice can access external services; child processes inherit the launching environment and privileges. The wrapper does not provide network isolation, a sandbox, or privilege reduction.
