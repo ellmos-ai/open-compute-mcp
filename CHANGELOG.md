@@ -7,6 +7,12 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Spanish README source refresh (2026-11-02)
+- Synchronized the Spanish entrypoint with source commit 4419900: emblem, badges, and architecture/protocol section; preserved the existing language navigation and package allowlist.
+
+### Spanish README (2026-10-28)
+- Added the Spanish README to the language navigation and npm package allowlist.
+
 ### Discoverability, Bilingual Sequence Diagram, Badge Currency & Contract Tests (Pfad B 2026-11-01)
 - **Strict Version Freeze Discipline (`T-20260920-167562623`)**: Maintained `v0.1.0-alpha.20` strictly frozen across all manifests (`package.json`, `package-lock.json`, `server.json`, `glama.json`); zero version bumps during documentation and discoverability maintenance.
 - **Bilingual Protocol Sequence Diagram**: Embedded a Mermaid `sequenceDiagram` in Section 2 of both `README.md` and `README_de.md` detailing the stdio JSON-RPC interaction flow across 3 phases (Phase 1: Transport Initialization & Tool Discovery, Phase 2: Desktop Inspection & Visual Context via WGC/UIA, Phase 3: Human Oversight & Gated Action Execution via Win32 API).

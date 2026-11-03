@@ -10,7 +10,7 @@ Dieser kurze Einstieg ersetzt die ausführliche [README.md aus dem Vorgänger-Co
 
 [![CI](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml) [![npm-Version](https://img.shields.io/npm/v/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp) [![Tests: node --test](https://img.shields.io/badge/Tests-43%20bestanden%20%7C%20100%25-brightgreen.svg)](test/) [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/) [![Lizenz: MIT](https://img.shields.io/github/license/ellmos-ai/open-compute-mcp.svg)](LICENSE) [![MCP Server](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io) [![Geprüft: 2026-11-01](https://img.shields.io/badge/gepr%C3%BCft-2026--11--01-blue.svg)](CHANGELOG.md) [![LLM-Kontext](https://img.shields.io/badge/LLM-llms.txt-blue.svg)](llms.txt)
 
-[English](README.md) | **DE**
+[English](README.md) | **DE** | [Español](README_es.md)
 
 ## Installieren und starten
 

@@ -10,7 +10,7 @@ This short entrypoint replaces the long-form [README.md at predecessor commit 59
 
 [![CI](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml) [![npm version](https://img.shields.io/npm/v/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp) [![Tests: node --test](https://img.shields.io/badge/tests-43%20passed%20%7C%20100%25-brightgreen.svg)](test/) [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/) [![License: MIT](https://img.shields.io/github/license/ellmos-ai/open-compute-mcp.svg)](LICENSE) [![MCP Server](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io) [![Verified: 2026-11-01](https://img.shields.io/badge/verified-2026--11--01-blue.svg)](CHANGELOG.md) [![LLM Context](https://img.shields.io/badge/LLM-llms.txt-blue.svg)](llms.txt)
 
-**EN** | [Deutsch](README_de.md)
+**EN** | [Deutsch](README_de.md) | [Español](README_es.md)
 
 ## Install and run
 
