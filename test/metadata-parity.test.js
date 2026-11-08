@@ -372,13 +372,30 @@ test("Pfad B discoverability: README sequence diagram, badge currency and 2026-1
   validateMermaidBlocks(deReadme, "README_de.md");
 
   // Badge currency
-  assert.match(enReadme, /verified-2026--11--01-blue\.svg/, "README.md must have verified-2026-11-01 badge");
-  assert.match(deReadme, /gepr%C3%BCft-2026--11--01-blue\.svg/, "README_de.md must have geprüft-2026-11-01 badge");
-  assert.match(enReadme, /tests-43%20passed%20%7C%20100%25-brightgreen\.svg/, "README.md must have 43 passed tests badge");
-  assert.match(deReadme, /Tests-43%20bestanden%20%7C%20100%25-brightgreen\.svg/, "README_de.md must have 43 bestanden tests badge");
+  assert.match(enReadme, /verified-2026--11--08-blue\.svg/, "README.md must have verified-2026-11-01 badge");
+  assert.match(deReadme, /gepr%C3%BCft-2026--11--08-blue\.svg/, "README_de.md must have geprüft-2026-11-01 badge");
+  assert.match(enReadme, /tests-47%20passed%20%7C%20100%25-brightgreen\.svg/, "README.md must have 43 passed tests badge");
+  assert.match(deReadme, /Tests-47%20bestanden%20%7C%20100%25-brightgreen\.svg/, "README_de.md must have 43 bestanden tests badge");
 
   // llms.txt and CHANGELOG recency
-  assert.match(llms, /2026-11-01/, "llms.txt must reference 2026-11-01");
-  assert.match(changelog, /2026-11-01/, "CHANGELOG.md must document 2026-11-01 Pfad B update");
+  assert.match(llms, /2026-11-08/, "llms.txt must reference 2026-11-08");
+  assert.match(changelog, /2026-11-08/, "CHANGELOG.md must document 2026-11-08 Pfad A update");
   assert.match(changelog, /T-20260920-167562623/, "CHANGELOG.md must maintain version freeze reference");
+});
+test("trilingual language navigation switcher integrity across READMEs", () => {
+  const enReadme = readText("README.md");
+  const deReadme = readText("README_de.md");
+  const esReadme = readText("README_es.md");
+
+  assert.match(enReadme, /\*\*EN\*\*\s*\|\s*\[Deutsch\]\(README_de\.md\)\s*\|\s*\[Español\]\(README_es\.md\)/);
+  assert.match(deReadme, /\[English\]\(README\.md\)\s*\|\s*\*\*DE\*\*\s*\|\s*\[Español\]\(README_es\.md\)/);
+  assert.match(esReadme, /\[English\]\(README\.md\)\s*\|\s*\[Deutsch\]\(README_de\.md\)\s*\|\s*\*\*Español\*\*/);
+});
+
+test("Spanish README sequence diagram and structural integrity", () => {
+  const esReadme = readText("README_es.md");
+
+  assert.match(esReadme, /assets\/wappen\.jpg/, "README_es.md must display the wappen emblem");
+  assert.match(esReadme, /```mermaid[\s\S]*?sequenceDiagram[\s\S]*?Phase 1[\s\S]*?Phase 2[\s\S]*?Phase 3[\s\S]*?```/);
+  validateMermaidBlocks(esReadme, "README_es.md");
 });
