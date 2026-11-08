@@ -7,6 +7,14 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Repository Hygiene, CI Matrix Contract Hardening & Test Suite Expansion (Pfad A 2026-11-08)
+- **Strict Version Freeze Discipline (`T-20260920-167562623`)**: Maintained `v0.1.0-alpha.20` strictly frozen across all manifests (`package.json`, `package-lock.json`, `server.json`, `glama.json`); zero version bumps during hygiene maintenance.
+- **CI Matrix & Workflow Hardening**: Explicit contract testing of full Node matrix (18.x, 20.x, 22.x, 24.x) across `ubuntu-latest`, `windows-latest`, and `macos-latest`, with `fail-fast: false`, `npm ci`, and 15-minute timeout enforcement in `.github/workflows/ci.yml`.
+- **Package Script Parity**: Added targeted `"test:metadata"` npm script to `package.json` alongside `"test:hygiene"` for granular validation.
+- **Distribution & Trilingual Parity**: Integrated `README_es.md` into canonical distribution files whitelist, UTF-8 non-corruption tests, local link validation, and sequence diagram structural checks. Added trilingual navigation switcher validation across all entrypoints.
+- **Multi-Host & Cache Hygiene**: Hardened `.gitignore` against `.mypy_cache/`, `.parcel-cache/`, `.scannerwork/`, `.pnpm-store/`, and `.directory`.
+- **Contract Test Suite Expansion**: Added 4 new automated contract tests in `test/repository-hygiene.test.js` and `test/metadata-parity.test.js` (47/47 tests passing | 100% green).
+
 ### Spanish README source refresh (2026-11-02)
 - Synchronized the Spanish entrypoint with source commit 4419900: emblem, badges, and architecture/protocol section; preserved the existing language navigation and package allowlist.
 

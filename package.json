@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "node --test",
-    "test:hygiene": "node --test test/repository-hygiene.test.js"
+    "test:hygiene": "node --test test/repository-hygiene.test.js",
+    "test:metadata": "node --test test/metadata-parity.test.js"
   },
   "files": [
     "bin/",

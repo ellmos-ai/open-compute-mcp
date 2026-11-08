@@ -326,3 +326,29 @@ test("dependabot configuration provides security updates and weekly github-actio
   assert.match(content, /open-pull-requests-limit:\s*3/, "github-actions updates must enforce PR limit 3");
   assert.match(content, /timezone:\s*["']?Europe\/Berlin["']?/, "dependabot schedule must define Europe/Berlin timezone");
 });
+test("gitignore protects additional linter, build, and package manager caches", () => {
+  for (const samplePath of [
+    ".mypy_cache/",
+    ".parcel-cache/",
+    ".scannerwork/",
+    ".pnpm-store/",
+    ".directory",
+  ]) {
+    assert.equal(isIgnored(samplePath), true, `${samplePath} should be ignored`);
+  }
+});
+
+test("package.json scripts define targeted hygiene and metadata test suites", () => {
+  const pkg = JSON.parse(readRoot("package.json"));
+  assert.equal(pkg.scripts["test"], "node --test", "package.json test script must run node --test");
+  assert.equal(
+    pkg.scripts["test:hygiene"],
+    "node --test test/repository-hygiene.test.js",
+    "package.json test:hygiene script must run repository hygiene tests"
+  );
+  assert.equal(
+    pkg.scripts["test:metadata"],
+    "node --test test/metadata-parity.test.js",
+    "package.json test:metadata script must run metadata parity tests"
+  );
+});

@@ -124,3 +124,8 @@ htmlcov/
 .nyc_output/
 .turbo/
 build/
+.mypy_cache/
+.parcel-cache/
+.scannerwork/
+.pnpm-store/
+.directory
