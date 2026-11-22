@@ -374,8 +374,8 @@ test("Pfad B discoverability: README sequence diagram, badge currency and 2026-1
   // Badge currency
   assert.match(enReadme, /verified-2026--11--08-blue\.svg/, "README.md must have verified-2026-11-01 badge");
   assert.match(deReadme, /gepr%C3%BCft-2026--11--08-blue\.svg/, "README_de.md must have geprüft-2026-11-01 badge");
-  assert.match(enReadme, /tests-47%20passed%20%7C%20100%25-brightgreen\.svg/, "README.md must have 43 passed tests badge");
-  assert.match(deReadme, /Tests-47%20bestanden%20%7C%20100%25-brightgreen\.svg/, "README_de.md must have 43 bestanden tests badge");
+  assert.match(enReadme, /tests-48%20passed%20%7C%20100%25-brightgreen\.svg/, "README.md must have 48 passed tests badge");
+  assert.match(deReadme, /Tests-48%20bestanden%20%7C%20100%25-brightgreen\.svg/, "README_de.md must have 48 bestanden tests badge");
 
   // llms.txt and CHANGELOG recency
   assert.match(llms, /2026-11-08/, "llms.txt must reference 2026-11-08");
@@ -398,4 +398,55 @@ test("Spanish README sequence diagram and structural integrity", () => {
   assert.match(esReadme, /assets\/wappen\.jpg/, "README_es.md must display the wappen emblem");
   assert.match(esReadme, /```mermaid[\s\S]*?sequenceDiagram[\s\S]*?Phase 1[\s\S]*?Phase 2[\s\S]*?Phase 3[\s\S]*?```/);
   validateMermaidBlocks(esReadme, "README_es.md");
+});
+
+test("World-Set 11-language README parity, UTF-8/Bidi purity, Mermaid balance, and npm distribution", () => {
+  const pkg = readJson("package.json");
+  const worldSet = [
+    ["en", "README.md", "**EN**"],
+    ["de", "README_de.md", "**DE**"],
+    ["es", "README_es.md", "**Español**"],
+    ["fr", "README_fr.md", "**Français**"],
+    ["pt", "README_pt.md", "**Português**"],
+    ["ru", "README_ru.md", "**Русский**"],
+    ["zh", "README_zh.md", "**简体中文**"],
+    ["ja", "README_ja.md", "**日本語**"],
+    ["ar", "README_ar.md", "**العربية**"],
+    ["hi", "README_hi.md", "**हिन्दी**"],
+    ["bn", "README_bn.md", "**বাংলা**"],
+  ];
+  const linkLabels = {
+    en: "[English](README.md)",
+    de: "[Deutsch](README_de.md)",
+    es: "[Español](README_es.md)",
+    fr: "[Français](README_fr.md)",
+    pt: "[Português](README_pt.md)",
+    ru: "[Русский](README_ru.md)",
+    zh: "[简体中文](README_zh.md)",
+    ja: "[日本語](README_ja.md)",
+    ar: "[العربية](README_ar.md)",
+    hi: "[हिन्दी](README_hi.md)",
+    bn: "[বাংলা](README_bn.md)",
+  };
+  const bidiControlPattern = /[\u200E\u200F\u202A-\u202E\u2066-\u2069\uFEFF]/;
+
+  const llms = readText("llms.txt");
+  for (const [code, file] of worldSet) {
+    assert.ok(pkg.files.includes(file), `package.json files array must include ${file}`);
+    assert.ok(llms.includes(`(${file})`), `llms.txt must link to ${file}`);
+    const content = readText(file);
+    assert.equal(content.includes("\uFFFD"), false, `${file} must not contain U+FFFD`);
+    assert.equal(bidiControlPattern.test(content), false, `${file} must not contain hidden Bidi/BOM control chars`);
+
+    const expectedSwitcher = worldSet
+      .map(([c, , bold]) => (c === code ? bold : linkLabels[c]))
+      .join(" | ");
+    assert.ok(content.includes(expectedSwitcher), `${file} must contain the exact 11-language reciprocal switcher`);
+
+    assert.match(content, /assets\/wappen\.jpg/, `${file} must display the wappen emblem`);
+    assert.match(content, /0\.1\.0-alpha\.20/, `${file} must state frozen manifest version 0.1.0-alpha.20`);
+    assert.match(content, /```mermaid[\s\S]*?sequenceDiagram[\s\S]*?Phase 1[\s\S]*?Phase 2[\s\S]*?Phase 3[\s\S]*?```/);
+    validateMermaidBlocks(content, file);
+    validateLocalMarkdownLinks(file);
+  }
 });

@@ -31,6 +31,14 @@ For exact parameters and version-specific behavior, use the Python server docume
 - [English quick entrypoint](README.md)
 - [German quick entrypoint](README_de.md)
 - [Spanish quick entrypoint](README_es.md)
+- [French quick entrypoint](README_fr.md)
+- [Portuguese quick entrypoint](README_pt.md)
+- [Russian quick entrypoint](README_ru.md)
+- [Simplified Chinese quick entrypoint](README_zh.md)
+- [Japanese quick entrypoint](README_ja.md)
+- [Arabic quick entrypoint](README_ar.md)
+- [Hindi quick entrypoint](README_hi.md)
+- [Bengali quick entrypoint](README_bn.md)
 - [Corrected detailed English guide](docs/archive/README-2026-10-12.md)
 - [Corrected detailed German guide](docs/archive/README_de-2026-10-12.md)
 - [Security policy](SECURITY.md)
@@ -38,5 +46,6 @@ For exact parameters and version-specific behavior, use the Python server docume
 - [Selected direct dependency license information](THIRD_PARTY_LICENSES.md)
 - [Changelog](CHANGELOG.md)
 - Verified: 2026-11-08 (Pfad A repository hygiene, CI matrix hardening & contract test expansion)
+- World-Set 11-language entrypoints synchronized: 2026-11-22
 
 The repository manifests currently declare version `0.1.0-alpha.20`. This index describes the repository and does not certify a particular npm publication or Python backend revision.

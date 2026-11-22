@@ -7,6 +7,11 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Complete 11-Language World-Set Entrypoint Guides (2026-11-22)
+- **World-Set Localization (`fr, pt, ru, zh, ja, ar, hi, bn`)**: Added eight reviewed entrypoint guides (`README_fr.md`, `README_pt.md`, `README_ru.md`, `README_zh.md`, `README_ja.md`, `README_ar.md`, `README_hi.md`, `README_bn.md`) with full section, link, JSON configuration, Mermaid `sequenceDiagram`, and process/network/security scope parity against `README.md`.
+- **11-Language Reciprocal Navigation & Package Inclusion**: Synchronized the 11-language switcher across all 11 `README*.md` entrypoints, added all new guides to the `package.json` distribution `files` allowlist and `llms.txt` index, and maintained `v0.1.0-alpha.20` strictly frozen (`T-20260920-167562623`).
+- **World-Set Contract Test**: Added automated contract verification across all 11 guides for UTF-8/Bidi purity, reciprocal switcher integrity, local link resolution, and Mermaid syntax balance (48/48 tests passing | 100% green).
+
 ### Repository Hygiene, CI Matrix Contract Hardening & Test Suite Expansion (Pfad A 2026-11-08)
 - **Strict Version Freeze Discipline (`T-20260920-167562623`)**: Maintained `v0.1.0-alpha.20` strictly frozen across all manifests (`package.json`, `package-lock.json`, `server.json`, `glama.json`); zero version bumps during hygiene maintenance.
 - **CI Matrix & Workflow Hardening**: Explicit contract testing of full Node matrix (18.x, 20.x, 22.x, 24.x) across `ubuntu-latest`, `windows-latest`, and `macos-latest`, with `fail-fast: false`, `npm ci`, and 15-minute timeout enforcement in `.github/workflows/ci.yml`.
