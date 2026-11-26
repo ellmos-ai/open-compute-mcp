@@ -33,6 +33,12 @@ id_ed25519*
 .mcpregistry_registry_token
 .mcpregistry_*_token
 *-protocoll.txt
+*MARKETING-LOG*
+MARKETING-LOG.txt
+MARKETING-LOG.md
+*.db
+*.sqlite*
+*dump*
 CONFLICT_REVIEW_LOG*
 
 node_modules/

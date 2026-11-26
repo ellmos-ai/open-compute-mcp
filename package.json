@@ -37,7 +37,9 @@
     "glama.json",
     "smithery.yaml",
     "llms.txt",
-    "MARKETING-LOG.txt"
+    "llm.txt",
+    "SKILL.md",
+    "assets/terminal-workflow.svg"
   ],
   "engines": {
     "node": ">=18.0.0"

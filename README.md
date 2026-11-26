@@ -8,7 +8,7 @@
 
 This short entrypoint replaces the long-form [README.md at predecessor commit 59cd953](https://github.com/ellmos-ai/open-compute-mcp/blob/59cd9530688b02c38b75d1926d5a1efdd1a4aa06/README.md). The corrected detailed guide is [archived here](docs/archive/README-2026-10-12.md), retaining the former section anchors and diagrams. It is a corrected copy, not an unchanged historical snapshot; the original remains available at the commit link.
 
-[![CI](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml) [![npm version](https://img.shields.io/npm/v/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp) [![Tests: node --test](https://img.shields.io/badge/tests-48%20passed%20%7C%20100%25-brightgreen.svg)](test/) [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/) [![License: MIT](https://img.shields.io/github/license/ellmos-ai/open-compute-mcp.svg)](LICENSE) [![MCP Server](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io) [![Verified: 2026-11-08](https://img.shields.io/badge/verified-2026--11--08-blue.svg)](CHANGELOG.md) [![LLM Context](https://img.shields.io/badge/LLM-llms.txt-blue.svg)](llms.txt)
+[![CI](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/ellmos-ai/open-compute-mcp/actions/workflows/ci.yml) [![npm version](https://img.shields.io/npm/v/open-compute-mcp.svg)](https://www.npmjs.com/package/open-compute-mcp) [![Tests: node --test](https://img.shields.io/badge/tests-53%20passed%20%7C%20100%25-brightgreen.svg)](test/) [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/) [![License: MIT](https://img.shields.io/github/license/ellmos-ai/open-compute-mcp.svg)](LICENSE) [![MCP Server](https://img.shields.io/badge/MCP-server-blue.svg)](https://modelcontextprotocol.io) [![Product Skill](https://img.shields.io/badge/Skill-SKILL.md-teal.svg)](SKILL.md) [![Verified: 2026-11-26](https://img.shields.io/badge/verified-2026--11--26-blue.svg)](CHANGELOG.md) [![LLM Context](https://img.shields.io/badge/LLM-llms.txt-blue.svg)](llms.txt)
 
 **EN** | [Deutsch](README_de.md) | [Español](README_es.md) | [Français](README_fr.md) | [Português](README_pt.md) | [Русский](README_ru.md) | [简体中文](README_zh.md) | [日本語](README_ja.md) | [العربية](README_ar.md) | [हिन्दी](README_hi.md) | [বাংলা](README_bn.md)
 
@@ -31,9 +31,33 @@ Add this server to a local MCP client:
 
 The npm package is published separately from this Git repository; check its published version for a particular source revision. A direct `uvx` configuration is in the [detailed quick start](docs/archive/README-2026-10-12.md#sec-03).
 
+### Install with your LLM
+
+Copy this prompt into your AI coding assistant to configure and verify `open-compute-mcp` cleanly:
+
+```text
+Read llms.txt and SKILL.md for ellmos-ai/open-compute-mcp. Configure "open-compute" in my local MCP client using command "npx" and args ["-y", "open-compute-mcp"], keep OC_CAPTURE_SCALE=0.5 unless full resolution is required, and verify the launcher logic offline with `npm test` in a local clone.
+```
+
 ## Architecture & Protocol Flow
 
-The launcher bridges client JSON-RPC requests across local stdio to the Python engine executing on the interactive Windows desktop:
+The launcher resolves the backend target (`OPEN_COMPUTE_MCP_CMD` -> `OPEN_COMPUTE_PYTHON` -> `uvx`), applies `OC_CAPTURE_SCALE=0.5` by default to reduce vision-token overhead while preserving normalized `0..1` click coordinates, and bridges client JSON-RPC requests across local stdio to the Python engine on the interactive Windows desktop:
+
+<p align="center">
+  <img src="assets/terminal-workflow.svg" alt="open-compute-mcp terminal workflow preview" width="840">
+</p>
+
+```mermaid
+flowchart LR
+    Client["MCP Client (stdio JSON-RPC)"] --> Launcher["open-compute-mcp Launcher"]
+    Launcher -->|"applyCaptureDefaults(): OC_CAPTURE_SCALE=0.5"| Resolve{"resolveLaunch()"}
+    Resolve -->|"1. OPEN_COMPUTE_MCP_CMD"| Custom["Custom Backend Command"]
+    Resolve -->|"2. OPEN_COMPUTE_PYTHON"| LocalPy["Local Python (-m open_compute.mcp_server)"]
+    Resolve -->|"3. Default uvx (OPEN_COMPUTE_GIT_REF)"| Uvx["uvx from GitHub (mcp,local,uia)"]
+    Custom --> Desktop["Windows Desktop (WGC / UIA / Win32)"]
+    LocalPy --> Desktop
+    Uvx --> Desktop
+```
 
 ```mermaid
 sequenceDiagram
@@ -88,8 +112,19 @@ The [tool reference](docs/archive/README-2026-10-12.md#sec-04) is a snapshot of 
 
 The [Cowork Protocol Desktop Companion](https://github.com/ellmos-ai/cowork-protocol/blob/main/apps/desktop-companion/README.md) includes an optional, human-started computer-use adapter that launches the separate Python Open Compute MCP server over local stdio. Its documented default uses `uvx`; this npm launcher is not a Cowork dependency. This relationship does not change the process, network, or privilege boundaries described above.
 
+## Target audiences & use cases
+
+| Audience | Primary Goal | Key Entrypoint / Knob |
+|---|---|---|
+| **Windows Desktop Agent Builders** | Connect Claude, Cursor, or Antigravity to live Windows WGC/UIA automation | `npx -y open-compute-mcp` (`stdio`) |
+| **Token-Conscious Multi-Agent Operators** | Cut screenshot vision-token cost without losing normalized `0..1` click precision | Default `OC_CAPTURE_SCALE=0.5` |
+| **Accessibility & UIA Test Engineers** | Inspect Windows UI Automation element trees (`tree`, `click_name`, `invoke`) | `OPEN_COMPUTE_EXTRAS=mcp,local,uia` |
+| **Offline / Pinned-Env Integrators** | Run a preinstalled Python environment or pinned Git ref reproducibly | `OPEN_COMPUTE_PYTHON` / `OPEN_COMPUTE_GIT_REF` |
+
 ## Documentation
 
+- [Product Skill (for AI Agents & Humans)](SKILL.md)
+- [LLM Context Index (`llms.txt`)](llms.txt) · [Compatibility Pointer (`llm.txt`)](llm.txt)
 - [Architecture and behavior scope](docs/archive/README-2026-10-12.md#sec-01)
 - [Security and network scope](docs/archive/README-2026-10-12.md#sec-12)
 - [Selected dependency inventory](THIRD_PARTY_LICENSES.md)
@@ -98,3 +133,7 @@ The [Cowork Protocol Desktop Companion](https://github.com/ellmos-ai/cowork-prot
 - [Changelog](CHANGELOG.md)
 
 The repository source manifest currently declares `0.1.0-alpha.20`. This documentation work changes no version and publishes no release.
+
+---
+
+*Concept & Approval: Geiger · Text assistance: LLM-assisted · Graphics: SVG-generated*

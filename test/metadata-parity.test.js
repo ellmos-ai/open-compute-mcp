@@ -92,7 +92,9 @@ test("package.json files list includes all canonical distribution files", () => 
     "glama.json",
     "smithery.yaml",
     "llms.txt",
-    "MARKETING-LOG.txt",
+    "llm.txt",
+    "SKILL.md",
+    "assets/terminal-workflow.svg",
   ];
 
   for (const req of requiredFiles) {
@@ -353,7 +355,7 @@ test("dependabot workflow guard and changelog unreleased entry integrity", () =>
   assert.match(changelog, /## \[Unreleased\]/, "CHANGELOG.md must contain ## [Unreleased]");
   assert.match(changelog, /T-20260920-167562623/, "CHANGELOG.md must reference version freeze ticket");
 });
-test("Pfad B discoverability: README sequence diagram, badge currency and 2026-11-01 recency", () => {
+test("Pfad B discoverability: README sequence diagram, badge currency and 2026-11-26 recency", () => {
   const enReadme = readText("README.md");
   const deReadme = readText("README_de.md");
   const llms = readText("llms.txt");
@@ -372,14 +374,14 @@ test("Pfad B discoverability: README sequence diagram, badge currency and 2026-1
   validateMermaidBlocks(deReadme, "README_de.md");
 
   // Badge currency
-  assert.match(enReadme, /verified-2026--11--08-blue\.svg/, "README.md must have verified-2026-11-01 badge");
-  assert.match(deReadme, /gepr%C3%BCft-2026--11--08-blue\.svg/, "README_de.md must have geprüft-2026-11-01 badge");
-  assert.match(enReadme, /tests-48%20passed%20%7C%20100%25-brightgreen\.svg/, "README.md must have 48 passed tests badge");
-  assert.match(deReadme, /Tests-48%20bestanden%20%7C%20100%25-brightgreen\.svg/, "README_de.md must have 48 bestanden tests badge");
+  assert.match(enReadme, /verified-2026--11--26-blue\.svg/, "README.md must have verified-2026-11-26 badge");
+  assert.match(deReadme, /gepr%C3%BCft-2026--11--26-blue\.svg/, "README_de.md must have geprüft-2026-11-26 badge");
+  assert.match(enReadme, /tests-53%20passed%20%7C%20100%25-brightgreen\.svg/, "README.md must have 53 passed tests badge");
+  assert.match(deReadme, /Tests-53%20bestanden%20%7C%20100%25-brightgreen\.svg/, "README_de.md must have 53 bestanden tests badge");
 
   // llms.txt and CHANGELOG recency
-  assert.match(llms, /2026-11-08/, "llms.txt must reference 2026-11-08");
-  assert.match(changelog, /2026-11-08/, "CHANGELOG.md must document 2026-11-08 Pfad A update");
+  assert.match(llms, /2026-11-26/, "llms.txt must reference 2026-11-26");
+  assert.match(changelog, /2026-11-26/, "CHANGELOG.md must document 2026-11-26 Pfad B update");
   assert.match(changelog, /T-20260920-167562623/, "CHANGELOG.md must maintain version freeze reference");
 });
 test("trilingual language navigation switcher integrity across READMEs", () => {
@@ -449,4 +451,67 @@ test("World-Set 11-language README parity, UTF-8/Bidi purity, Mermaid balance, a
     validateMermaidBlocks(content, file);
     validateLocalMarkdownLinks(file);
   }
+});
+
+test("Policy P-022 product skill, llm.txt pointer, and Quick Install & Verification in llms.txt", () => {
+  const skill = readText("SKILL.md");
+  const llm = readText("llm.txt");
+  const llms = readText("llms.txt");
+
+  assert.match(skill, /^---\r?\nname:\s*open-compute-mcp/m, "SKILL.md must declare name: open-compute-mcp");
+  assert.match(skill, /0\.1\.0-alpha\.20/, "SKILL.md must reference frozen version 0.1.0-alpha.20");
+  assert.match(skill, /OPEN_COMPUTE_MCP_CMD/);
+  assert.match(skill, /OC_CAPTURE_SCALE/);
+
+  assert.match(llm, /llms\.txt/, "llm.txt must point to llms.txt");
+  assert.match(llm, /SKILL\.md/, "llm.txt must point to SKILL.md");
+
+  assert.match(llms, /## Quick Install & Verification/);
+  assert.match(llms, /### Prerequisites/);
+  assert.match(llms, /### Installation/);
+  assert.match(llms, /### Verification/);
+  assert.match(llms, /### Minimal Example/);
+  assert.match(llms, /Last-checked:\s*2026-11-26/);
+  assert.ok(llms.includes("(SKILL.md)"), "llms.txt must link SKILL.md");
+  assert.ok(llms.includes("(llm.txt)"), "llms.txt must link llm.txt");
+});
+
+test("assets/terminal-workflow.svg is valid XML and embedded alongside wappen.jpg", () => {
+  const svg = readText("assets/terminal-workflow.svg");
+  const enReadme = readText("README.md");
+  const deReadme = readText("README_de.md");
+
+  assert.match(svg, /^<svg\b[^>]*viewBox="0 0 880 540"/);
+  assert.match(svg, /<\/svg>\s*$/);
+  assert.match(svg, /open-compute-mcp/);
+  assert.match(enReadme, /assets\/terminal-workflow\.svg/);
+  assert.match(deReadme, /assets\/terminal-workflow\.svg/);
+});
+
+test("bilingual READMEs provide flowchart LR, LLM install prompt, audiences, and Geiger disclosure", () => {
+  const enReadme = readText("README.md");
+  const deReadme = readText("README_de.md");
+
+  assert.match(enReadme, /```mermaid[\s\S]*?flowchart LR[\s\S]*?resolveLaunch\(\)/);
+  assert.match(deReadme, /```mermaid[\s\S]*?flowchart LR[\s\S]*?resolveLaunch\(\)/);
+  assert.match(enReadme, /### Install with your LLM/);
+  assert.match(deReadme, /### Mit deinem LLM installieren/);
+  assert.match(enReadme, /## Target audiences & use cases/);
+  assert.match(deReadme, /## Zielgruppen & Anwendungsfälle/);
+  assert.match(enReadme, /Concept & Approval:\s*Geiger/);
+  assert.match(deReadme, /Idee & Abnahme:\s*Geiger/);
+});
+
+test("bilingual issue templates exist without broken PVR config.yml", () => {
+  const bug = readText(".github/ISSUE_TEMPLATE/bug_report.md");
+  const feat = readText(".github/ISSUE_TEMPLATE/feature_request.md");
+
+  assert.match(bug, /SECURITY\.md/);
+  assert.match(bug, /Sicherheitslücken/);
+  assert.match(feat, /Vorgeschlagene Lösung/);
+  assert.equal(
+    fs.existsSync(path.join(root, ".github", "ISSUE_TEMPLATE", "config.yml")),
+    false,
+    "ISSUE_TEMPLATE/config.yml must not exist while PVR is disabled"
+  );
 });
