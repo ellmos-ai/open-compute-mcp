@@ -2,10 +2,65 @@
 
 `open-compute-mcp` is a Node.js npm launcher for the separate Python [open-compute MCP server](https://github.com/ellmos-ai/open-compute). It starts the configured child command and forwards MCP stdio. Real screen capture and input require an interactive Windows desktop on the MCP client's host.
 
+## Quick Install & Verification
+
+### Prerequisites
+
+- Node.js `>= 18.0.0`
+- `uv` (`uvx`) on `PATH` and Python `>= 3.10` for the default GitHub-backed Python server launch
+- Interactive Windows desktop session for real screen capture and Win32/UIA input
+
+### Installation
+
+Register the launcher in a local MCP client (`claude_desktop_config.json`, Cursor, etc.):
+
+```json
+{
+  "mcpServers": {
+    "open-compute": {
+      "command": "npx",
+      "args": ["-y", "open-compute-mcp"]
+    }
+  }
+}
+```
+
+### Verification
+
+Run the offline wrapper contract suite and inspect the resolved launch command in a repository clone:
+
+```sh
+npm ci
+npm test
+node -e "const m = require('./bin/open-compute-mcp.js'); console.log(m.resolveLaunch({}));"
+npm pack --dry-run
+```
+
+### Minimal Example
+
+Override the default GitHub `master` branch or capture scaling via environment variables when launching from an MCP client:
+
+```json
+{
+  "mcpServers": {
+    "open-compute": {
+      "command": "npx",
+      "args": ["-y", "open-compute-mcp"],
+      "env": {
+        "OPEN_COMPUTE_GIT_REF": "master",
+        "OC_CAPTURE_SCALE": "0.5"
+      }
+    }
+  }
+}
+```
+
 ## Install
 
 - npm client configuration: command `npx`, args `[-y, open-compute-mcp]`.
-- The default launch uses `uvx` to fetch the Python project from GitHub and requires `uv` plus network access. The backend requires Python 3.10+; `uvx` can use an installed compatible interpreter or download and manage one. Default ref is `master`, overridden with `OPEN_COMPUTE_GIT_REF`.
+- Launch resolution order (first match wins): `OPEN_COMPUTE_MCP_CMD` (full command override) -> `OPEN_COMPUTE_PYTHON` (`<python> -m open_compute.mcp_server`) -> `uvx` (default).
+- The default launch uses `uvx` to fetch the Python project from GitHub and requires `uv` plus network access. The backend requires Python 3.10+; `uvx` can use an installed compatible interpreter or download and manage one. Default ref is `master`, overridden with `OPEN_COMPUTE_GIT_REF`, and default extras are `mcp,local,uia` (`OPEN_COMPUTE_EXTRAS`).
+- Capture token optimization: when neither `OC_CAPTURE_SCALE` nor `OC_CAPTURE_MAX_DIM` is set, the launcher defaults `OC_CAPTURE_SCALE=0.5` (coordinates remain normalized `0..1`).
 - Installing the npm package contacts npm. The default launch fetches from GitHub. An optional TTY update notice can check npm.
 
 ## Process and network scope
@@ -28,6 +83,9 @@ For exact parameters and version-specific behavior, use the Python server docume
 
 ## Project files
 
+- [Product Skill](SKILL.md)
+- [LLM Compatibility Pointer](llm.txt)
+- [Workflow Terminal Preview](assets/terminal-workflow.svg)
 - [English quick entrypoint](README.md)
 - [German quick entrypoint](README_de.md)
 - [Spanish quick entrypoint](README_es.md)
@@ -45,7 +103,8 @@ For exact parameters and version-specific behavior, use the Python server docume
 - [Contributing guide](CONTRIBUTING.md)
 - [Selected direct dependency license information](THIRD_PARTY_LICENSES.md)
 - [Changelog](CHANGELOG.md)
-- Verified: 2026-11-08 (Pfad A repository hygiene, CI matrix hardening & contract test expansion)
-- World-Set 11-language entrypoints synchronized: 2026-11-22
+- Last-checked: 2026-11-26 (Pfad B discoverability, Policy P-022 SKILL.md/llm.txt, terminal workflow SVG, flowchart, community issue templates &amp; contract tests)
+- Verified: 2026-11-26 (53/53 node --test contract &amp; launcher tests passing)
+- World-Set 11-language entrypoints synchronized: 2026-11-26
 
 The repository manifests currently declare version `0.1.0-alpha.20`. This index describes the repository and does not certify a particular npm publication or Python backend revision.

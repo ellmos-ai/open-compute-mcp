@@ -1,0 +1,5 @@
+# open-compute-mcp — LLM Entrypoint Pointer
+
+Canonical LLM index: [llms.txt](llms.txt)
+Product skill specification: [SKILL.md](SKILL.md)
+Repository documentation: [README.md](README.md)

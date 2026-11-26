@@ -4,6 +4,12 @@ dist/
 npm-debug.log*
 *.tgz
 *-protocoll.txt
+*MARKETING-LOG*
+MARKETING-LOG.txt
+MARKETING-LOG.md
+*.db
+*.sqlite*
+*dump*
 
 # Environment / secrets
 .env

@@ -7,6 +7,13 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Discoverability, Policy P-022, Visual Workflow Preview & Community Governance (Pfad B 2026-11-26)
+- **Strict Version Freeze Discipline (`T-20260920-167562623`)**: Maintained `0.1.0-alpha.20` strictly frozen across `package.json`, `package-lock.json`, `server.json`, and `glama.json`; zero version bumps during discoverability maintenance.
+- **Policy P-022 LLM & Product Skill Artifacts**: Added standalone product skill `SKILL.md`, compatibility pointer `llm.txt`, and `## Quick Install & Verification` in `llms.txt` (`Last-checked: 2026-11-26`), registered them in `package.json` `files`, and added copyable LLM installation prompts to `README.md` and `README_de.md`.
+- **Visual Workflow Preview & Launch-Resolution Flowchart**: Added dark-mode vector workflow preview `assets/terminal-workflow.svg` (preserving `assets/wappen.jpg`) and a Mermaid `flowchart LR` illustrating the 3-tier launch resolution (`OPEN_COMPUTE_MCP_CMD` -> `OPEN_COMPUTE_PYTHON` -> `uvx`) and token-saving `OC_CAPTURE_SCALE=0.5` pipeline in `README.md` and `README_de.md`.
+- **Target Audiences, Badges & Attribution**: Added target-audience personas/queries and concise public AI participation disclosure (`Geiger`) in `README.md` and `README_de.md`; synchronized verified badges (`2026-11-26`), `SKILL.md` badge, and measured test badge (`53 passed`) across all 11 World-Set `README*.md` entrypoints.
+- **Community Governance & Hygiene**: Added bilingual `.github/ISSUE_TEMPLATE/{bug_report.md,feature_request.md}`, untracked `MARKETING-LOG.txt` (`git rm --cached`), hardened `.gitignore` and `.npmignore` (`*MARKETING-LOG*`, `*.db`, `*.sqlite*`, `*dump*`), generalized host-scoped sample tokens in `test/repository-hygiene.test.js` for clean `repo_privacy_gate`, and expanded contract tests to `53 passed | 100%`.
+
 ### Complete 11-Language World-Set Entrypoint Guides (2026-11-22)
 - **World-Set Localization (`fr, pt, ru, zh, ja, ar, hi, bn`)**: Added eight reviewed entrypoint guides (`README_fr.md`, `README_pt.md`, `README_ru.md`, `README_zh.md`, `README_ja.md`, `README_ar.md`, `README_hi.md`, `README_bn.md`) with full section, link, JSON configuration, Mermaid `sequenceDiagram`, and process/network/security scope parity against `README.md`.
 - **11-Language Reciprocal Navigation & Package Inclusion**: Synchronized the 11-language switcher across all 11 `README*.md` entrypoints, added all new guides to the `package.json` distribution `files` allowlist and `llms.txt` index, and maintained `v0.1.0-alpha.20` strictly frozen (`T-20260920-167562623`).

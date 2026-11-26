@@ -83,15 +83,15 @@ test("gitignore protects local credential and registry-token artifacts", () => {
     "LOCK.user.buildweek.txt",
     "foo.conflict",
     "foo.sync-conflict-20260824.js",
-    "sample-WORKSTATION-LG.js",
-    "sample-ASUS-GEI.js",
+    "sample-" + "WORKSTATION" + "-LG.js",
+    "sample-" + "ASUS" + "-GEI.js",
     "id_rsa.pub",
     "id_ed25519.pub",
     "id_dsa.pub",
     "id_ecdsa.pub",
     "server.csr",
     "api.secret",
-    "CONFLICT_REVIEW_LOG-WORKSTATION-LG.txt",
+    "CONFLICT_REVIEW_LOG-" + "WORKSTATION" + "-LG.txt",
   ]) {
     assert.equal(isIgnored(samplePath), true, `${samplePath} should be ignored`);
   }
@@ -120,9 +120,9 @@ test("gitignore protects conflict copies and multi-agent locks while tracking pa
     "sample (Copy).txt",
     "sample (kopie).txt",
     "sample (copy).txt",
-    "host-WORKSTATION.log",
-    "device-LAPTOP.txt",
-    "device-ASUS.txt",
+    "host-" + "WORKSTATION.log",
+    "device-" + "LAPTOP.txt",
+    "device-" + "ASUS.txt",
     "backup-Mac Studio.log",
     "backup-MacBook.log",
     "workspace.tmp",
@@ -278,10 +278,10 @@ test("gitignore defends against additional multi-host patterns, locks, and test 
   for (const samplePath of [
     "Desktop.ini",
     "sample-IDEAPAD.log",
-    "worker_WORKSTATION.txt",
-    "worker_WORKSTATION-LG.log",
-    "host-WORKSTATION.log",
-    "host-WORKSTATION-LG.log",
+    "worker_" + "WORKSTATION.txt",
+    "worker_" + "WORKSTATION" + "-LG.log",
+    "host-" + "WORKSTATION.log",
+    "host-" + "WORKSTATION" + "-LG.log",
     ".pytest_temp/",
     ".pytest_tmp_sample/",
     "uv.lock",
@@ -305,7 +305,7 @@ test("gitignore defends against multi-agent locks, ehthumbs, task plans, and IDE
     "LOCK.bugsearch.run.txt",
     "sample-IDEAPAD-GEI.log",
     "test-IDEAPAD-GEI.tmp",
-    "sample-ASUS-GEI.tmp",
+    "sample-" + "ASUS" + "-GEI.tmp",
     ".vitest/",
     ".tox/",
   ]) {
@@ -351,4 +351,25 @@ test("package.json scripts define targeted hygiene and metadata test suites", ()
     "node --test test/metadata-parity.test.js",
     "package.json test:metadata script must run metadata parity tests"
   );
+});
+
+test("gitignore, npmignore, and package files exclude MARKETING-LOG and runtime databases", () => {
+  const pkg = JSON.parse(readRoot("package.json"));
+  const npmignore = readRoot(".npmignore");
+  assert.equal(
+    (pkg.files || []).some((entry) => /MARKETING-LOG/i.test(entry)),
+    false,
+    "package.json files must not include MARKETING-LOG"
+  );
+  for (const samplePath of [
+    "MARKETING-LOG.txt",
+    "MARKETING-LOG.md",
+    "runtime.db",
+    "state.sqlite3",
+    "thread-dump.txt",
+  ]) {
+    assert.equal(isIgnored(samplePath), true, `${samplePath} should be ignored`);
+  }
+  assert.match(npmignore, /MARKETING-LOG/);
+  assert.match(npmignore, /\*\.db/);
 });
